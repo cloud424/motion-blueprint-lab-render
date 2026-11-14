@@ -1,0 +1,20 @@
+{
+  "episode": "EP02",
+  "slug": "PanamaCanal_GravityLocks",
+  "title": "How the Panama Canal Lifts Ships Using Gravity",
+  "status": "script_ready_render_pending",
+  "voice_url": "",
+  "footage_url": "",
+  "voice": "Grady voice not generated; paid credits require authorization",
+  "facts_url": "https://pancanal.com/en/design-of-the-locks/",
+  "footage_page": "https://commons.wikimedia.org/wiki/File:Continuing_Promise_transits_the_Panama_Canal-ZLIWzvfdisQ-248%2B251.webm",
+  "footage_author": "U.S. Navy (candidate not yet reviewed)",
+  "footage_license": "Candidate federal-public-domain material; no grant until actual clip verified",
+  "narration": "How can ships climb 26 meters without a crane? At the Panama Canal's original locks, giant gates close behind each vessel. Water flows through tunnels inside the lock walls and floor. Gravity carries water from a higher level into the chamber. As the water rises, the ship floats up with it. When the levels match, the next gate opens. This is a massive water elevator powered by gravity.",
+  "licenseVerified": "pending",
+  "qualityVerified": "pending",
+  "uniqueVerified": "pending",
+  "originalityVerified": "pending",
+  "approval": "pending",
+  "publish_asset": false
+}
