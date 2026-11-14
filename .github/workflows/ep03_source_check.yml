@@ -1,0 +1,29 @@
+name: EP03 salt footage availability check
+on:
+  push:
+    paths:
+      - '.github/workflows/ep03_source_check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check Pexels salt harvesting clips
+        run: |
+          python - <<'PY'
+          import urllib.request
+          urls=[
+           'https://videos.pexels.com/video-files/15574383/15574383-hd_1920_1080_24fps.mp4',
+           'https://videos.pexels.com/video-files/15574396/15574396-hd_1920_1080_24fps.mp4',
+           'https://videos.pexels.com/video-files/15574383/15574383-sd_960_540_24fps.mp4',
+          ]
+          for u in urls:
+           try:
+            r=urllib.request.urlopen(urllib.request.Request(u,headers={'Range':'bytes=0-4095','User-Agent':'Mozilla/5.0'}),timeout=18)
+            head=r.read(4096)
+            print(r.status, r.headers.get('Content-Type'),len(head),u,flush=True)
+           except Exception as e: print('ERR',str(e)[:200],u,flush=True)
+          PY
