@@ -5,6 +5,7 @@ on:
     paths:
       - 'published/EP*.json'
       - 'scripts/cleanup_published_artifacts.py'
+      - 'scripts/test_cleanup_published_artifacts.py'
       - '.github/workflows/cleanup_published_artifacts.yml'
   schedule:
     - cron: '20 18 * * *' # 02:20 Asia/Taipei; backup cleanup if a push was missed
@@ -26,7 +27,9 @@ jobs:
       - name: Check out public metadata and cleanup tool
         uses: actions/checkout@v4
       - name: Validate cleanup script
-        run: python -m py_compile scripts/cleanup_published_artifacts.py
+        run: |
+          python -m py_compile scripts/cleanup_published_artifacts.py scripts/test_cleanup_published_artifacts.py
+          python -m unittest discover -s scripts -p 'test_cleanup_published_artifacts.py' -v
       - name: Delete Actions artifacts ONLY for four-site verified public EP receipts
         env:
           GH_TOKEN: ${{ github.token }}
