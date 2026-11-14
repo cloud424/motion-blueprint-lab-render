@@ -1,0 +1,39 @@
+name: Motion Blueprint Lab | cleanup published video artifacts
+
+on:
+  push:
+    paths:
+      - 'published/EP*.json'
+      - 'scripts/cleanup_published_artifacts.py'
+      - '.github/workflows/cleanup_published_artifacts.yml'
+  schedule:
+    - cron: '20 18 * * *' # 02:20 Asia/Taipei; backup cleanup if a push was missed
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: mbl-postpublish-cleanup
+  cancel-in-progress: false
+
+jobs:
+  remove-only-verified-published-video-artifacts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out public metadata and cleanup tool
+        uses: actions/checkout@v4
+      - name: Validate cleanup script
+        run: python -m py_compile scripts/cleanup_published_artifacts.py
+      - name: Delete Actions artifacts ONLY for four-site verified public EP receipts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          python scripts/cleanup_published_artifacts.py --execute
+      - name: Explain retained assets
+        run: |
+          echo "Only GitHub Actions EP*.mp4-containing artifacts were eligible for deletion."
+          echo "Repository scripts, rights records, receipts, source files and drafts are never deleted."
