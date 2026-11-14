@@ -1,0 +1,95 @@
+name: Motion Blueprint Lab | safe EP02 preview
+
+on:
+  workflow_dispatch:
+    inputs:
+      episode:
+        description: 'Episode code (EP02)'
+        type: string
+        required: false
+        default: 'EP02'
+  push:
+    paths:
+      - 'scripts/render_episode.py'
+      - 'episodes/EP*.json'
+      - '.github/workflows/render_episode.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: motion-blueprint-render
+  cancel-in-progress: false
+
+jobs:
+  safe-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install original preview renderer
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m pip install --disable-pip-version-check Pillow==11.3.0
+          python -m py_compile scripts/render_episode.py
+
+      - name: Verify manifest and keep publication disabled
+        id: manifest
+        env:
+          REQUEST_EP: ${{ inputs.episode }}
+        run: |
+          python - <<'PY'
+          import glob,json,os
+          code=os.environ.get("REQUEST_EP","EP02") or "EP02"
+          assert code.startswith("EP") and code[2:].isdigit()
+          matches=glob.glob(f"episodes/{code}_*.json")
+          assert len(matches)==1, "Expected exactly one EP manifest"
+          path=matches[0]
+          data=json.load(open(path,encoding="utf-8"))
+          assert data["episode"] == code
+          assert data["approval"] == "pending", "Preview workflow cannot process approved production"
+          assert not data["publish_asset"], "Public publication is forbidden in preview"
+          with open(os.environ["GITHUB_OUTPUT"],"a",encoding="utf-8") as f:
+              f.write("manifest="+path+"\n")
+          print("Safe-preview manifest:",path)
+          PY
+
+      - name: Produce 2-second silent technical preview (NOT EP02 finished video)
+        run: |
+          python scripts/render_episode.py --episode '${{ steps.manifest.outputs.manifest }}' --outdir out --test-only --duration 2
+
+      - name: Validate actual video codec / dimensions / frame rate / duration / no audio
+        run: |
+          set -eu
+          f="$(find out -type f -name '*.mp4' -print -quit)"
+          test -n "$f"
+          ffmpeg -v error -i "$f" -f null -
+          python - "$f" <<'PY'
+          import json,subprocess,sys
+          p=subprocess.check_output(["ffprobe","-v","error","-of","json","-show_streams","-show_format",sys.argv[1]],text=True)
+          d=json.loads(p)
+          v=[x for x in d["streams"] if x["codec_type"]=="video"]
+          a=[x for x in d["streams"] if x["codec_type"]=="audio"]
+          assert len(v)==1 and not a, "Only a silent technical preview is authorized"
+          x=v[0]
+          assert x["codec_name"]=="h264" and x["width"]==720 and x["height"]==1280 and x["r_frame_rate"]=="24/1"
+          duration=float(d["format"]["duration"])
+          assert 1.9 <= duration <= 2.2, duration
+          print("SAFE PREVIEW VERIFIED:",sys.argv[1],duration)
+          PY
+
+      - name: Store private-to-run preview artifact (never a public GitHub Release)
+        uses: actions/upload-artifact@v4
+        with:
+          name: EP02_panama_gravity_locks_NOT_FOR_PUBLICATION
+          path: out/*.mp4
+          if-no-files-found: error
+          retention-days: 7
