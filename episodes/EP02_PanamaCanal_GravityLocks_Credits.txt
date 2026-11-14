@@ -1,0 +1,12 @@
+EP02 | Panama Canal gravity locks | PRODUCTION CANDIDATES ONLY
+
+Technical facts: Panama Canal Authority — Design of the Locks
+https://pancanal.com/en/design-of-the-locks/
+
+Real footage candidate: U.S. Navy / Wikimedia Commons:
+https://commons.wikimedia.org/wiki/File:Continuing_Promise_transits_the_Panama_Canal-ZLIWzvfdisQ-248%2B251.webm
+Not downloaded, viewed or cleared for final commercial reuse here. Original soundtrack and other third-party media must be inspected.
+
+No Grady narration has been generated yet. Approved Grady asset URL, license, voice-service budget cap and actual video QA are missing.
+
+EP02 status: preview test only. Flags and approval remain pending. This repo cannot publish or issue a release automatically.
