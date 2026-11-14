@@ -1,0 +1,15 @@
+# Keep compiled media and generated previews out of Git commit history.
+# Actions artifacts are removed separately when an EP is public on all 4 platforms.
+out/
+build/
+rendered/
+*.mp4
+*.mov
+*.mkv
+*.webm
+*.wav
+*.mp3
+*.zip
+__pycache__/
+*.pyc
+!published/
