@@ -1,0 +1,77 @@
+name: EP03 | Ancient Sea Salt 3-minute automated review video
+on:
+  push:
+    paths:
+      - 'scripts/render_EP03_seasalt.py'
+      - '.github/workflows/render_EP03_seasalt.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mbl-ep03-private-preview
+  cancel-in-progress: false
+
+jobs:
+  render-and-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 42
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install open source voices and original film renderer
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg espeak-ng
+          python -m pip install --disable-pip-version-check "torch==2.7.1" --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check "kokoro==0.9.4" "soundfile>=0.12" "numpy<3" "Pillow>=10"
+          python -m py_compile scripts/render_EP03_seasalt.py
+      - name: Generate 3-minute EP03 private film
+        env:
+          HF_HUB_DISABLE_TELEMETRY: "1"
+          HF_HUB_DOWNLOAD_TIMEOUT: "120"
+          OMP_NUM_THREADS: "2"
+          MKL_NUM_THREADS: "2"
+        run: |
+          python scripts/render_EP03_seasalt.py --outdir out
+      - name: Verify full decode and audio streams
+        run: |
+          set -eu
+          f="out/EP03_AncientSeaSalt_TimeTravelEngineering_3min_PREVIEW_720p.mp4"
+          test -s "$f"
+          ffmpeg -v error -i "$f" -f null -
+          ffprobe -v error -show_entries format=duration,size -of json "$f"
+      - name: Generate actual video contact sheet for QA
+        run: |
+          python - <<'PY'
+          import os,subprocess,json
+          from PIL import Image,ImageDraw
+          report=json.load(open('out/EP03_AncientSeaSalt_Report.json',encoding='utf-8'))
+          f='out/EP03_AncientSeaSalt_TimeTravelEngineering_3min_PREVIEW_720p.mp4'
+          shots=[]; chapters=report['chapters']
+          for i,chapter in enumerate(chapters):
+              t=(chapter['start']+chapter['end'])/2
+              target=f'out/_frame_{i:02d}.jpg'
+              subprocess.run(['ffmpeg','-loglevel','error','-y','-ss',str(t),'-i',f,'-frames:v','1',target],check=True)
+              im=Image.open(target).convert('RGB').resize((180,320))
+              shots.append(im)
+          sheet=Image.new('RGB',(4*180,3*320),'#f0fbfc')
+          for i,im in enumerate(shots):
+              sheet.paste(im,((i%4)*180,(i//4)*320))
+          sheet.save('out/EP03_AncientSeaSalt_ActualVideo_Storyboard.jpg',quality=87)
+          print('QA actual contact sheet',len(shots),'chapters')
+          PY
+      - name: Export review-only MP4, real frames, and evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: EP03_AncientSeaSalt_3min_PRIVATE_REVIEW
+          path: |
+            out/EP03_AncientSeaSalt_TimeTravelEngineering_3min_PREVIEW_720p.mp4
+            out/EP03_AncientSeaSalt_ActualVideo_Storyboard.jpg
+            out/EP03_AncientSeaSalt_Credits.txt
+            out/EP03_AncientSeaSalt_Report.json
+          if-no-files-found: error
+          retention-days: 10
