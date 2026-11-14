@@ -25,7 +25,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y ffmpeg espeak-ng
-          python -m pip install --disable-pip-version-check "torch==2.5.1" --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check "torch==2.7.1" --index-url https://download.pytorch.org/whl/cpu
           python -m pip install --disable-pip-version-check "kokoro==0.9.4" "soundfile>=0.12" "numpy<3" "Pillow>=10.0"
           python -m py_compile scripts/render_EP02_pilot.py
       - name: Generate original EP02 video with US Navy public-domain footage
