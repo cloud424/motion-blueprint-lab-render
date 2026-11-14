@@ -74,7 +74,7 @@ def synthesize_voice(dest,work):
  chunks=[]; timing=[]; pos=0; sr=24000
  for idx,(title,body,caption,mode) in enumerate(SCENES):
   aud=[]
-  for graphemes,phonemes,samples in pipe(body,voice='am_michael',speed=0.94):
+  for graphemes,phonemes,samples in pipe(body,voice='am_michael',speed=1.13):
    aud.append(np.asarray(samples,dtype=np.float32))
   if not aud:raise RuntimeError('TTS returned empty chapter '+str(idx))
   block=np.concatenate(aud)
