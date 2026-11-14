@@ -2,11 +2,11 @@
 This is the dedicated public GitHub Actions **engineering explainer preview renderer** for **Motion Blueprint Lab**. It is not the HitWave Charts or Momo & Pip production system.
 
 ## Live project wiring
-- ChatGPT weekly automation (Asia/Taipei Monday 02:00): `6af660f40f34819199ff6e00c8532f21`
+- ChatGPT recurring automation (Asia/Taipei Monday, Wednesday and Friday 02:00): `6af660f40f34819199ff6e00c8532f21`
 - Make team: `3423562`
 - Make episode project queue: Data Store `201478`
 - Make approved-video four-site dispatcher: scenario `7035615`
-- Already released: EP01 Taipei 101. This repository starts at **EP02**.
+- Already released: EP01 Taipei 101. This repository starts at **EP02**. Production target for each new release: **about 3 minutes, ideally 2:45-2:55, vertical 720x1280**, subject to original licensed real footage, genuine moving engineering diagrams and approved Grady English narration.
 
 ## Safe rendering
 1. GitHub Actions generates an EP02 **technical preview only** while its manifest has `status: script_ready_render_pending`.
