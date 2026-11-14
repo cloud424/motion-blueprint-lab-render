@@ -2,7 +2,7 @@
   "episode": "EP02",
   "slug": "PanamaCanal_GravityLocks",
   "title": "How the Panama Canal Lifts Ships Using Gravity",
-  "status": "script_expansion_required_3min_render_pending",
+  "status": "3min_preview_ready_review_required",
   "voice_url": "",
   "footage_url": "",
   "voice": "Grady voice not generated; paid credits require authorization",
@@ -23,5 +23,9 @@
     175
   ],
   "target_format": "720x1280 H.264 24fps vertical, English Grady voice, correctly licensed real-footage and animated engineering cross sections",
-  "script_state": "outline_only_needs_3min_330_to_410_word_revision"
+  "script_state": "outline_only_needs_3min_330_to_410_word_revision",
+  "preview_run_url": "https://github.com/cloud424/motion-blueprint-lab-render/actions/runs/43581359066",
+  "preview_duration_sec": 177.016,
+  "preview_voice": "Kokoro am_michael (Apache 2.0); NOT Grady",
+  "preview_artifact": "EP02_PanamaCanal_3min_PRIVATE_REVIEW"
 }
