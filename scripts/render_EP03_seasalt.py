@@ -207,7 +207,7 @@ def render_graph(im,d,scene_index,p,t,real):
    d.rounded_rectangle((75,y,644,y+175),radius=13,fill=(242,251,251),outline=(138,196,206),width=3)
    d.rectangle((92,y+39,230,y+143),fill=col,outline=INK,width=3)
    grains(d,95,y+72,12,min(1,max(0,p*3-i)))
-   txt(d,(255,y+64),name,F22,INK)
+   txt(d,(255,y+64),name,F24,INK)
    txt(d,(259,y+100),"STAGE "+str(i+1),F18,TEAL)
   info(d,'DIFFERENT MINERALS','Some solids separate before table salt')
  elif mode=='lattice':
@@ -227,7 +227,7 @@ def render_graph(im,d,scene_index,p,t,real):
    if p<.15+(k*7%17)*.03:continue
    x=110+(k*71)%508;h=12+int(p*(33+(k*17)%45))
    d.polygon([(x,887-h),(x+7,882-h),(x+13,887-h),(x+13,891),(x,891)],fill=(247,250,250),outline=(181,207,208))
-  txt(d,(105,918),"NaCl BUILDS ON THE BOTTOM",F22,INK)
+  txt(d,(105,918),"NaCl BUILDS ON THE BOTTOM",F24,INK)
   info(d,'CRYSTALLIZER POND','White crystals grow over time')
  elif mode=='harvest':
   d.rectangle((95,672,631,765),fill=(234,244,241),outline=INK,width=3)
@@ -251,7 +251,7 @@ def render_graph(im,d,scene_index,p,t,real):
    x=201+k*49
    d.polygon([(x,779),(x-17,832),(x+18,832)],fill=(236,127,55))
    d.polygon([(x,803),(x-7,828),(x+10,830)],fill=(251,207,91))
-  txt(d,(140,900),"HEAT MAKES WATER EVAPORATE",F22,INK)
+  txt(d,(140,900),"HEAT MAKES WATER EVAPORATE",F24,INK)
   info(d,'BOIL THE BRINE','Faster but requires scarce fuel')
 
 def draw_frame(t,total,timing,footage_available):
