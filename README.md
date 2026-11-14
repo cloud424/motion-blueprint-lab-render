@@ -27,3 +27,8 @@ US Navy footage candidate: https://commons.wikimedia.org/wiki/File:Continuing_Pr
 Commercial reuse and embedded third-party media require verification before real use.
 
 **Status 2026-11-14:** preview pipeline deployment, **not full unattended weekly production**.
+## Mandatory visual production baseline — EP02 R2 approved (2026-11-14)
+
+The channel owner approved **EP02 Panama Canal R2** as the minimum standard for all future engineering documentaries. An approximately three-minute vertical film needs authentic licensed real-world footage, at least **six distinct technically accurate original animated engineering views**, and meaningful changes of shot or information approximately every 10–15 seconds. Examples: aerial/overhead operation, detailed moving joints and mechanical gates, hydraulic culverts, distributed inlets, pressure / buoyancy forces, and system-level sequencing. **Never pad the runtime with the same ship-and-water-level diagram bobbing up and down, blank backgrounds, or static slides.** Audio remains English, preferably the approved Grady voice when rights/cost permit.
+
+**Important:** This commits only the editorial standard. The GitHub Actions EP02 pilot renderer is still an older R1-style design until its code is actually revised and retested. The locally prepared R2 preview is not uploaded into this repository. EP02 R2 user approval of visual density is not authorization to publish without final audio/footage-rights QA.
