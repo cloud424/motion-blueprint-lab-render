@@ -1,0 +1,37 @@
+name: EP03 R2 | Acquire licensed salt-farm documentary footage
+on:
+  push:
+    paths:
+      - 'scripts/prepare_EP03_R2_footage.py'
+      - '.github/workflows/prepare_EP03_R2_footage.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mbl-ep03-r2-footage-acquire
+  cancel-in-progress: false
+jobs:
+  footage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Install FFprobe
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m py_compile scripts/prepare_EP03_R2_footage.py
+      - name: Download selected original Pexels footage
+        run: |
+          python scripts/prepare_EP03_R2_footage.py
+      - name: Export reviewed real motion source clips for private finalizer
+        uses: actions/upload-artifact@v4
+        with:
+          name: EP03_R2_REAL_SALT_FOOTAGE_REVIEW
+          path: |
+            out_EP03_R2_FOOTAGE/*.mp4
+            out_EP03_R2_FOOTAGE/EP03_R2_Original_Footage_Manifest.json
+          if-no-files-found: error
+          retention-days: 3
