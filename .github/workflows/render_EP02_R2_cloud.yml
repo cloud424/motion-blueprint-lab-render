@@ -1,0 +1,85 @@
+name: EP02 R2 | cloud multiview final render and staging
+on:
+  push:
+    paths:
+      - 'scripts/render_EP02_R2_cloud.py'
+      - '.github/workflows/render_EP02_R2_cloud.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: mbl-ep02-r2-protected-staging
+  cancel-in-progress: false
+
+jobs:
+  render-multiview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install FFmpeg and Apache-licensed voice renderer
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg espeak-ng
+          python -m pip install --disable-pip-version-check 'torch==2.7.1' --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check 'kokoro==0.9.4' 'soundfile>=0.12' 'numpy<3' 'Pillow>=10'
+          python -m py_compile scripts/render_EP02_R2_cloud.py
+      - name: Render user-approved R2-style views with real public-domain US Navy footage
+        env:
+          HF_HUB_DISABLE_TELEMETRY: '1'
+          HF_HUB_DOWNLOAD_TIMEOUT: '120'
+          OMP_NUM_THREADS: '2'
+          MKL_NUM_THREADS: '2'
+        run: python scripts/render_EP02_R2_cloud.py --outdir out
+      - name: Verify whole MP4 H264 AAC and visual chapter thumbnails
+        run: |
+          set -eu
+          file='out/EP02_PanamaCanal_GravityLocks_R2_CloudRender_720p.mp4'
+          test -s "$file"
+          ffprobe -v error -show_entries format=duration,size -of json "$file"
+          ffmpeg -v error -i "$file" -f null -
+          python - <<'PY'
+          import json, subprocess
+          from PIL import Image
+          f='out/EP02_PanamaCanal_GravityLocks_R2_CloudRender_720p.mp4'
+          with open('out/timings.json') as src:
+            timings=json.load(src)
+          shots=[]
+          for i,chap in enumerate(timings):
+            t=(chap['start']+chap['end'])/2
+            filename=f'out/ep02_r2_frame_{i:02d}.jpg'
+            subprocess.run(['ffmpeg','-loglevel','error','-y','-ss',str(t),'-i',f,'-frames:v','1',filename],check=True)
+            shots.append(Image.open(filename).convert('RGB').resize((180,320)))
+          canvas=Image.new('RGB',(4*180,3*320),'#f4ffff')
+          for i,img in enumerate(shots):canvas.paste(img,((i%4)*180,(i//4)*320))
+          canvas.save('out/EP02_R2_Cloud_Actual_Storyboard.jpg',quality=85)
+          print('Quality frames:',len(shots))
+          PY
+      - name: Save proof and render outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: EP02_R2_PanamaCanal_3min_QA_PRIVATE
+          path: |
+            out/EP02_PanamaCanal_GravityLocks_R2_CloudRender_720p.mp4
+            out/EP02_R2_Cloud_Actual_Storyboard.jpg
+            out/EP02_PanamaCanal_GravityLocks_Preview_Report.json
+            out/timings.json
+          retention-days: 5
+          if-no-files-found: error
+      - name: Host validated MP4 for four-platform Make ingest
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -eu
+          tag='mbl-ep02-r2-media-staging'
+          if ! gh release view "$tag" >/dev/null 2>&1; then
+            gh release create "$tag" --prerelease --title 'EP02 R2 temporary media transfer' --notes 'Temporary media URL for Make. Remove after all four social sites are verified public.'
+          fi
+          gh release upload "$tag" 'out/EP02_PanamaCanal_GravityLocks_R2_CloudRender_720p.mp4' --clobber
+          gh release view "$tag" --json assets --jq '.assets[] | .url'
