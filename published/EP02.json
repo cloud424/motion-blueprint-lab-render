@@ -1,0 +1,44 @@
+{
+  "episode": "EP02",
+  "publication_state": "complete",
+  "verification_summary": "Four published public URLs verified via native YouTube/Meta APIs and TikTok hydrated public video page with nonexistent-video negative control on 2026-11-15.",
+  "sourceKey": "motionblueprintlab:EP02:panamacanal-gravitylocks-r2",
+  "video": {
+    "title": "EP02 | How the Panama Canal Lifts Ships Without Cranes | Engineering Explained",
+    "duration_seconds": 175.016,
+    "frame": "720x1280",
+    "make_dispatch_execution": "0abf1fb01393409fa81c4dc13b4d8a97"
+  },
+  "platforms": {
+    "youtube": {
+      "status": "public_verified",
+      "verification_method": "youtube_api",
+      "verified_at": "2026-11-15T00:18:16Z",
+      "url": "https://www.youtube.com/shorts/YLHQER8lTPk",
+      "id": "YLHQER8lTPk"
+    },
+    "facebook": {
+      "status": "public_verified",
+      "verification_method": "facebook_graph_api",
+      "verified_at": "2026-11-15T00:18:16Z",
+      "url": "https://www.facebook.com/reel/1802257724328941/",
+      "id": "1802257724328941"
+    },
+    "instagram": {
+      "status": "public_verified",
+      "verification_method": "instagram_graph_api",
+      "verified_at": "2026-11-15T00:18:16Z",
+      "url": "https://www.instagram.com/reel/Dfvde_SDWXl/",
+      "id": "18134673922765722"
+    },
+    "tiktok": {
+      "status": "public_verified",
+      "verification_method": "tiktok_native_page",
+      "verified_at": "2026-11-15T00:18:16Z",
+      "url": "https://www.tiktok.com/@motionblueprintlab/video/7708183756598758663",
+      "id": "7708183756598758663",
+      "bufferPostId": "6af8f84de5a113497ab72f58",
+      "native_verification_run": "43657493135"
+    }
+  }
+}
