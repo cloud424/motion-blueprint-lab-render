@@ -1,0 +1,60 @@
+name: EP02 R2 | normalize public staging video to 175s
+on:
+  push:
+    paths:
+      - '.github/workflows/ep02_r2_normalize_staging.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: mbl-ep02-r2-normalize
+  cancel-in-progress: false
+jobs:
+  normalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download cloud-rendered R2 footage staged by previous workflow
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -eu
+          mkdir -p out
+          gh release download mbl-ep02-r2-media-staging \
+            --pattern 'EP02_PanamaCanal_GravityLocks_R2_CloudRender_720p.mp4' \
+            --dir out
+          test -s out/EP02_PanamaCanal_GravityLocks_R2_CloudRender_720p.mp4
+      - name: Normalize narration/video speed without dropping any spoken sections
+        run: |
+          python - <<'PY'
+          import json,subprocess,pathlib
+          src='out/EP02_PanamaCanal_GravityLocks_R2_CloudRender_720p.mp4'
+          dst='out/EP02_PanamaCanal_GravityLocks_R2_FINAL_175s.mp4'
+          data=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_format','-of','json',src]))
+          duration=float(data['format']['duration'])
+          target=175.0
+          rate=duration/target
+          print('Input seconds',duration,'Playback speed ratio',rate,flush=True)
+          if not (160<=duration<=215 and 0.9<rate<1.2):raise RuntimeError('Source duration outside safe speed adjustment')
+          subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-y','-i',src,
+             '-filter_complex',f'[0:v]setpts=PTS/{rate:.8f}[v];[0:a]atempo={rate:.8f}[a]',
+             '-map','[v]','-map','[a]','-r','24','-pix_fmt','yuv420p','-c:v','libx264',
+             '-preset','veryfast','-crf','23','-c:a','aac','-b:a','128k','-movflags','+faststart',dst],check=True)
+          result=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_streams','-show_format','-of','json',dst]))
+          streams=result['streams'];seconds=float(result['format']['duration'])
+          assert 170<=seconds<=179.2,seconds
+          assert any(s.get('codec_name')=='h264' and s.get('width')==720 and s.get('height')==1280 for s in streams)
+          assert any(s.get('codec_name')=='aac' for s in streams)
+          print('Normalized seconds',seconds,'Bytes',pathlib.Path(dst).stat().st_size)
+          PY
+          ffmpeg -v error -i out/EP02_PanamaCanal_GravityLocks_R2_FINAL_175s.mp4 -f null -
+      - name: Put ready video on temporary publicly downloadable GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -eu
+          tag='mbl-ep02-r2-media-staging'
+          gh release upload "$tag" out/EP02_PanamaCanal_GravityLocks_R2_FINAL_175s.mp4 --clobber
+          gh release view "$tag" --json assets --jq '.assets[] | [.name,.url] | @tsv'
+          gh release delete-asset "$tag" EP02_PanamaCanal_GravityLocks_R2_CloudRender_720p.mp4 --yes
