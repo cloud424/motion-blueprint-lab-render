@@ -316,7 +316,7 @@ def draw(idx,t,frames):
 def test_url(url):
  try:
   req=urllib.request.Request(url,headers={"User-Agent":"Mozilla/5.0","Accept":"video/mp4"})
-  with urllib.request.urlopen(req,timeout=8) as resp:return resp
+  return urllib.request.urlopen(req,timeout=8)
  except Exception:return None
 def fetch_video(video_id,slug):
  dest=OUT/("EP04_REAL_"+slug+".mp4")
