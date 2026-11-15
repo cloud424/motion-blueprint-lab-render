@@ -1,0 +1,35 @@
+name: EP04 R3 | Supplemental Machinery Footage
+on:
+  push:
+    paths:
+      - 'scripts/acquire_EP04_R3_supplement.py'
+      - '.github/workflows/acquire_EP04_R3_supplement.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mbl-ep04-r3-supp
+  cancel-in-progress: true
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ffprobe and verify script
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m py_compile scripts/acquire_EP04_R3_supplement.py
+      - name: Acquire rights-documented unique salt production views
+        run: |
+          python scripts/acquire_EP04_R3_supplement.py
+      - name: Upload private footage, exact Pexels source URLs
+        uses: actions/upload-artifact@v4
+        with:
+          name: EP04_R3_SUPPLEMENTAL_MACHINERY
+          path: |
+            out_EP04_R3_SUPP/*.mp4
+            out_EP04_R3_SUPP/*.json
+          retention-days: 5
+          if-no-files-found: error
