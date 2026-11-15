@@ -316,14 +316,14 @@ def draw(idx,t,frames):
 def test_url(url):
  try:
   req=urllib.request.Request(url,headers={"User-Agent":"Mozilla/5.0","Accept":"video/mp4"})
-  with urllib.request.urlopen(req,timeout=30) as resp:return resp
+  with urllib.request.urlopen(req,timeout=8) as resp:return resp
  except Exception:return None
 def fetch_video(video_id,slug):
  dest=OUT/("EP04_REAL_"+slug+".mp4")
  candidates=[]
- for x,y in [(540,960),(960,540),(720,1280),(1280,720),(1080,1920),(1920,1080),(640,360),(360,640)]:
+ for x,y in [(1080,1920),(1920,1080),(960,540),(540,960),(1280,720),(720,1280),(640,360),(360,640)]:
   kind="sd" if max(x,y)<=960 else "hd"
-  for fps in [30,24,25,29,50,60]:
+  for fps in [30,24,25,50,60,29]:
    candidates.append(f"https://videos.pexels.com/video-files/{video_id}/{video_id}-{kind}_{x}_{y}_{fps}fps.mp4")
  for u in candidates:
   r=test_url(u)
