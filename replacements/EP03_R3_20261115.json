@@ -1,0 +1,56 @@
+{
+  "episode": "EP03",
+  "replacement": "R3",
+  "date": "2026-11-15",
+  "sourceHashSHA256": "59814781a7e031e9c3235908cbfbba9aebb44fdc883710c6b3354fed18945476",
+  "videoUrl": "https://res.cloudinary.com/juhsntij/video/upload/v1794708233/motionblueprintlab/EP03_AncientSeaSalt_R3_NoRepeatedFootage_175s_FINAL.mp4",
+  "public": {
+    "youtube": {
+      "id": "Xgap9SmtgeQ",
+      "url": "https://www.youtube.com/shorts/Xgap9SmtgeQ",
+      "status": "public",
+      "verified": "Make upload privacyStatus public"
+    },
+    "facebook": {
+      "id": "2653523345100819",
+      "url": "https://www.facebook.com/reel/2653523345100819/",
+      "status": "published",
+      "verified": "Make Facebook ListVideos published true"
+    },
+    "instagram": {
+      "id": "18140400133728393",
+      "url": "https://www.instagram.com/reel/Dfvqu9ljxGg/",
+      "status": "public",
+      "verified": "official Instagram GetMedia permalink and product REELS"
+    },
+    "tiktok": {
+      "id": "7708213783595912468",
+      "url": "https://www.tiktok.com/@motionblueprintlab/video/7708213783595912468",
+      "status": "public",
+      "verified": "Github strict hydrated TikTok native author+id+private=false + invalid-ID negative control, run 43666389890"
+    }
+  },
+  "old": {
+    "youtube": {
+      "id": "WHCFURyv94o",
+      "status": "private archived, not deleted",
+      "verified": "Make updateVideo returned private"
+    },
+    "facebook": {
+      "id": "1173040888389440",
+      "status": "deleted",
+      "verified": "Make DeleteVideo success; GetVideo afterwards Unsupported get request"
+    },
+    "instagram": {
+      "id": "18024740066955917",
+      "url": "https://www.instagram.com/reel/DfvjZVMgjCW/",
+      "status": "still public - native removal required"
+    },
+    "tiktok": {
+      "id": "7708196902994480392",
+      "url": "https://www.tiktok.com/@motionblueprintlab/video/7708196902994480392",
+      "status": "still public - native removal required"
+    }
+  },
+  "note": "Do not create published/EP03.json cleanup receipt until legacy IG and TikTok native removal are accounted for. Re-dispatching EP03 R3 duplicates posts."
+}
