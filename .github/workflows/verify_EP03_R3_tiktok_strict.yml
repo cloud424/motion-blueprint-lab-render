@@ -2,7 +2,7 @@ name: EP03 R3 | strict native TikTok publication verification
 on:
   push:
     paths:
-      - '.github/workflows/verify_EP03 R3_tiktok_strict.yml'
+      - '.github/workflows/verify_EP03_R3_tiktok_strict.yml'
   workflow_dispatch:
 permissions:
   contents: read
