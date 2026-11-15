@@ -274,32 +274,48 @@ def safety(d,t,p):
    T(d,531,y+34,"STOP",F18,C["orange"])
  T(d,95,951,"Thresholds vary by turbine design",F18,C["mute"])
 def cinematic(im,d,idx,t,p,frames):
- if frames is None:return
- cvim=frames.get(idx)
- if cvim is None:return
- frame_idx=min(len(cvim)-1,max(0,int(p*(len(cvim)-1))))
- shot=cvim[frame_idx]
- # actual film, full-bleed; subtitles and brand overlaid after
- rgb=cv2.cvtColor(shot,cv2.COLOR_BGR2RGB)
- im.paste(Image.fromarray(rgb),(0,0))
- d=ImageDraw.Draw(im)
- # top and bottom cinematic shaded scrims; leave genuine footage visible center
- for i in range(280):
-  alpha=i/280
-  y=i
-  d.line((0,y,719,y),fill=(int(4+5*alpha),int(12+12*alpha),int(25+18*alpha)),width=1)
- for y in range(985,1280):
-  d.line((0,y,719,y),fill=(7,20,33),width=1)
- d.rectangle((0,0,W,11),fill=C["cyan"])
- T(d,32,28,"MOTION BLUEPRINT LAB",F21,C["cyan"])
- T(d,682,28,"EP04",F21,C["gold"],anchor="ra")
- T(d,38,109,SC[idx][0],F39,C["ink"],stroke=1)
- T(d,40,167,SC[idx][1],F21,C["ink"],stroke=1)
- d.rounded_rectangle((33,898,288,941),radius=9,fill=(16,46,68))
- T(d,48,906,"REAL LICENSED FOOTAGE",F18,C["cyan"])
+ # Original animated film-style establishing sequences, explicitly NOT real footage.
+ # This QA preview is not a substitute for commercially cleared factual opening film.
+ d.rectangle((0,0,W,H),fill=(13,31,49))
+ for y in range(0,885,3):
+  rr=min(113,int(20+y*.063));gg=min(177,int(43+y*.09));bb=min(216,int(80+y*.09))
+  d.rectangle((0,y,W,y+3),fill=(rr,gg,bb))
+ # distant sun and moving layered clouds
+ sunx=480+math.sin(t*.08)*20
+ d.ellipse((sunx-103,225,sunx+103,431),fill=(237,198,143))
+ for k in range(5):
+  x=((k*193+int(t*18))%980)-170
+  y=205+k*90
+  d.ellipse((x-85,y,x+100,y+32),fill=(122,166,188))
+  d.ellipse((x-39,y-24,x+60,y+28),fill=(132,175,193))
+ poly(d,[(0,756),(90,672),(188,727),(278,626),(376,710),(485,650),(720,717),(720,1090),(0,1090)],(64,103,116))
+ poly(d,[(0,850),(170,771),(254,817),(460,748),(620,814),(720,765),(720,1150),(0,1150)],(36,79,89))
+ d.rectangle((0,1020,720,1280),fill=(21,57,60))
+ for k in range(4):
+  x=140+k*175+int(9*math.sin(t*.2+k));base=990+int(15*k)
+  size=1.15 if k==1 else .68+.15*(k%2)
+  huby=base-int(360*size)
+  d.line((x,base,x,huby),fill=(201,216,213),width=max(5,int(18*size)))
+  d.line((x+3,base,x+3,huby),fill=(104,137,144),width=max(2,int(5*size)))
+  d.ellipse((x-21*size,huby-16*size,x+55*size,huby+17*size),fill=(189,209,214))
+  for j in range(3):
+   a=t*(.25+.07*k)+j*math.tau/3
+   tipx=x+140*size*math.sin(a)
+   tipy=huby-140*size*math.cos(a)
+   d.line((x,huby,tipx,tipy),fill=(245,250,243),width=max(5,int(12*size)))
+   d.line((x+4,huby,tipx+4,tipy+2),fill=(109,164,173),width=max(2,int(3*size)))
+  dot(d,x,huby,10*size,(242,249,249))
+ d.rectangle((0,0,W,216),fill=(10,23,38))
+ T(d,34,31,"MOTION BLUEPRINT LAB",F21,C["cyan"])
+ T(d,686,29,"EP04",F21,C["gold"],anchor="ra")
+ T(d,38,89,SC[idx][0],F39,C["ink"])
+ T(d,40,152,SC[idx][1],F21,C["mute"])
+ d.rounded_rectangle((28,942,376,996),radius=11,fill=(11,49,64),outline=(56,127,150),width=2)
+ T(d,42,951,"ORIGINAL ANIMATED RECONSTRUCTION",F16,C["cyan"])
  d.rectangle((0,1240,W,H),fill=(7,21,36))
  d.rectangle((27,1260,693,1267),fill=(36,71,92))
  d.rectangle((27,1260,27+666*(idx+p)/len(SC),1267),fill=C["cyan"])
+
 def draw(idx,t,frames):
  p=max(0,min(.999,t/DUR))
  mode=SC[idx][3]
@@ -388,16 +404,10 @@ def music(sr,n):
  score*=np.minimum(1,t/3)*np.minimum(1,(n/sr-t)/4)
  sf.write(OUT/"EP04_Original_Ambience.wav",score,sr)
 def main():
- srcs=[
-  ("Wind farm video.webm","WindFarmAerial_CC0","https://commons.wikimedia.org/wiki/File:Wind_farm_video.webm","Wikideas1 / Wikimedia Commons, CC0"),
-  ("Wind turbines in operation.webm","WindTurbinesWorking_CC0","https://commons.wikimedia.org/wiki/File:Wind_turbines_in_operation.webm","Acdixon / Wikimedia Commons, CC0"),
-  ("Lawrence Weston Wind Turbine - February 2026.webm","WindTurbineVertical_CC_BY","https://commons.wikimedia.org/wiki/File:Lawrence_Weston_Wind_Turbine_-_February_2026.webm","Captain Galaxy / Wikimedia Commons, CC BY 4.0")]
+ # All establishing shots are original animated reconstructions (no fetched media).
+ # The private prototype is deliberately NOT approved for publishing.
  src_manifest=[]
  frames={}
- for i,(vid,slug,page,credit) in enumerate(srcs):
-  filepath,u=fetch_video(vid,slug)
-  frames[{0:0,1:1,2:11}[i]]=source_frames(filepath)
-  src_manifest.append(dict(id=vid,slug=slug,page_url=page,direct_asset_url=u,author=credit,license=("CC BY 4.0" if i==2 else "CC0 1.0"),license_url=("https://creativecommons.org/licenses/by/4.0/" if i==2 else "https://creativecommons.org/publicdomain/zero/1.0/"),used_at_chapter=[1,2,12][i],embedded_audio="removed; original narration and music only"))
  raw,times,sr=voice();music(sr,len(raw))
  render=OUT/"_EP04_Original_MotionSilent.mp4"
  cmd=["ffmpeg","-hide_banner","-loglevel","error","-y","-f","rawvideo","-pixel_format","rgb24","-video_size",f"{W}x{H}","-framerate",str(FPS),"-i","-","-c:v","libx264","-preset","ultrafast","-crf","22","-pix_fmt","yuv420p",str(render)]
@@ -435,10 +445,10 @@ def main():
  sheet.save(OUT/"EP04_12Shot_ActualVideo_ContactSheet.jpg",quality=91)
  manifest=dict(episode="EP04",topic="How Wind Turbines Turn Air Into Electricity",status="review_only_not_published",
     duration_sec=duration,dimensions=[720,1280],video_codec="H264",audio_codec="AAC",narration="Kokoro am_michael open-weight, not paid Grady",
-    budget_paid_credits=0,source_footage=src_manifest,storyboard=times,original_elements="12 distinct motion chapters including 9 mechanism views, original soundtrack and English on-screen captions",
+    budget_paid_credits=0,source_footage=src_manifest,storyboard=times,original_elements="12 moving scenes, 9 engineering mechanism views and 3 original stylized wind-farm reconstructions, original soundtrack and English on-screen captions",
     scientific_facts=["https://www.energy.gov/cmei/systems/how-do-wind-turbines-work",
       "https://www.energy.gov/cmei/systems/explore-wind-turbine-text-version"],
-    release_approval="PENDING — preview only")
+    release_approval="PENDING — preview contains stylized reconstruction, no genuine wind footage yet")
  (OUT/"EP04_Source_License_QA.json").write_text(json.dumps(manifest,indent=2),encoding="utf-8")
  (OUT/"EP04_Script_English.txt").write_text("\n\n".join(f"CHAPTER {i+1} | {s[0]}\n{s[2]}" for i,s in enumerate(SC)),encoding="utf-8")
  print("SUCCESS EP04 PREVIEW",final,"seconds",duration,"bytes",final.stat().st_size,flush=True)
