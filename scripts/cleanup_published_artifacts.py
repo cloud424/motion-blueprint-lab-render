@@ -16,6 +16,7 @@ from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
 EP_RE = re.compile(r"^EP[0-9]{2,}$")
+STAGING_RELEASE_TAGS = {"EP02": "mbl-ep02-r2-media-staging"}  # Only expressly owned temporary media releases
 ALLOWED = {
     "youtube": {"youtube.com", "www.youtube.com", "youtu.be", "m.youtube.com"},
     "facebook": {"facebook.com", "www.facebook.com", "m.facebook.com"},
@@ -83,7 +84,7 @@ def list_artifacts(repo, token):
 def cleanup(directory, repo, token, execute=False):
     docs=sorted(pathlib.Path(directory).glob("EP*.json"))
     artifacts=list_artifacts(repo,token) if docs else []
-    kept=[];removed=[]
+    kept=[];removed=[];released=[]
     for file in docs:
         try:
             receipt=json.loads(file.read_text(encoding="utf-8"))
@@ -101,7 +102,21 @@ def cleanup(directory, repo, token, execute=False):
                 removed.append(item)
             else:
                 kept.append({**item,"reason":"dry run"})
-    return {"mode":"execute" if execute else "dry-run","receipts":len(docs),"deleted":removed,"kept":kept}
+        # Temporary public GitHub release media must not be kept after verified distribution.
+        tag=STAGING_RELEASE_TAGS.get(ep_or_reason)
+        if tag:
+            endpoint="https://api.github.com/repos/"+repo+"/releases/tags/"+tag
+            try:
+                release=request_json(endpoint,token)
+                if execute:
+                    request_json("https://api.github.com/repos/"+repo+"/releases/"+str(release['id']),token,"DELETE")
+                    released.append({"episode":ep_or_reason,"tag":tag,"releaseId":release['id']})
+                else:
+                    kept.append({"episode":ep_or_reason,"tag":tag,"reason":"release dry run"})
+            except HTTPError as err:
+                if err.code != 404:raise
+                kept.append({"episode":ep_or_reason,"tag":tag,"reason":"staging release already absent"})
+    return {"mode":"execute" if execute else "dry-run","receipts":len(docs),"deleted":removed,"staging_releases_deleted":released,"kept":kept}
 
 def main():
     p=argparse.ArgumentParser()
