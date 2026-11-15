@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   actions: write
 
 concurrency:
@@ -38,5 +38,5 @@ jobs:
           python scripts/cleanup_published_artifacts.py --execute
       - name: Explain retained assets
         run: |
-          echo "Only GitHub Actions EP*.mp4-containing artifacts were eligible for deletion."
+          echo "Verified-public GitHub Actions video artifacts and EP02 temporary release media are eligible for deletion."
           echo "Repository scripts, rights records, receipts, source files and drafts are never deleted."
