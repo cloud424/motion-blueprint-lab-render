@@ -1,0 +1,33 @@
+name: EP02 | verify TikTok native public embed
+on:
+  push:
+    paths:
+      - '.github/workflows/verify_EP02_tiktok.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Confirm public TikTok post via native oEmbed API (not Buffer status)
+        run: |
+          python - <<'PY'
+          import json,urllib.parse,urllib.request
+          target='https://www.tiktok.com/@trisportpulse/video/7708183756598758663'
+          endpoint='https://www.tiktok.com/oembed?'+urllib.parse.urlencode({'url':target})
+          headers={'User-Agent':'Mozilla/5.0 (compatible; MotionBlueprintLab/1.0; +https://github.com/cloud424/motion-blueprint-lab-render)','Accept':'application/json'}
+          try:
+            with urllib.request.urlopen(urllib.request.Request(endpoint,headers=headers),timeout=20) as resp:
+              payload=json.load(resp)
+              print('HTTP',resp.status,'author_name',payload.get('author_name'),'author_url',payload.get('author_url'),'title',payload.get('title','')[:120],'embed HTML length',len(payload.get('html','')))
+              if resp.status != 200 or not payload.get('html') or '7708183756598758663' not in payload.get('html',''):
+                raise RuntimeError('Native TikTok oEmbed incomplete or unavailable')
+              print('PUBLIC TIKTOK NATIVE EMBED CONFIRMED')
+          except Exception as exc:
+            print('Native public verification blocked or unavailable:',repr(exc))
+            raise
+          PY
