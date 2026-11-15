@@ -30,4 +30,15 @@ jobs:
           except Exception as exc:
             print('Native public verification blocked or unavailable:',repr(exc))
             raise
+          # Negative control: a fabricated video ID must NOT pass the same test.
+          bogus='https://www.tiktok.com/@trisportpulse/video/7708183756598758999'
+          bogus_endpoint='https://www.tiktok.com/oembed?'+urllib.parse.urlencode({'url':bogus})
+          try:
+            with urllib.request.urlopen(urllib.request.Request(bogus_endpoint,headers=headers),timeout=20) as negative:
+              wrong=json.load(negative)
+              print('INVALID ID negative control HTTP',negative.status,'HTML length',len(wrong.get('html','')),'title',wrong.get('title'))
+              if negative.status==200 and wrong.get('html'):
+                raise RuntimeError('Native oEmbed also returns an embed for fabricated IDs; this is not proof of public video availability')
+          except urllib.error.HTTPError as expected:
+            print('Negative control HTTP',expected.code,': invalid video correctly rejected')
           PY
