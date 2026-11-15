@@ -319,22 +319,20 @@ def test_url(url):
   return urllib.request.urlopen(req,timeout=8)
  except Exception:return None
 def fetch_video(video_id,slug):
- dest=OUT/("EP04_REAL_"+slug+".mp4")
- candidates=[]
- for x,y in [(1080,1920),(1920,1080),(960,540),(540,960),(1280,720),(720,1280),(640,360),(360,640)]:
-  kind="sd" if max(x,y)<=960 else "hd"
-  for fps in [30,24,25,50,60,29]:
-   candidates.append(f"https://videos.pexels.com/video-files/{video_id}/{video_id}-{kind}_{x}_{y}_{fps}fps.mp4")
- for u in candidates:
-  r=test_url(u)
-  if r is None:continue
-  try:
-   with r,open(dest,"wb") as o:shutil.copyfileobj(r,o)
-   duration=float(subprocess.check_output(["ffprobe","-v","error","-show_entries","format=duration","-of","default=noprint_wrappers=1:nokey=1",str(dest)]))
-   if dest.stat().st_size>200000 and duration>5:
-    print("SOURCE FOOTAGE VERIFIED",slug,video_id,duration,dest.stat().st_size,flush=True);return dest,u
-  except Exception as ex:print("download candidate failed",slug,str(ex)[:80],flush=True)
- raise RuntimeError("Real licensed source not obtainable; no synthetic fake substitution: "+slug)
+ dest=OUT/("EP04_REAL_"+slug+".webm")
+ from urllib.parse import quote
+ url="https://commons.wikimedia.org/wiki/Special:Redirect/file/"+quote(video_id)
+ req=urllib.request.Request(url,headers={"User-Agent":"MotionBlueprintLabProduction/1.0 (educational documented media reuse; contact GitHub cloud424)","Accept":"video/webm"})
+ try:
+  with urllib.request.urlopen(req,timeout=110) as resp,open(dest,"wb") as o:
+   shutil.copyfileobj(resp,o)
+  duration=float(subprocess.check_output(["ffprobe","-v","error","-show_entries","format=duration","-of","default=noprint_wrappers=1:nokey=1",str(dest)]))
+  if dest.stat().st_size<100000 or duration<3:raise RuntimeError("Source media invalid "+slug)
+  print("WIKIMEDIA ORIGINAL VIDEO VERIFIED",slug,duration,dest.stat().st_size,flush=True)
+  return dest,url
+ except Exception as exc:
+  raise RuntimeError("Rights-verified Commons clip unavailable, do not substitute fake footage: "+slug+" "+str(exc)[:160])
+
 def source_frames(path,seconds=DUR):
  tmp=OUT/("_transcoded_"+path.stem+".mp4")
  subprocess.run(["ffmpeg","-hide_banner","-loglevel","error","-y","-stream_loop","-1","-i",str(path),
@@ -391,15 +389,15 @@ def music(sr,n):
  sf.write(OUT/"EP04_Original_Ambience.wav",score,sr)
 def main():
  srcs=[
-  (34078191,"AerialGreenFieldVertical","https://www.pexels.com/video/aerial-view-of-wind-turbines-in-open-field-34078191/","Matthias Groeneveld"),
-  (4230063,"CloseUpRotatingBlades","https://www.pexels.com/video/wind-turbine-rotating-4230063/","Pexels contributor, credited in page"),
-  (7047314,"AerialWindFarm","https://www.pexels.com/video/done-footage-of-wind-turbines-7047314/","ROMAN ODINTSOV")]
+  ("Wind farm video.webm","WindFarmAerial_CC0","https://commons.wikimedia.org/wiki/File:Wind_farm_video.webm","Wikideas1 / Wikimedia Commons, CC0"),
+  ("Wind turbines in operation.webm","WindTurbinesWorking_CC0","https://commons.wikimedia.org/wiki/File:Wind_turbines_in_operation.webm","Acdixon / Wikimedia Commons, CC0"),
+  ("Lawrence Weston Wind Turbine - February 2026.webm","WindTurbineVertical_CC_BY","https://commons.wikimedia.org/wiki/File:Lawrence_Weston_Wind_Turbine_-_February_2026.webm","Captain Galaxy / Wikimedia Commons, CC BY 4.0")]
  src_manifest=[]
  frames={}
  for i,(vid,slug,page,credit) in enumerate(srcs):
   filepath,u=fetch_video(vid,slug)
   frames[{0:0,1:1,2:11}[i]]=source_frames(filepath)
-  src_manifest.append(dict(id=vid,slug=slug,page_url=page,direct_asset_url=u,author=credit,license="Pexels License, free commercial derivative use",license_url="https://www.pexels.com/license/",used_at_chapter=[1,2,12][i],embedded_audio="removed; original narration and music only"))
+  src_manifest.append(dict(id=vid,slug=slug,page_url=page,direct_asset_url=u,author=credit,license=("CC BY 4.0" if i==2 else "CC0 1.0"),license_url=("https://creativecommons.org/licenses/by/4.0/" if i==2 else "https://creativecommons.org/publicdomain/zero/1.0/"),used_at_chapter=[1,2,12][i],embedded_audio="removed; original narration and music only"))
  raw,times,sr=voice();music(sr,len(raw))
  render=OUT/"_EP04_Original_MotionSilent.mp4"
  cmd=["ffmpeg","-hide_banner","-loglevel","error","-y","-f","rawvideo","-pixel_format","rgb24","-video_size",f"{W}x{H}","-framerate",str(FPS),"-i","-","-c:v","libx264","-preset","ultrafast","-crf","22","-pix_fmt","yuv420p",str(render)]
