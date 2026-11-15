@@ -1,0 +1,57 @@
+name: EP03 | prepare 9AM publication media (QA staging)
+on:
+  push:
+    paths:
+      - '.github/workflows/stage_EP03_20261115.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: motion-blueprint-lab-ep03-staging-20261115
+  cancel-in-progress: false
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m py_compile scripts/finalize_EP03_seasalt.py
+      - name: Recover existing EP03 private artifact (no rerender)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p out
+          gh run download 43606745770 \
+            --repo cloud424/motion-blueprint-lab-render \
+            --name EP03_AncientSeaSalt_3min_PRIVATE_REVIEW \
+            --dir out
+          test -s out/EP03_AncientSeaSalt_TimeTravelEngineering_3min_PREVIEW_720p.mp4
+          test -s out/EP03_AncientSeaSalt_Report.json
+      - name: 175-second synchronized caption + narrator finalizer
+        run: |
+          python scripts/finalize_EP03_seasalt.py --outdir out
+          test -s out/EP03_AncientSeaSalt_TimeTravelEngineering_175s_FINAL.mp4
+      - name: Verify all streams and full frame decode
+        run: |
+          ffprobe -v error -show_entries format=duration,size:stream=codec_name,width,height,r_frame_rate \
+            -of json out/EP03_AncientSeaSalt_TimeTravelEngineering_175s_FINAL.mp4
+          ffmpeg -v error -i out/EP03_AncientSeaSalt_TimeTravelEngineering_175s_FINAL.mp4 -f null -
+          sha256sum out/EP03_AncientSeaSalt_TimeTravelEngineering_175s_FINAL.mp4
+      - name: Stage downloadable original EP03 MP4 as temporary release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create mbl-ep03-20261115-staging \
+            out/EP03_AncientSeaSalt_TimeTravelEngineering_175s_FINAL.mp4 \
+            --repo cloud424/motion-blueprint-lab-render \
+            --title 'EP03 technical staging only - not a platform publication' \
+            --notes 'Temporary video upload for licensed four-platform publication after QA. Preserve until all platforms verified.' \
+            --latest=false
+          gh release view mbl-ep03-20261115-staging \
+            --repo cloud424/motion-blueprint-lab-render \
+            --json assets --jq '.assets[] | [.name,.url] | @tsv'
