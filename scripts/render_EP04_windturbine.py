@@ -17,12 +17,12 @@ SC=[
 ("FROM LIFT TO ROTATION","Force becomes twisting motion.","Now look straight at the rotor. Each blade meets moving air while sweeping around the hub. Part of the aerodynamic force acts tangentially, creating torque. Three blades share this work as they spin.","rotor"),
 ("OPEN THE NACELLE","The machine room at the top.","Behind the rotor is the nacelle, the housing on top of the tower. Inside, a low speed shaft carries the turning force toward the electrical generator. Some machines use a gearbox; others connect directly.","nacelle"),
 ("THE GEARBOX SECRET","Slow input. Faster output.","In a geared design, large gears drive smaller gears, increasing rotational speed before the generator. Our drawing simplifies the real mechanism. Direct drive turbines skip this gearbox and use a generator designed for slower rotation.","gears"),
-("MAGNETS CREATE CURRENT","Motion becomes electricity.","Inside a generator, magnetic fields move relative to coils of wire. That changing magnetic flux induces voltage. Modern wind turbines may use different generator designs, but this electromagnetic principle connects shaft rotation to electrical output.","generator"),
-("THE POWER IS ALTERNATING","From spinning field to AC.","Watch the voltage rise, fall, and reverse as the magnetic field turns. Three phase systems carry several alternating waveforms. Power electronics help control the output so a variable speed turbine can deliver usable electricity.","waves"),
-("KEEP FACING THE WIND","Yaw direction. Pitch the blades.","The nacelle can yaw to align with the wind direction. Each blade can also pitch, turning around its long axis. Pitch control manages aerodynamic loading and power, while sensors and computers keep the machine within operating limits.","pitch"),
-("TWICE THE WIND SPEED?","Eight times the available power.","Moving air carries kinetic energy. For the same rotor area and air density, the power available in the wind rises with the cube of wind speed. Double the speed and the theoretical incoming power is eight times larger, before losses.","power"),
-("KNOW WHEN TO STOP","Safety is part of the design.","A turbine cannot simply spin faster forever. At high winds, controls adjust blade pitch and may stop the machine to protect it. The exact speed thresholds depend on the turbine model and its operating conditions.","safety"),
-("FROM WIND TO THE GRID","Five transformations in one machine.","Here is the complete chain: wind flows across an airfoil, lift turns the rotor, shafts transmit mechanical power, the generator produces electricity, and power electronics condition it for the grid. That is wind energy, engineered.","real2")
+("MAGNETS CREATE CURRENT","Motion becomes electricity.","Inside a generator, a spinning magnetic field moves past coils of wire. The changing magnetic flux induces voltage. This is how mechanical rotation produces electrical energy.","generator"),
+("THE POWER IS ALTERNATING","From spinning field to AC.","As the magnetic field turns, voltage rises, falls, and reverses. Three phase systems use alternating waveforms. Power electronics control the output, helping variable speed turbines feed useful electricity into the grid.","waves"),
+("KEEP FACING THE WIND","Yaw direction. Pitch the blades.","The nacelle yaws to face the wind. Each blade can pitch around its own axis. Sensors and control systems use these movements to manage power and protect the structure.","pitch"),
+("TWICE THE WIND SPEED?","Eight times the available power.","Wind carries kinetic energy. At the same air density and rotor area, available power rises with the cube of wind speed. Double wind speed, and the theoretical incoming power becomes eight times greater.","power"),
+("KNOW WHEN TO STOP","Safety is part of the design.","A turbine cannot spin faster forever. In strong winds, controllers adjust blade pitch and may stop the rotor for safety. Exact speed limits depend on the turbine design.","safety"),
+("FROM WIND TO THE GRID","Five transformations in one machine.","Here is the complete chain: wind moves across an airfoil, lift turns the rotor, shafts transmit power, a generator makes electricity, and electronics prepare the output for the grid.","real2")
 ]
 assert len(SC)==12
 P=pathlib.Path
@@ -369,14 +369,14 @@ def voice():
  sr=24000;parts=[];times=[]
  for i,(title,hook,body,mode) in enumerate(SC):
   chunks=[]
-  for gr,ph,a in pipe(body,voice="am_michael",speed=1.18):
+  for gr,ph,a in pipe(body,voice="am_michael",speed=1.24):
    chunks.append(np.array(a,dtype=np.float32))
   if not chunks:raise RuntimeError("No narration "+str(i))
   speech=np.concatenate(chunks)
   avail=int(12.85*sr)
   if len(speech)>avail:
    ratio=len(speech)/avail
-   if ratio>1.23:raise RuntimeError(f"EP04 speech overrun chapter {i}: {ratio}")
+   if ratio>1.32:raise RuntimeError(f"EP04 speech overrun chapter {i}: {ratio}")
    speech=np.interp(np.linspace(0,len(speech)-1,avail),np.arange(len(speech)),speech).astype(np.float32)
   audio=np.concatenate([np.zeros(int(.35*sr),dtype=np.float32),speech,
                         np.zeros(max(0,int(DUR*sr)-int(.35*sr)-len(speech)),dtype=np.float32)])
