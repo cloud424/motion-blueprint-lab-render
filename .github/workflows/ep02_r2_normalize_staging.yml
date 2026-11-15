@@ -25,6 +25,10 @@ jobs:
             --pattern 'EP02_PanamaCanal_GravityLocks_R2_CloudRender_720p.mp4' \
             --dir out
           test -s out/EP02_PanamaCanal_GravityLocks_R2_CloudRender_720p.mp4
+      - name: Install FFmpeg probe and transcoder
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
       - name: Normalize narration/video speed without dropping any spoken sections
         run: |
           python - <<'PY'
