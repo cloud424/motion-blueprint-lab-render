@@ -39,11 +39,30 @@ def run(cmd):
 
 
 def probe(path):
-    p = subprocess.check_output([
-        "ffprobe", "-v", "error", "-show_format", "-show_streams",
-        "-of", "json", str(path)
-    ])
-    return json.loads(p)
+    try:
+        p = subprocess.check_output([
+            "ffprobe", "-v", "error", "-show_format", "-show_streams",
+            "-of", "json", str(path)
+        ])
+        return json.loads(p)
+    except FileNotFoundError:
+        # The portable PyPI ffmpeg bundle does not ship a separate ffprobe.
+        # Read the stream header using exactly the bundled ffmpeg binary instead.
+        q=subprocess.run(["ffmpeg","-hide_banner","-i",str(path),
+                          "-frames:v","1","-an","-f","null","-"],
+                         capture_output=True,text=True,timeout=45)
+        head=q.stderr
+        d=re.search(r"Duration:\s*(\d+):(\d+):([\d.]+)",head)
+        v=re.search(r"Video:\s*([a-zA-Z0-9_]+)[^\n]*?(\d{3,5})x(\d{3,5})",head)
+        a=re.search(r"Audio:\s*([a-zA-Z0-9_]+)",head)
+        if q.returncode or not d or not v:
+            raise RuntimeError("portable ffmpeg metadata verification failed: "+head[-600:])
+        duration=int(d.group(1))*3600+int(d.group(2))*60+float(d.group(3))
+        streams=[{"codec_type":"video","codec_name":v.group(1),
+                  "width":int(v.group(2)),"height":int(v.group(3))}]
+        if a:
+            streams.append({"codec_type":"audio","codec_name":a.group(1)})
+        return {"format":{"duration":str(duration)},"streams":streams}
 
 
 def sha256(path):
