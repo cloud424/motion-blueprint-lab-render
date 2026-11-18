@@ -15,7 +15,7 @@ permissions:
   actions: read
 concurrency:
   group: mbl-ep05-r3-render
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -42,12 +42,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install ffmpeg and open-weight English narration
+      - name: Install portable FFmpeg, free Kokoro English TTS and Python libraries
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y ffmpeg espeak-ng libgl1
+          python -m pip install --disable-pip-version-check -q imageio-ffmpeg
+          mkdir -p "$RUNNER_TEMP/ffmpeg-tools"
+          python -c 'import imageio_ffmpeg,os; os.symlink(imageio_ffmpeg.get_ffmpeg_exe(),os.path.join(os.environ["RUNNER_TEMP"],"ffmpeg-tools","ffmpeg"))'
+          echo "$RUNNER_TEMP/ffmpeg-tools" >> "$GITHUB_PATH"
+          export PATH="$RUNNER_TEMP/ffmpeg-tools:$PATH"
+          ffmpeg -version | head -1
+          ffmpeg -filters | grep -E ' overlay| subtitles'
           python -m pip install --disable-pip-version-check "torch==2.7.1" --index-url https://download.pytorch.org/whl/cpu
-          python -m pip install --disable-pip-version-check "kokoro==0.9.4" "soundfile>=0.12" "numpy<3" "Pillow>=10"
+          python -m pip install --disable-pip-version-check "kokoro==0.9.4" "soundfile>=0.12" "numpy<3" "Pillow>=10" "espeakng-loader>=0.2"
           python -m py_compile scripts/render_EP05_hydropower_R3.py
       - name: Restore exact source-acquisition artifact
         env:
