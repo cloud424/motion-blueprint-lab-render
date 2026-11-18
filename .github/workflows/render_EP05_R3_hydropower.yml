@@ -2,7 +2,7 @@ name: EP05 R3 | Render Hydropower Documentary Private QA
 on:
   workflow_run:
     workflows:
-      - "EP05 R3 | Acquire Diverse Footage No Repeats"
+      - "EP05 R3 | Acquire Supplementary Hydropower Footage"
     types:
       - completed
   workflow_dispatch:
@@ -34,7 +34,7 @@ jobs:
           PY
   render:
     needs: [validate]
-    if: github.event_name != 'push' && (github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success')
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 50
     steps:
@@ -54,17 +54,42 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p out_EP05_R3_NEW_CLIPS
+          ACQUIRE_RUN="$(gh run list --repo cloud424/motion-blueprint-lab-render --workflow acquire_EP05_R3.yml --status success --limit 1 --json databaseId --jq '.[0].databaseId')"
           if [ "${{ github.event_name }}" = "workflow_run" ]; then
-            ACQUIRE_RUN="${{ github.event.workflow_run.id }}"
+            SUPPLEMENT_RUN="${{ github.event.workflow_run.id }}"
           else
-            ACQUIRE_RUN="$(gh run list --repo cloud424/motion-blueprint-lab-render --workflow acquire_EP05_R3.yml --status success --limit 1 --json databaseId --jq '.[0].databaseId')"
+            SUPPLEMENT_RUN="$(gh run list --repo cloud424/motion-blueprint-lab-render --workflow acquire_EP05_R3_supplement.yml --status success --limit 1 --json databaseId --jq '.[0].databaseId')"
           fi
-          if [ -z "$ACQUIRE_RUN" ]; then
-            echo "No successful EP05 licensed footage-acquisition artifact" >&2
+          if [ -z "$ACQUIRE_RUN" ] || [ -z "$SUPPLEMENT_RUN" ]; then
+            echo "Both unique main and supplementary licensed acquisition runs required" >&2
             exit 1
           fi
           gh run download "$ACQUIRE_RUN" --repo cloud424/motion-blueprint-lab-render --name EP05_R3_UNIQUE_REAL_FOOTAGE --dir out_EP05_R3_NEW_CLIPS
+          mkdir -p out_EP05_R3_SUPP
+          gh run download "$SUPPLEMENT_RUN" --repo cloud424/motion-blueprint-lab-render --name EP05_R3_SUPPLEMENTAL_FOOTAGE --dir out_EP05_R3_SUPP
           test -s out_EP05_R3_NEW_CLIPS/EP05_R3_New_Footage_Manifest.json
+          test -s out_EP05_R3_SUPP/EP05_R3_Supplement_Manifest.json
+          python - <<'PY'
+          import json, shutil, pathlib
+          main=pathlib.Path("out_EP05_R3_NEW_CLIPS")
+          supp=pathlib.Path("out_EP05_R3_SUPP")
+          path=main/"EP05_R3_New_Footage_Manifest.json"
+          m=json.loads(path.read_text())
+          x=json.loads((supp/"EP05_R3_Supplement_Manifest.json").read_text())
+          names={r["slug"] for r in m}
+          ids={str(r["pexels_id"]) for r in m}
+          for rec in x:
+              if rec["slug"] in names or str(rec["pexels_id"]) in ids:continue
+              source=supp/(rec["slug"]+".mp4")
+              assert source.is_file() and source.stat().st_size>100000,source
+              shutil.copyfile(source,main/source.name)
+              m.append(rec)
+              names.add(rec["slug"])
+              ids.add(str(rec["pexels_id"]))
+          path.write_text(json.dumps(m,indent=2,ensure_ascii=False))
+          print("EP05 DISTINCT VALID SOURCE FILES",len(m))
+          assert len(m)>=9,"Not enough unique footage for documentary"
+          PY
       - name: Render 9 real clips once plus 3 original mechanical cutaways
         env:
           HF_HUB_DISABLE_TELEMETRY: "1"
