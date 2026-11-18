@@ -1,0 +1,57 @@
+name: EP05 | stage tested hydropower master for Make import
+on:
+  push:
+    paths:
+      - '.github/workflows/stage_EP05_hydropower_for_make.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: mbl-ep05-stage-reviewed-master
+  cancel-in-progress: false
+jobs:
+  stage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify exact EP05 existing final QA artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p EP05_staging
+          gh run download 44302365205 --repo cloud424/motion-blueprint-lab-render \
+            --name EP05_R3_HYDROPOWER_PRIVATE_QA --dir EP05_staging
+          python - <<'PY'
+          import pathlib,json,hashlib,subprocess
+          d=pathlib.Path("EP05_staging")
+          qa=json.loads((d/"EP05_R3_Technical_Source_QA.json").read_text())
+          video=d/qa["media"]
+          assert qa["episode"]=="EP05" and qa["revision"]=="R3"
+          assert qa["status"]=="TECHNICAL_QA_PASSED_VISUAL_RIGHTS_REVIEW_PENDING"
+          assert qa["published"] is False and qa["qa_approval"]=="pending"
+          assert qa["unique_source_ids"]==9 and qa["distinct_original_mechanisms"]==3
+          assert qa["real_ratio"]>=0.75 and 172<qa["duration"]<175
+          assert video.is_file() and video.stat().st_size>10000000
+          assert hashlib.sha256(video.read_bytes()).hexdigest()==qa["sha256"]
+          subprocess.run(["ffmpeg","-v","error","-i",str(video),"-f","null","-"],check=True)
+          print("Exact reviewed candidate verified", video, qa["sha256"])
+          PY
+      - name: Stage only checked bytes for Cloudinary ingest, without publishing
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="mbl-ep05-20261118-staging"
+          file="EP05_staging/EP05_Hydropower_R3_Documentary_173s_PRIVATE_QA.mp4"
+          if gh release view "$tag" --repo cloud424/motion-blueprint-lab-render >/dev/null 2>&1; then
+            gh release upload "$tag" "$file" --clobber --repo cloud424/motion-blueprint-lab-render
+          else
+            gh release create "$tag" "$file" \
+              --repo cloud424/motion-blueprint-lab-render \
+              --title "EP05 temporary technical staging - remove after four-site verification" \
+              --notes "Temporary upload surface for original MBL hydropower film, SHA e7b1aa338aa7109ab9796de09c3bfb4fa60a340a33c1ff6f70427fbb41e8ec00. Not a publication claim." \
+              --latest=false
+          fi
+          gh release view "$tag" --repo cloud424/motion-blueprint-lab-render --json assets \
+            --jq '.assets[] | [.name,.url] | @tsv'
