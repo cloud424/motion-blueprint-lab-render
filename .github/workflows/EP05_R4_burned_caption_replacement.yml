@@ -1,0 +1,65 @@
+name: EP05 R4 | Hard-caption replacement private QA and staging
+on:
+  push:
+    paths:
+      - 'scripts/rebuild_EP05_R4_burned_subtitles.py'
+      - '.github/workflows/EP05_R4_burned_caption_replacement.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: mbl-ep05-r4-hard-captions
+  cancel-in-progress: false
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Use portable FFmpeg and subtitle QA dependencies
+        run: |
+          python -m pip install -q --disable-pip-version-check imageio-ffmpeg Pillow
+          mkdir -p "$RUNNER_TEMP/ffmpeg-bin"
+          python -c 'import imageio_ffmpeg,os; os.symlink(imageio_ffmpeg.get_ffmpeg_exe(),os.path.join(os.environ["RUNNER_TEMP"],"ffmpeg-bin","ffmpeg"))'
+          echo "$RUNNER_TEMP/ffmpeg-bin" >> "$GITHUB_PATH"
+          export PATH="$RUNNER_TEMP/ffmpeg-bin:$PATH"
+          ffmpeg -filters | grep -E ' ass | subtitles '
+          python -m py_compile scripts/rebuild_EP05_R4_burned_subtitles.py
+      - name: Recover original published video and preserve audio while burning big readable captions
+        run: python scripts/rebuild_EP05_R4_burned_subtitles.py
+      - name: Verify original-source SHA and actual new video bytes
+        run: |
+          test -s out_EP05_R4/EP05_Hydropower_R4_BurnedSubtitles_FINAL.mp4
+          test -s out_EP05_R4/EP05_R4_QA.json
+          ffmpeg -v error -i out_EP05_R4/EP05_Hydropower_R4_BurnedSubtitles_FINAL.mp4 -f null -
+          sha256sum out_EP05_R4/EP05_Hydropower_R4_BurnedSubtitles_FINAL.mp4
+      - name: Preserve review artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: EP05_R4_BURNED_ENGLISH_SUBTITLES_PRIVATE_QA
+          path: |
+            out_EP05_R4/EP05_Hydropower_R4_BurnedSubtitles_FINAL.mp4
+            out_EP05_R4/EP05_R4_QA.json
+            out_EP05_R4/EP05_R4_English_Subtitles.srt
+            out_EP05_R4/EP05_R4_Actual12Shot_SubtitleQA.jpg
+          retention-days: 10
+          if-no-files-found: error
+      - name: Stage exact QA-checked R4 video for Make Cloudinary import (not public social posting)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="mbl-ep05-r4-caption-repair-staging"
+          f="out_EP05_R4/EP05_Hydropower_R4_BurnedSubtitles_FINAL.mp4"
+          if gh release view "$tag" --repo cloud424/motion-blueprint-lab-render >/dev/null 2>&1; then
+            gh release upload "$tag" "$f" --clobber --repo cloud424/motion-blueprint-lab-render
+          else
+            gh release create "$tag" "$f" --repo cloud424/motion-blueprint-lab-render \
+              --title "EP05 R4 hard-caption video - technical staging not a social publication" \
+              --notes "Temporary staging for user's explicitly approved EP05 R4 four-platform replacement. Never delete old social posts before new ones public. Preserve rights, QA and audio." \
+              --latest=false
+          fi
+          gh release view "$tag" --repo cloud424/motion-blueprint-lab-render --json assets --jq '.assets[] | [.name,.url] | @tsv'
