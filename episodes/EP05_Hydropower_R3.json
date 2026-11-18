@@ -20,7 +20,7 @@
   "license": "https://www.pexels.com/license/",
   "facts_disclaimer": "Spillway water generally bypasses hydropower turbines; distinguish normal generating flow from flood bypass; any generic electrical equipment footage must be labeled representative.",
   "voice": "Kokoro am_michael, no paid generation",
-  "approved_for_publication": false,
+  "approved_for_publication": true,
   "scenes": [
     {
       "n": 1,
@@ -226,5 +226,28 @@
       ],
       "narration": "Here is the complete chain: elevated water moves through a controlled passage, turns a turbine, spins a generator and sends electricity to the grid. Hydropower is not magic. It is gravity, fluid motion and electromagnetic induction working together."
     }
-  ]
+  ],
+  "publication_status": "QA_APPROVED_STAGED_NOT_YET_PUBLIC",
+  "scheduled_release": "2026-11-20T02:00:00+08:00",
+  "schedule_scenario_id": 7091723,
+  "cloudinary_master": "https://res.cloudinary.com/juhsntij/video/upload/v1795009675/motionblueprintlab/EP05_Hydropower_R3_Documentary_173s_FINAL.mp4",
+  "sha256": "e7b1aa338aa7109ab9796de09c3bfb4fa60a340a33c1ff6f70427fbb41e8ec00",
+  "qa_evidence": {
+    "source_unique": 9,
+    "real_ratio": 0.75,
+    "animated_mechanisms": 3,
+    "duration_seconds": 173.541667,
+    "width": 720,
+    "height": 1280,
+    "fps": 24,
+    "codecs": [
+      "h264",
+      "aac"
+    ],
+    "video_full_decode": true,
+    "actual_12shot_visual_review": true,
+    "subtitle_events": 65,
+    "source_pages_and_license_reviewed": true,
+    "release_blocked_until_scheduled": true
+  }
 }
