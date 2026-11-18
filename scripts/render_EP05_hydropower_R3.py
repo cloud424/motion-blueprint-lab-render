@@ -435,7 +435,7 @@ def main():
     mus=ambience(sr,len(data),out)
     sub,ncues=subtitles(scenes,speachtimes,out)
     final=out/"EP05_Hydropower_R3_Documentary_173s_PRIVATE_QA.mp4"
-    filt=f"subtitles='{sub}':force_style='FontName=DejaVu Sans,FontSize=16,PrimaryColour=&H00FFFFFF,OutlineColour=&H00151515,Outline=2,Shadow=0,Alignment=2,MarginV=138'"
+    filt=f"subtitles='{sub}':force_style='FontName=DejaVu Sans,FontSize=7,PrimaryColour=&H00FFFFFF,OutlineColour=&H00151515,Outline=1,Shadow=0,Alignment=2,MarginV=27'"
     run(["ffmpeg","-hide_banner","-loglevel","error","-y",
          "-i",merged,"-i",vox,"-i",mus,
          "-filter_complex",f"[0:v]{filt}[v];[1:a]volume=1.35[s];[2:a]volume=0.65[m];[s][m]amix=inputs=2:duration=first:normalize=0[a]",
