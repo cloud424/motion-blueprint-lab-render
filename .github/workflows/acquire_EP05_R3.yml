@@ -18,7 +18,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Verify preinstalled FFprobe and compile sources
         run: |
-          ffprobe -version | head -1
+          if ! command -v ffprobe >/dev/null; then
+            timeout 180 sudo apt-get install -y -qq ffmpeg
+          fi
+          command -v ffprobe
           python -m py_compile scripts/acquire_EP05_R3_no_repeats.py
       - name: Acquire rights-documented unique hydropower views
         run: |
