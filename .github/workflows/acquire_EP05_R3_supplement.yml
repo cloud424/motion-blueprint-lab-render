@@ -1,0 +1,37 @@
+name: EP05 R3 | Acquire Supplementary Hydropower Footage
+on:
+  push:
+    paths:
+      - 'scripts/acquire_EP05_R3_supplement.py'
+      - '.github/workflows/acquire_EP05_R3_supplement.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mbl-ep05-r3-supplement
+  cancel-in-progress: true
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify preinstalled FFprobe and compile sources
+        run: |
+          if ! command -v ffprobe >/dev/null; then
+            timeout 180 sudo apt-get install -y -qq ffmpeg
+          fi
+          command -v ffprobe
+          python -m py_compile scripts/acquire_EP05_R3_supplement.py
+      - name: Acquire rights-documented unique hydropower views
+        run: |
+          python scripts/acquire_EP05_R3_supplement.py
+      - name: Upload private footage, exact Pexels source URLs
+        uses: actions/upload-artifact@v4
+        with:
+          name: EP05_R3_SUPPLEMENTAL_FOOTAGE
+          path: |
+            out_EP05_R3_SUPP/*.mp4
+            out_EP05_R3_SUPP/*.json
+          retention-days: 5
+          if-no-files-found: error
