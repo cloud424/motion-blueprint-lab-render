@@ -6,6 +6,10 @@ on:
     types:
       - completed
   workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/render_EP05_hydropower_R3.py'
+      - '.github/workflows/render_EP05_R3_hydropower.yml'
 permissions:
   contents: read
   actions: read
@@ -13,8 +17,24 @@ concurrency:
   group: mbl-ep05-r3-render
   cancel-in-progress: false
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile and validate EP05 source storyboard
+        run: |
+          python -m py_compile scripts/render_EP05_hydropower_R3.py
+          python - <<'PY'
+          import json
+          x=json.load(open('episodes/EP05_Hydropower_R3.json'))
+          assert len(x['scenes']) == 12
+          assert sum(s['type']=='real' for s in x['scenes']) == 9
+          assert sum(s['type']=='animation' for s in x['scenes']) == 3
+          print('EP05 script syntax and 12-scene blueprint PASS')
+          PY
   render:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    needs: [validate]
+    if: github.event_name != 'push' && (github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
     timeout-minutes: 50
     steps:
