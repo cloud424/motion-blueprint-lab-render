@@ -16,7 +16,7 @@ from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
 EP_RE = re.compile(r"^EP[0-9]{2,}$")
-STAGING_RELEASE_TAGS = {"EP02": "mbl-ep02-r2-media-staging"}  # Only expressly owned temporary media releases
+STAGING_RELEASE_TAGS = {"EP02": "mbl-ep02-r2-media-staging", "EP05": "mbl-ep05-20261118-staging"}  # Only expressly owned temporary media releases
 ALLOWED = {
     "youtube": {"youtube.com", "www.youtube.com", "youtu.be", "m.youtube.com"},
     "facebook": {"facebook.com", "www.facebook.com", "m.facebook.com"},
