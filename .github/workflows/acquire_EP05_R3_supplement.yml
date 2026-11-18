@@ -16,12 +16,9 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-      - name: Verify preinstalled FFprobe and compile sources
+      - name: Install portable FFmpeg binary via PyPI, compile source
         run: |
-          if ! command -v ffprobe >/dev/null; then
-            timeout 180 sudo apt-get install -y -qq ffmpeg
-          fi
-          command -v ffprobe
+          python -m pip install -q imageio-ffmpeg
           python -m py_compile scripts/acquire_EP05_R3_supplement.py
       - name: Acquire rights-documented unique hydropower views
         run: |
