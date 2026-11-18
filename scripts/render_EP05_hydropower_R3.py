@@ -245,39 +245,36 @@ def render_animation(scene, dest):
 
 def render_real(scene, input_path, dest, outdir):
     i=scene["n"]
-    title_file=outdir/f"EP05_title_{i:02d}.txt"
-    subtitle_file=outdir/f"EP05_subtitle_{i:02d}.txt"
-    title_file.write_text(scene["title"],encoding="utf-8")
-    subtitle_file.write_text(scene["subtitle"],encoding="utf-8")
+    # Draw all captions as an original alpha PNG; portable FFmpeg does not have
+    # drawtext and must NOT depend on Apt packages during unattended runs.
+    overlay=Image.new("RGBA",(W,H),(0,0,0,0))
+    d=ImageDraw.Draw(overlay)
+    d.rectangle((0,0,W,225),fill=(7,27,43,206))
+    d.rectangle((0,1129,W,H),fill=(7,27,43,177))
+    title_font=F(35 if len(scene["title"])<25 else 29,True)
+    d.text((35,106),scene["title"],font=title_font,fill=(255,255,255,255))
+    d.text((38,165),scene["subtitle"],font=F(20),fill=(205,229,236,255))
+    d.text((37,37),"MOTION BLUEPRINT LAB  EP05",font=F(17,True),fill=(113,228,229,255))
+    d.text((35,1154),"AUTHENTIC FOOTAGE",font=F(15),fill=(184,237,242,255))
+    overlay_path=outdir/f"EP05_film_overlay_{i:02d}.png"
+    overlay.save(overlay_path)
     info=probe(input_path)
     dur=float(info["format"]["duration"])
     if dur<SCENE_SEC:
         raise RuntimeError(f"Real clip too short: {input_path}")
     ss=min(max(.0,(dur-SCENE_SEC)/3),9)
-    fontsize=35 if len(scene["title"])<25 else 29
-    filt=(
-       f"scale={W}:{H}:force_original_aspect_ratio=increase,"
-       f"crop={W}:{H},setsar=1,fps={FPS},"
-       "drawbox=x=0:y=0:w=iw:h=225:color=0x071b2b@0.82:t=fill,"
-       "drawbox=x=0:y=1129:w=iw:h=151:color=0x071b2b@0.70:t=fill,"
-       f"drawtext=fontfile={FONT_BOLD}:textfile={title_file}:fontcolor=white:"
-       f"fontsize={fontsize}:x=35:y=106,"
-       f"drawtext=fontfile={FONT_NORMAL}:textfile={subtitle_file}:fontcolor=0xCDE5EC:"
-       "fontsize=20:x=38:y=165,"
-       f"drawtext=fontfile={FONT_BOLD}:text='MOTION BLUEPRINT LAB  EP05':"
-       "fontcolor=0x71E4E5:fontsize=17:x=37:y=37,"
-       "drawtext=fontfile="+FONT_NORMAL+":text='AUTHENTIC FOOTAGE':"
-       "fontcolor=0xB8EDF2:fontsize=15:x=35:y=1154"
-    )
+    vf=f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},setsar=1,fps={FPS}"
     run(["ffmpeg","-hide_banner","-loglevel","error","-y",
-         "-ss",f"{ss:.2f}","-i",input_path,"-t",str(SCENE_SEC),
-         "-vf",filt,"-an","-c:v","libx264","-crf","21","-preset","veryfast",
+         "-ss",f"{ss:.2f}","-i",input_path,
+         "-loop","1","-i",overlay_path,
+         "-t",str(SCENE_SEC),
+         "-filter_complex",f"[0:v]{vf}[base];[base][1:v]overlay=0:0:shortest=1[v]",
+         "-map","[v]","-an","-c:v","libx264","-crf","21","-preset","veryfast",
          "-pix_fmt","yuv420p","-r",str(FPS),str(dest)])
     dat=probe(dest)
     duration=float(dat["format"]["duration"])
     if abs(duration-SCENE_SEC)>.08:
         raise RuntimeError(f"Unexpected film scene duration {i}: {duration}")
-
 
 def choose_clips(scenes, footage_dir, records):
     byslug={r["slug"]:r for r in records}
