@@ -1,0 +1,77 @@
+name: EP06 R3 | Stage QA-checked cargo-ship master for Cloudinary
+on:
+  push:
+    paths:
+      - '.github/workflows/EP06_R3_stage_for_make.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: mbl-ep06-stage-approved
+  cancel-in-progress: false
+jobs:
+  stage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Retrieve exact successful EP06 source + captioned MP4 (not another run)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p EP06_stage
+          gh run download 44335848082 --repo cloud424/motion-blueprint-lab-render \
+            --name EP06_R3_CARGOSHIP_PRIVATE_QA --dir EP06_stage
+          test -s EP06_stage/EP06_CargoShip_R3_Documentary_173s_PRIVATE_QA.mp4
+      - name: Check SHA, voice, full decode, original footage IDs and 69 burned-cue production configuration
+        run: |
+          python -m pip install -q imageio-ffmpeg
+          mkdir -p "$RUNNER_TEMP/ffmpeg-bin"
+          python -c 'import imageio_ffmpeg,os; os.symlink(imageio_ffmpeg.get_ffmpeg_exe(),os.path.join(os.environ["RUNNER_TEMP"],"ffmpeg-bin","ffmpeg"))'
+          echo "$RUNNER_TEMP/ffmpeg-bin" >> "$GITHUB_PATH"
+          export PATH="$RUNNER_TEMP/ffmpeg-bin:$PATH"
+          python - <<'PY'
+          import json,pathlib,hashlib,re,subprocess
+          d=pathlib.Path("EP06_stage")
+          q=json.loads((d/"EP06_R3_Technical_Source_QA.json").read_text())
+          v=d/q["media"]
+          digest=hashlib.sha256(v.read_bytes()).hexdigest()
+          assert digest=="4490d4f012342dcac45c2d15f7f40ed5001cefc03bb2af8ee116ed5e7eab391c"
+          assert digest==q["sha256"] and v.stat().st_size==30394290
+          assert q["episode"]=="EP06" and q["revision"]=="R3"
+          assert q["unique_source_ids"]==9 and q["real_ratio"]==.75
+          assert q["distinct_original_mechanisms"]==3
+          assert len({str(c["pexels_id"]) for c in q["credits"]})==9
+          assert q["on_screen_caption_events"]>=69
+          assert q["burned_caption_profile"]["font_px"]>=36
+          assert q["burned_caption_profile"]["black_outline_px"]>=3
+          assert q["burned_caption_profile"]["ass_margin_bottom_px"]>=200
+          src=pathlib.Path("scripts/render_EP06_cargoship_R3.py").read_text()
+          assert "build_mobile_safe_ass(sub,out)" in src
+          assert '''f"subtitles='{ass}'"''' in src
+          subs=(d/"EP06_English_Subtitles.srt").read_text()
+          assert subs.count(" --> ")==69
+          subprocess.run(["ffmpeg","-v","error","-i",str(v),"-f","null","-"],check=True)
+          assert (d/"EP06_R3_Actual12Shot_Storyboard.jpg").stat().st_size>100000
+          print("PASS exact EP06 original verified hash, 9 separate real sources, 3 moving cutaways, subtitles and full MP4 decode")
+          PY
+      - name: Stage stable source URL for Make without social publication
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="mbl-ep06-r3-captioned-qa-staging"
+          video="EP06_stage/EP06_CargoShip_R3_Documentary_173s_PRIVATE_QA.mp4"
+          preview="EP06_stage/EP06_R3_Actual12Shot_Storyboard.jpg"
+          report="EP06_stage/EP06_R3_Technical_Source_QA.json"
+          subs="EP06_stage/EP06_English_Subtitles.srt"
+          if gh release view "$tag" --repo cloud424/motion-blueprint-lab-render >/dev/null 2>&1; then
+            gh release upload "$tag" "$video" "$preview" "$report" "$subs" --clobber --repo cloud424/motion-blueprint-lab-render
+          else
+            gh release create "$tag" "$video" "$preview" "$report" "$subs" \
+              --repo cloud424/motion-blueprint-lab-render \
+              --title "EP06 cargo ship captioned master - verified staging, not social published" \
+              --notes "Temporary upload surface for owner's Motion Blueprint Lab. 720x1280, 173.54s, original Kokoro English narration, 69 hard-burned mobile-safe English subtitles, 9 unique real licensed sources, 3 original moving mechanisms. Must finish rights/QA and use Make Fri 02:00 slot. This GitHub staging release is NOT social publication." \
+              --latest=false
+          fi
+          gh release view "$tag" --repo cloud424/motion-blueprint-lab-render --json assets --jq '.assets[] | [.name,.url] | @tsv'
