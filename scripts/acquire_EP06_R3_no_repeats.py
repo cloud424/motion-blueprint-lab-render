@@ -63,8 +63,8 @@ def fetch(s):
    exe=imageio_ffmpeg.get_ffmpeg_exe()
    checked=subprocess.run([exe,"-hide_banner","-i",str(target),"-frames:v","1","-an","-f","null","-"],capture_output=True,text=True,timeout=45)
    head=checked.stderr
-   dm=re.search(r"Duration:\\s*(\\d+):(\\d+):([\\d.]+)",head)
-   vm=re.search(r"Video:[^\\n]*?(\\d{3,5})x(\\d{3,5})",head)
+   dm=re.search(r"Duration:\s*(\d+):(\d+):([\d.]+)",head)
+   vm=re.search(r"Video:[^\n]*?(\d{3,5})x(\d{3,5})",head)
    if checked.returncode!=0 or not dm or not vm:raise ValueError("unverified real video")
    dur=int(dm.group(1))*3600+int(dm.group(2))*60+float(dm.group(3))
    ss=[{"width":int(vm.group(1)),"height":int(vm.group(2))}]
