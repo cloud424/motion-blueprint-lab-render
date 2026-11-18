@@ -1,0 +1,37 @@
+name: EP06 R3 | Acquire Diverse Footage No Repeats
+on:
+  push:
+    paths:
+      - 'scripts/acquire_EP06_R3_no_repeats.py'
+      - '.github/workflows/acquire_EP06_R3.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mbl-ep06-r3-footage
+  cancel-in-progress: true
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify preinstalled FFprobe and compile sources
+        run: |
+          if ! command -v ffprobe >/dev/null; then
+            timeout 180 sudo apt-get install -y -qq ffmpeg
+          fi
+          command -v ffprobe
+          python -m py_compile scripts/acquire_EP06_R3_no_repeats.py
+      - name: Acquire rights-documented unique cargo ships views
+        run: |
+          python scripts/acquire_EP06_R3_no_repeats.py
+      - name: Upload private footage, exact Pexels source URLs
+        uses: actions/upload-artifact@v4
+        with:
+          name: EP06_R3_UNIQUE_REAL_FOOTAGE
+          path: |
+            out_EP06_R3_NEW_CLIPS/*.mp4
+            out_EP06_R3_NEW_CLIPS/*.json
+          retention-days: 5
+          if-no-files-found: error
