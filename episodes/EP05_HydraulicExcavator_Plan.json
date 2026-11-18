@@ -1,0 +1,236 @@
+{
+  "episode": "EP05",
+  "topic": "How a Hydraulic Excavator Lifts Heavy Rocks",
+  "series": "Modern Engineering",
+  "status": "research_and_footage_acquisition_pending",
+  "targetRuntimeSec": 173.4,
+  "visualRules": {
+    "realFootageMinPct": 70,
+    "realFootageTargetPct": 75,
+    "realFootageMaxPct": 80,
+    "uniqueFootageMin": 8,
+    "uniqueFootageTarget": 9,
+    "eachSourceMaxUses": 1,
+    "animatedMechanisms": 3,
+    "fullFrameAction": true
+  },
+  "format": {
+    "width": 720,
+    "height": 1280,
+    "video": "H.264",
+    "audio": "AAC",
+    "narration": "English",
+    "captions": "time-aligned English"
+  },
+  "factualSources": [
+    "https://www.volvoce.com/en-us/discover/technologies-and-solutions/2025/understanding-excavator-hydraulics-part-1/",
+    "https://www.resources.nsw.gov.au/sites/default/files/documents/mdg-3007-hydraulic-safety.pdf"
+  ],
+  "footageCandidates": [
+    {
+      "id": "38889069",
+      "label": "Excavator moving rocks into crusher",
+      "url": "https://www.pexels.com/video/excavator-loading-rocks-at-construction-site-38889069/",
+      "contributor": "23 Audiovisual",
+      "listedDurationSeconds": 20,
+      "downloadVerified": false,
+      "commercialSourceTermsToVerify": "https://www.pexels.com/license/",
+      "status": "candidate_only"
+    },
+    {
+      "id": "38816326",
+      "label": "Excavator moving rocks",
+      "url": "https://www.pexels.com/video/excavator-in-action-at-construction-site-38816326/",
+      "contributor": "23 Audiovisual",
+      "listedDurationSeconds": 19,
+      "downloadVerified": false,
+      "commercialSourceTermsToVerify": "https://www.pexels.com/license/",
+      "status": "candidate_only"
+    },
+    {
+      "id": "29704052",
+      "label": "Aerial excavator moving rubble",
+      "url": "https://www.pexels.com/video/aerial-view-of-excavator-at-construction-site-29704052/",
+      "contributor": "K",
+      "listedDurationSeconds": 55,
+      "downloadVerified": false,
+      "commercialSourceTermsToVerify": "https://www.pexels.com/license/",
+      "status": "candidate_only"
+    },
+    {
+      "id": "40383867",
+      "label": "Excavator at urban construction site",
+      "url": "https://www.pexels.com/video/urban-construction-scene-with-excavator-40383867/",
+      "contributor": "Monirul Islam",
+      "listedDurationSeconds": 22,
+      "downloadVerified": false,
+      "commercialSourceTermsToVerify": "https://www.pexels.com/license/",
+      "status": "candidate_only"
+    },
+    {
+      "id": "35649966",
+      "label": "Excavator digging ground",
+      "url": "https://www.pexels.com/video/powerful-excavator-in-action-at-construction-site-35649966/",
+      "contributor": "Val A",
+      "listedDurationSeconds": 11,
+      "downloadVerified": false,
+      "commercialSourceTermsToVerify": "https://www.pexels.com/license/",
+      "status": "candidate_only"
+    },
+    {
+      "id": "36921336",
+      "label": "Excavator moving rocks winter",
+      "url": "https://www.pexels.com/video/excavator-digging-at-construction-site-in-winter-36921336/",
+      "contributor": "Naveed Roy",
+      "listedDurationSeconds": 9,
+      "downloadVerified": false,
+      "commercialSourceTermsToVerify": "https://www.pexels.com/license/",
+      "status": "candidate_only"
+    },
+    {
+      "id": "40383835",
+      "label": "Yellow excavator site",
+      "url": "https://www.pexels.com/video/excavator-operating-at-construction-site-outdoors-40383835/",
+      "contributor": "Harshal",
+      "listedDurationSeconds": 7,
+      "downloadVerified": false,
+      "commercialSourceTermsToVerify": "https://www.pexels.com/license/",
+      "status": "candidate_only"
+    },
+    {
+      "id": "38815023",
+      "label": "Rock breaking excavator",
+      "url": "https://www.pexels.com/video/excavator-on-rocky-construction-site-38815023/",
+      "contributor": "23 Audiovisual",
+      "listedDurationSeconds": 7,
+      "downloadVerified": false,
+      "commercialSourceTermsToVerify": "https://www.pexels.com/license/",
+      "status": "candidate_only"
+    },
+    {
+      "id": "38814898",
+      "label": "Excavator rock loading",
+      "url": "https://www.pexels.com/video/excavator-loading-rocks-at-construction-site-38814898/",
+      "contributor": "23 Audiovisual",
+      "listedDurationSeconds": 7,
+      "downloadVerified": false,
+      "commercialSourceTermsToVerify": "https://www.pexels.com/license/",
+      "status": "candidate_only"
+    }
+  ],
+  "scenes": [
+    {
+      "chapter": 1,
+      "mode": "live",
+      "visual": "full-frame loader gripping a rock, no explanatory boxes",
+      "uniqueSourceRequired": true,
+      "startSec": 0,
+      "durationSec": 14.45
+    },
+    {
+      "chapter": 2,
+      "mode": "live",
+      "visual": "side angle different original footage",
+      "uniqueSourceRequired": true,
+      "startSec": 14.45,
+      "durationSec": 14.45
+    },
+    {
+      "chapter": 3,
+      "mode": "mechanism",
+      "visual": "moving fluid pump and pressure/load arrows",
+      "uniqueSourceRequired": false,
+      "startSec": 28.9,
+      "durationSec": 14.45
+    },
+    {
+      "chapter": 4,
+      "mode": "live",
+      "visual": "real excavator and running hydraulics, label mechanics only when visible",
+      "uniqueSourceRequired": true,
+      "startSec": 43.35,
+      "durationSec": 14.45
+    },
+    {
+      "chapter": 5,
+      "mode": "mechanism",
+      "visual": "original multi-port moving spool valve cutaway",
+      "uniqueSourceRequired": false,
+      "startSec": 57.8,
+      "durationSec": 14.45
+    },
+    {
+      "chapter": 6,
+      "mode": "live",
+      "visual": "real visible boom cylinders extending",
+      "uniqueSourceRequired": true,
+      "startSec": 72.25,
+      "durationSec": 14.45
+    },
+    {
+      "chapter": 7,
+      "mode": "mechanism",
+      "visual": "original piston area, pressure and force animation F=P*A",
+      "uniqueSourceRequired": false,
+      "startSec": 86.7,
+      "durationSec": 14.45
+    },
+    {
+      "chapter": 8,
+      "mode": "live",
+      "visual": "side close up different source footage",
+      "uniqueSourceRequired": true,
+      "startSec": 101.15,
+      "durationSec": 14.45
+    },
+    {
+      "chapter": 9,
+      "mode": "live",
+      "visual": "wide real footage from site",
+      "uniqueSourceRequired": true,
+      "startSec": 115.6,
+      "durationSec": 14.45
+    },
+    {
+      "chapter": 10,
+      "mode": "live",
+      "visual": "real turning or moving excavator, avoid fictitious internal view",
+      "uniqueSourceRequired": true,
+      "startSec": 130.05,
+      "durationSec": 14.45
+    },
+    {
+      "chapter": 11,
+      "mode": "live",
+      "visual": "real operator adjusting machine; safety description not a procedure",
+      "uniqueSourceRequired": true,
+      "startSec": 144.5,
+      "durationSec": 14.45
+    },
+    {
+      "chapter": 12,
+      "mode": "live",
+      "visual": "new real clip finishing action with small moving schematic overlay",
+      "uniqueSourceRequired": true,
+      "startSec": 158.95,
+      "durationSec": 14.45
+    }
+  ],
+  "qualityGates": {
+    "licenseVerified": false,
+    "qualityVerified": false,
+    "uniqueVerified": false,
+    "originalityVerified": false,
+    "finalMp4Exists": false,
+    "completePlaybackVerified": false,
+    "publicMediaUrlVerified": false,
+    "approved": false
+  },
+  "actualAssets": [],
+  "publication": {
+    "status": "NOT_AUTHORIZED_YET",
+    "sourceKey": "motionblueprintlab:EP05:hydraulicexcavator-original-doc",
+    "anyPlatformPublished": false
+  },
+  "notes": "Research/shot plan only. DO NOT treat candidate URLs as downloaded or footage as commercial-rights-cleared. Never run publisher until all final video, clip rights and audio QA gates are verified. No paid video credits."
+}
