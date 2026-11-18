@@ -1,0 +1,111 @@
+name: EP06 R3 | Render Cargo Ship Documentary Private QA
+on:
+  workflow_run:
+    workflows:
+      - "EP06 R3 | Acquire Diverse Footage No Repeats"
+    types: [completed]
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/render_EP06_cargoship_R3.py'
+      - '.github/workflows/render_EP06_R3_cargoship.yml'
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: mbl-ep06-r3-render
+  cancel-in-progress: false
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile and validate EP06 source storyboard
+        run: |
+          python -m py_compile scripts/render_EP06_cargoship_R3.py
+          python - <<'PY'
+          import json
+          x=json.load(open('episodes/EP06_CargoShip_R3.json'))
+          assert len(x['scenes'])==12
+          assert sum(s['type']=='real' for s in x['scenes'])==9
+          assert sum(s['type']=='animation' for s in x['scenes'])==3
+          assert set(s.get('mechanism') for s in x['scenes'] if s['type']=='animation')=={'hull_pressure','displaced_volume','ship_stability'}
+          print('EP06 storyboard PASS')
+          PY
+  render:
+    needs: [validate]
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install FFmpeg, free Kokoro voice and image renderer
+        run: |
+          python -m pip install -q --disable-pip-version-check imageio-ffmpeg
+          mkdir -p "$RUNNER_TEMP/ffmpeg-tools"
+          python -c 'import imageio_ffmpeg,os; os.symlink(imageio_ffmpeg.get_ffmpeg_exe(),os.path.join(os.environ["RUNNER_TEMP"],"ffmpeg-tools","ffmpeg"))'
+          echo "$RUNNER_TEMP/ffmpeg-tools" >> "$GITHUB_PATH"
+          export PATH="$RUNNER_TEMP/ffmpeg-tools:$PATH"
+          ffmpeg -version | head -1
+          ffmpeg -filters | grep -E ' overlay| subtitles'
+          python -m pip install --disable-pip-version-check "torch==2.7.1" --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check "kokoro==0.9.4" "soundfile>=0.12" "numpy<3" "Pillow>=10" "espeakng-loader>=0.2"
+          python -m py_compile scripts/render_EP06_cargoship_R3.py
+      - name: Restore nine unique real licensed cargo-ship films
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p out_EP06_R3_NEW_CLIPS
+          if [ "${{ github.event_name }}" = "workflow_run" ]; then
+            ACQUIRE_RUN="${{ github.event.workflow_run.id }}"
+          else
+            ACQUIRE_RUN="$(gh run list --repo cloud424/motion-blueprint-lab-render --workflow acquire_EP06_R3.yml --status success --limit 1 --json databaseId --jq '.[0].databaseId')"
+          fi
+          if [ -z "$ACQUIRE_RUN" ]; then echo "No successful EP06 source run; do not render." >&2; exit 1; fi
+          gh run download "$ACQUIRE_RUN" --repo cloud424/motion-blueprint-lab-render --name EP06_R3_UNIQUE_REAL_FOOTAGE --dir out_EP06_R3_NEW_CLIPS
+          python - <<'PY'
+          import json,pathlib
+          folder=pathlib.Path("out_EP06_R3_NEW_CLIPS")
+          records=json.loads((folder/"EP06_R3_New_Footage_Manifest.json").read_text())
+          ids={str(x["pexels_id"]) for x in records}
+          assert len(ids)>=9
+          for item in records:
+              f=folder/(item["slug"]+".mp4")
+              assert f.is_file() and f.stat().st_size>100000
+              assert float(item["duration"])>=347/24
+          print("EP06 unique original source video bytes:",len(ids))
+          PY
+      - name: Render 9 genuine nonrepeated real shots, 3 original mechanics, narration
+        env:
+          HF_HUB_DISABLE_TELEMETRY: "1"
+          HF_HUB_DOWNLOAD_TIMEOUT: "120"
+          OMP_NUM_THREADS: "2"
+          MKL_NUM_THREADS: "2"
+        run: python scripts/render_EP06_cargoship_R3.py
+      - name: Validate full MP4 decode and unique original credits
+        run: |
+          test -s out_EP06_R3/EP06_CargoShip_R3_Documentary_173s_PRIVATE_QA.mp4
+          python - <<'PY'
+          import json,pathlib
+          r=json.loads(pathlib.Path("out_EP06_R3/EP06_R3_Technical_Source_QA.json").read_text())
+          assert r["published"] is False and r["qa_approval"]=="pending"
+          assert 172<=r["duration"]<=175
+          assert r["real_ratio"]==.75 and r["unique_source_ids"]==9
+          assert r["distinct_original_mechanisms"]==3
+          assert len({str(x["pexels_id"]) for x in r["credits"]})==9
+          print("Private candidate ready for independent visual/rights QA; no publication yet")
+          PY
+      - name: Private video and actual 12-shot preview for QA
+        uses: actions/upload-artifact@v4
+        with:
+          name: EP06_R3_CARGOSHIP_PRIVATE_QA
+          path: |
+            out_EP06_R3/EP06_CargoShip_R3_Documentary_173s_PRIVATE_QA.mp4
+            out_EP06_R3/EP06_R3_Actual12Shot_Storyboard.jpg
+            out_EP06_R3/EP06_R3_Technical_Source_QA.json
+            out_EP06_R3/EP06_English_Subtitles.srt
+          retention-days: 10
+          if-no-files-found: error
