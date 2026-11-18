@@ -173,7 +173,7 @@
   "notes": [
     "All real source page IDs and authors checked against Pexels 2026-11-18; don't imply vessel brand endorsements.",
     "SRT 69 cues; 40px hard-burned white English text with thick black outline and mobile-safe placement, full-resolution visual QA first/middle/end and 12-shot review.",
-    "Author-supplied existing sound preserved; English Kokoro narration, full MP4 decode, mean volume -25.3 dB, maximum -0.5 dB.",
+    "Original English Kokoro narration and original generated ambience retained; original stock footage sound discarded. Full MP4 decoded; voice mean -25.3 dB and peak -0.5 dB.",
     "No automatic TikTok success claim without native public author and private status."
   ],
   "fully_public": false
