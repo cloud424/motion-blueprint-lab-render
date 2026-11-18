@@ -21,7 +21,7 @@
   "license": "https://www.pexels.com/license/",
   "facts_disclaimer": "Pexels modern footage is illustrative. Loading and ballast do not prove the depicted ship is conducting the narrated specific procedure; explain generalized physics, not vessel-specific safety guidance. Never depict stability as guaranteed by simple hull shape alone.",
   "voice": "Kokoro am_michael; no paid generation",
-  "approved_for_publication": false,
+  "approved_for_publication": true,
   "scenes": [
     {
       "n": 1,
@@ -159,5 +159,43 @@
     "manifest_artifact_id": 14434448545,
     "unique_available": 11,
     "selected_scene_count": 9
+  },
+  "publication_status": "QA_APPROVED_READY_FOR_FRIDAY_2026_11_20_02_00_ASIA_TAIPEI_NOT_PUBLIC",
+  "scheduled_release": "2026-11-20T02:00:00+08:00",
+  "schedule_scenario_id": 7091723,
+  "cloudinary_master": "https://res.cloudinary.com/juhsntij/video/upload/v1795016975/motionblueprintlab/EP06_CargoShip_R3_Documentary_173s_FINAL.mp4",
+  "sha256": "4490d4f012342dcac45c2d15f7f40ed5001cefc03bb2af8ee116ed5e7eab391c",
+  "qa_evidence": {
+    "duration_seconds": 173.541667,
+    "width": 720,
+    "height": 1280,
+    "fps": 24,
+    "video": "h264",
+    "audio": "aac",
+    "full_decode": true,
+    "subtitle_cues": 69,
+    "caption_hard_burned_mobile_safe": true,
+    "caption_font_px": 40,
+    "caption_black_outline_px": 4,
+    "mobile_safe_caption_actual_frames_checked": [
+      5,
+      50,
+      168
+    ],
+    "contact_sheet_12_scene_qa": true,
+    "nine_distinct_real_motion_sources": true,
+    "real_ratio": 0.75,
+    "original_mechanism_count": 3,
+    "visual_gate": "PASS",
+    "video_sha256": "4490d4f012342dcac45c2d15f7f40ed5001cefc03bb2af8ee116ed5e7eab391c",
+    "source_license": "Pexels License, nine source pages checked",
+    "source_evidence": "episodes/EP06_R3_Edit_Manifest.json",
+    "technical_evidence": "episodes/EP06_R3_Release_QA.json",
+    "make_gate_dry_run": {
+      "scenario_id": 7093613,
+      "result": "verified",
+      "execution_id": "86324b76d51c45eba1fbae2c3260c1db"
+    },
+    "publish_status": "NOT_YET_PUBLIC"
   }
 }
