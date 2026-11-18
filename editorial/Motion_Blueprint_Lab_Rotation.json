@@ -1,0 +1,187 @@
+{
+  "project": "Motion Blueprint Lab",
+  "effective_from": "after EP06 has four-site native publication verification",
+  "reference_commitment": "Owner discussion 2026-11-14: alternate modern engineering and traditional/ancient manufacturing; illustrative topic pool below, original exact sequence NOT specified. Owner 2026-11-18 explicitly prioritizes sugar after EP06.",
+  "content_lanes": [
+    "modern_engineering",
+    "traditional_manufacturing"
+  ],
+  "rule": "If EP06 is modern_engineering, EP07 MUST be traditional_manufacturing/sugar, EP08 modern_engineering selected for new machinery, EP09 traditional_manufacturing/glass, EP10 modern_engineering, EP11 traditional_manufacturing/paper, etc. After each public-verified EP, advance only one slot. Never jump an unpublished episode or duplicate an already released topic; when a topic is unavailable, hold same EP and source new footage rather than publish lower quality. Do not take a historical image animation for real footage.",
+  "fixed_examples": [
+    {
+      "episode": "EP03",
+      "lane": "traditional_manufacturing",
+      "topic": "salt",
+      "state": "already_published"
+    },
+    {
+      "episode": "EP04",
+      "lane": "modern_engineering",
+      "topic": "wind_turbine",
+      "state": "already_published"
+    },
+    {
+      "episode": "EP05",
+      "lane": "modern_engineering",
+      "topic": "hydropower",
+      "state": "already_published_after_make_up"
+    },
+    {
+      "episode": "EP06",
+      "lane": "modern_engineering",
+      "topic": "cargo_ship_buoyancy",
+      "state": "in_production_or_pending_four_site_verification"
+    },
+    {
+      "episode": "EP07",
+      "lane": "traditional_manufacturing",
+      "topic": "sugar",
+      "state": "planned_after_EP06_four_site_public"
+    },
+    {
+      "episode": "EP08",
+      "lane": "modern_engineering",
+      "topic": "choose_non_duplicate",
+      "state": "planned"
+    },
+    {
+      "episode": "EP09",
+      "lane": "traditional_manufacturing",
+      "topic": "glass",
+      "state": "planned"
+    },
+    {
+      "episode": "EP10",
+      "lane": "modern_engineering",
+      "topic": "choose_non_duplicate",
+      "state": "planned"
+    },
+    {
+      "episode": "EP11",
+      "lane": "traditional_manufacturing",
+      "topic": "paper",
+      "state": "planned"
+    },
+    {
+      "episode": "EP12",
+      "lane": "modern_engineering",
+      "topic": "choose_non_duplicate",
+      "state": "planned"
+    },
+    {
+      "episode": "EP13",
+      "lane": "traditional_manufacturing",
+      "topic": "cement",
+      "state": "planned"
+    }
+  ],
+  "traditional_manufacturing_topic_pool": [
+    {
+      "topic_key": "sugar",
+      "zh": "製糖",
+      "en": "How People Made Sugar Before Modern Factories",
+      "priority": 1
+    },
+    {
+      "topic_key": "glass",
+      "zh": "玻璃製造",
+      "en": "How Glass Was Made From Sand",
+      "priority": 2
+    },
+    {
+      "topic_key": "paper",
+      "zh": "造紙",
+      "en": "How People Turned Plant Fibers Into Paper",
+      "priority": 3
+    },
+    {
+      "topic_key": "cement",
+      "zh": "水泥／膠結材料",
+      "en": "How Cement and Early Binding Materials Were Made",
+      "priority": 4
+    },
+    {
+      "topic_key": "iron",
+      "zh": "煉鐵",
+      "en": "How Early Iron Furnaces Worked",
+      "priority": 5
+    },
+    {
+      "topic_key": "charcoal",
+      "zh": "製炭",
+      "en": "How Charcoal Was Made",
+      "priority": 6
+    },
+    {
+      "topic_key": "oil_pressing",
+      "zh": "榨油",
+      "en": "How Early Oil Presses Worked",
+      "priority": 7
+    },
+    {
+      "topic_key": "soap",
+      "zh": "肥皂製造",
+      "en": "How Traditional Soap Was Made",
+      "priority": 8
+    },
+    {
+      "topic_key": "ceramics",
+      "zh": "陶瓷",
+      "en": "How Ceramics Were Fired",
+      "priority": 9
+    },
+    {
+      "topic_key": "bricks_tiles",
+      "zh": "磚瓦",
+      "en": "How Bricks and Tiles Were Fired",
+      "priority": 10
+    },
+    {
+      "topic_key": "printing",
+      "zh": "印刷",
+      "en": "How Traditional Printing Worked",
+      "priority": 11
+    },
+    {
+      "topic_key": "dyeing",
+      "zh": "染布",
+      "en": "How Natural Dyeing Worked",
+      "priority": 12
+    },
+    {
+      "topic_key": "weaving",
+      "zh": "紡織",
+      "en": "How Traditional Looms Worked",
+      "priority": 13
+    },
+    {
+      "topic_key": "waterwheel",
+      "zh": "水車",
+      "en": "How Waterwheels Powered Workshops",
+      "priority": 14
+    },
+    {
+      "topic_key": "ink",
+      "zh": "製墨",
+      "en": "How Traditional Ink Was Made",
+      "priority": 15
+    },
+    {
+      "topic_key": "candles",
+      "zh": "蠟燭製作",
+      "en": "How Traditional Candles Were Made",
+      "priority": 16
+    },
+    {
+      "topic_key": "salt",
+      "zh": "製鹽",
+      "en": "How People Made Salt",
+      "priority": 17,
+      "already_published": "EP03",
+      "repeat_policy": "Do not repeat an already published method; only revisit after new substantive technology"
+    }
+  ],
+  "visual_standard": "EP03 R3 adopted: 70-80% real licensed moving original footage, ideal nine uniquely sourced videos used ONCE each + 20-30% original kinetic engineering/craft cutaways; factual historical technologies verified to correct place/time; no fake historical film; 165-175 sec vertical English narration/subtitles; no publishing until full QA.",
+  "publication": "Monday Wednesday Friday 02:00 Asia/Taipei with Make 7091723, after pre-production on preceding Sun Tue Thu; all four public native URL verification; no paid credits without authorization.",
+  "state_policy": "This is a forward-looking editorial plan, NOT a publication claim or pre-approval of unmade episodes. Confirm actual Make/GitHub/published status each run."
+}
