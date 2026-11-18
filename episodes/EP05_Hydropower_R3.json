@@ -1,0 +1,173 @@
+{
+  "episode": "EP05",
+  "revision": "R3",
+  "channel": "Motion Blueprint Lab",
+  "topic": "How Can a Dam Turn Falling Water Into Electricity?",
+  "visual_type": "Cinematic science documentary, real footage dominant",
+  "target_duration_seconds": 173.5,
+  "scene_seconds": 14.45,
+  "real_source_target": 9,
+  "unique_original_mechanisms": [
+    "penstock_head",
+    "runner_vanes",
+    "magnetic_induction"
+  ],
+  "scientific_sources": [
+    "https://www.energy.gov/cmei/water/how-hydropower-works",
+    "https://www.energy.gov/cmei/water/types-hydropower-plants",
+    "https://www.energy.gov/cmei/water/types-hydropower-turbines"
+  ],
+  "license": "https://www.pexels.com/license/",
+  "facts_disclaimer": "Spillway water generally bypasses hydropower turbines; distinguish normal generating flow from flood bypass; any generic electrical equipment footage must be labeled representative.",
+  "voice": "Kokoro am_michael, no paid generation",
+  "approved_for_publication": false,
+  "scenes": [
+    {
+      "n": 1,
+      "type": "real",
+      "title": "A RIVER, A POWER PLANT",
+      "subtitle": "Moving water can generate electricity",
+      "clip_candidates": [
+        "powerplant_dam",
+        "dam_drone",
+        "tennessee_dam",
+        "dam_waterfall"
+      ],
+      "narration": "Look at this enormous dam. It appears motionless, but moving water can power an entire electric generator. The secret is not simply the waterfall you see. It is a controlled route through machinery hidden from view."
+    },
+    {
+      "n": 2,
+      "type": "real",
+      "title": "WATER STORES ENERGY",
+      "subtitle": "Elevation matters as much as flow",
+      "clip_candidates": [
+        "upper_reservoir",
+        "reservoir_view",
+        "curved_reservoir",
+        "green_hydro",
+        "forest_dam"
+      ],
+      "narration": "High above the river, a reservoir stores water at a higher elevation. Engineers call that height difference hydraulic head. Together with the amount of water moving through the system, the head helps determine the power that could be generated."
+    },
+    {
+      "n": 3,
+      "type": "animation",
+      "title": "THE HIDDEN WATER PATH",
+      "mechanism": "penstock_head",
+      "subtitle": "Reservoir → intake → penstock → turbine",
+      "narration": "Here is a simplified cross section. Water enters an intake, passes a control gate, then flows downhill through a large pressure conduit called a penstock. Its stored gravitational energy becomes moving water, ready to turn the turbine below."
+    },
+    {
+      "n": 4,
+      "type": "real",
+      "title": "WHY OPEN A SPILLWAY?",
+      "subtitle": "Flood bypass is not the turbine intake",
+      "clip_candidates": [
+        "spillway_rush",
+        "dam_gate",
+        "flowing_over",
+        "spillway_top",
+        "water_cascade"
+      ],
+      "narration": "A spillway may release water dramatically during high flows, but that water is usually bypassing the generating turbines. The electricity-producing flow normally follows a different intake and pressure passage. This distinction is easy to miss when viewing a dam from outside."
+    },
+    {
+      "n": 5,
+      "type": "real",
+      "title": "GATES MANAGE THE FLOW",
+      "subtitle": "Operators regulate how water enters",
+      "clip_candidates": [
+        "mountain_dam",
+        "dam_flow_aerial",
+        "river_dam",
+        "dam_waterfall",
+        "dam_gate"
+      ],
+      "narration": "Operators regulate water flow using gates and controls. Inside the power station, pressurized water reaches the turbine, where its energy turns a rotating shaft. Different river conditions require different turbine designs, so no single layout fits every site."
+    },
+    {
+      "n": 6,
+      "type": "animation",
+      "title": "THE WATER TURBINE",
+      "mechanism": "runner_vanes",
+      "subtitle": "Moving water makes the runner rotate",
+      "narration": "Inside this simplified reaction turbine, guide vanes steer water toward a central runner. The water changes direction as it passes the blades, producing torque on the rotating shaft. The exact blade shape depends on the turbine type and available head."
+    },
+    {
+      "n": 7,
+      "type": "animation",
+      "title": "THE GENERATOR",
+      "mechanism": "magnetic_induction",
+      "subtitle": "Rotating shaft → changing magnetic flux",
+      "narration": "The turbine shaft turns a generator. Relative motion between magnetic fields and coils changes the magnetic flux through the wiring. That induces voltage and produces electricity. A turbine is a hydraulic machine; the generator converts its mechanical rotation to electrical power."
+    },
+    {
+      "n": 8,
+      "type": "real",
+      "title": "ELECTRICITY LEAVES THE PLANT",
+      "subtitle": "Grid equipment carries the power onward",
+      "clip_candidates": [
+        "grid_aerial",
+        "substation_1",
+        "electric_panel",
+        "electric_lines"
+      ],
+      "narration": "Outside the generating machine, switchgear and transformers help deliver electrical power to the wider grid. This is representative grid footage, not the interior of the dam itself. Engineers manage voltage, protection and connection conditions before power travels onward."
+    },
+    {
+      "n": 9,
+      "type": "real",
+      "title": "THE WATER RETURNS",
+      "subtitle": "Water continues downstream",
+      "clip_candidates": [
+        "river_dam",
+        "powerful_water",
+        "dam_flow_aerial",
+        "mountain_dam",
+        "water_cascade"
+      ],
+      "narration": "After transferring energy in the turbine, the water exits through a passage called a draft tube or tailrace, then returns downstream. A dam can also release water by other routes for flood management, habitat needs or reservoir operations."
+    },
+    {
+      "n": 10,
+      "type": "real",
+      "title": "THE POWER GRID",
+      "subtitle": "Electricity crosses long distances",
+      "clip_candidates": [
+        "electric_lines",
+        "grid_clouds",
+        "substation_1",
+        "grid_aerial"
+      ],
+      "narration": "Transmission lines carry electricity from generating stations toward cities and industries. Hydropower can respond rapidly when electricity demand changes, but the amount available still depends on water storage, water flow, operating limits and environmental requirements."
+    },
+    {
+      "n": 11,
+      "type": "real",
+      "title": "A GIANT WATER BATTERY?",
+      "subtitle": "Pumped storage uses two reservoirs",
+      "clip_candidates": [
+        "reservoir_view",
+        "curved_reservoir",
+        "upper_reservoir",
+        "forest_dam",
+        "green_hydro"
+      ],
+      "narration": "Some projects add pumped storage, using surplus electricity to pump water back uphill to an upper reservoir. Later, the water flows down again to generate electricity. That acts like large-scale storage, but not every conventional hydropower dam includes this feature."
+    },
+    {
+      "n": 12,
+      "type": "real",
+      "title": "HIDDEN ENERGY, REVEALED",
+      "subtitle": "Head, flow, turbine, generator, grid",
+      "clip_candidates": [
+        "scenic_dam",
+        "forest_dam",
+        "green_hydro",
+        "tennessee_dam",
+        "dam_drone"
+      ],
+      "narration": "Here is the complete chain: elevated water moves through a controlled passage, turns a turbine, spins a generator and sends electricity to the grid. Hydropower is not magic. It is gravity, fluid motion and electromagnetic induction working together."
+    }
+  ]
+}
