@@ -31,7 +31,9 @@
         "powerplant_dam",
         "dam_drone",
         "tennessee_dam",
-        "dam_waterfall"
+        "dam_waterfall",
+        "dam_river_aerial",
+        "river_sunset_dam"
       ],
       "narration": "Look at this enormous dam. It appears motionless, but moving water can power an entire electric generator. The secret is not simply the waterfall you see. It is a controlled route through machinery hidden from view."
     },
@@ -45,7 +47,9 @@
         "reservoir_view",
         "curved_reservoir",
         "green_hydro",
-        "forest_dam"
+        "forest_dam",
+        "dam_river_aerial",
+        "river_sunset_dam"
       ],
       "narration": "High above the river, a reservoir stores water at a higher elevation. Engineers call that height difference hydraulic head. Together with the amount of water moving through the system, the head helps determine the power that could be generated."
     },
@@ -67,7 +71,9 @@
         "dam_gate",
         "flowing_over",
         "spillway_top",
-        "water_cascade"
+        "water_cascade",
+        "flowing_over_dam",
+        "dam_river_aerial"
       ],
       "narration": "A spillway may release water dramatically during high flows, but that water is usually bypassing the generating turbines. The electricity-producing flow normally follows a different intake and pressure passage. This distinction is easy to miss when viewing a dam from outside."
     },
@@ -81,7 +87,10 @@
         "dam_flow_aerial",
         "river_dam",
         "dam_waterfall",
-        "dam_gate"
+        "dam_gate",
+        "flowing_over_dam",
+        "river_sunset_dam",
+        "dam_river_aerial"
       ],
       "narration": "Operators regulate water flow using gates and controls. Inside the power station, pressurized water reaches the turbine, where its energy turns a rotating shaft. Different river conditions require different turbine designs, so no single layout fits every site."
     },
@@ -110,7 +119,12 @@
         "grid_aerial",
         "substation_1",
         "electric_panel",
-        "electric_lines"
+        "electric_lines",
+        "plant_grid_view",
+        "plant_grid_site",
+        "power_site",
+        "grid_substation_top",
+        "power_station_aerial"
       ],
       "narration": "Outside the generating machine, switchgear and transformers help deliver electrical power to the wider grid. This is representative grid footage, not the interior of the dam itself. Engineers manage voltage, protection and connection conditions before power travels onward."
     },
@@ -124,7 +138,10 @@
         "powerful_water",
         "dam_flow_aerial",
         "mountain_dam",
-        "water_cascade"
+        "water_cascade",
+        "dam_river_aerial",
+        "river_sunset_dam",
+        "flowing_over_dam"
       ],
       "narration": "After transferring energy in the turbine, the water exits through a passage called a draft tube or tailrace, then returns downstream. A dam can also release water by other routes for flood management, habitat needs or reservoir operations."
     },
@@ -137,7 +154,12 @@
         "electric_lines",
         "grid_clouds",
         "substation_1",
-        "grid_aerial"
+        "grid_aerial",
+        "power_station_aerial",
+        "grid_substation_top",
+        "plant_grid_site",
+        "grid_station_fence",
+        "plant_grid_view"
       ],
       "narration": "Transmission lines carry electricity from generating stations toward cities and industries. Hydropower can respond rapidly when electricity demand changes, but the amount available still depends on water storage, water flow, operating limits and environmental requirements."
     },
@@ -151,7 +173,9 @@
         "curved_reservoir",
         "upper_reservoir",
         "forest_dam",
-        "green_hydro"
+        "green_hydro",
+        "river_sunset_dam",
+        "dam_river_aerial"
       ],
       "narration": "Some projects add pumped storage, using surplus electricity to pump water back uphill to an upper reservoir. Later, the water flows down again to generate electricity. That acts like large-scale storage, but not every conventional hydropower dam includes this feature."
     },
@@ -165,7 +189,10 @@
         "forest_dam",
         "green_hydro",
         "tennessee_dam",
-        "dam_drone"
+        "dam_drone",
+        "river_sunset_dam",
+        "dam_river_aerial",
+        "flowing_over_dam"
       ],
       "narration": "Here is the complete chain: elevated water moves through a controlled passage, turns a turbine, spins a generator and sends electricity to the grid. Hydropower is not magic. It is gravity, fluid motion and electromagnetic induction working together."
     }
