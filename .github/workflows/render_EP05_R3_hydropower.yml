@@ -1,0 +1,82 @@
+name: EP05 R3 | Render Hydropower Documentary Private QA
+on:
+  workflow_run:
+    workflows:
+      - "EP05 R3 | Acquire Diverse Footage No Repeats"
+    types:
+      - completed
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: mbl-ep05-r3-render
+  cancel-in-progress: false
+jobs:
+  render:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install ffmpeg and open-weight English narration
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg espeak-ng libgl1
+          python -m pip install --disable-pip-version-check "torch==2.7.1" --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check "kokoro==0.9.4" "soundfile>=0.12" "numpy<3" "Pillow>=10"
+          python -m py_compile scripts/render_EP05_hydropower_R3.py
+      - name: Restore exact source-acquisition artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p out_EP05_R3_NEW_CLIPS
+          if [ "${{ github.event_name }}" = "workflow_run" ]; then
+            ACQUIRE_RUN="${{ github.event.workflow_run.id }}"
+          else
+            ACQUIRE_RUN="$(gh run list --repo cloud424/motion-blueprint-lab-render --workflow acquire_EP05_R3.yml --status success --limit 1 --json databaseId --jq '.[0].databaseId')"
+          fi
+          if [ -z "$ACQUIRE_RUN" ]; then
+            echo "No successful EP05 licensed footage-acquisition artifact" >&2
+            exit 1
+          fi
+          gh run download "$ACQUIRE_RUN" --repo cloud424/motion-blueprint-lab-render --name EP05_R3_UNIQUE_REAL_FOOTAGE --dir out_EP05_R3_NEW_CLIPS
+          test -s out_EP05_R3_NEW_CLIPS/EP05_R3_New_Footage_Manifest.json
+      - name: Render 9 real clips once plus 3 original mechanical cutaways
+        env:
+          HF_HUB_DISABLE_TELEMETRY: "1"
+          HF_HUB_DOWNLOAD_TIMEOUT: "120"
+          OMP_NUM_THREADS: "2"
+          MKL_NUM_THREADS: "2"
+        run: |
+          python scripts/render_EP05_hydropower_R3.py
+      - name: Final safety gate and source proof
+        run: |
+          test -s out_EP05_R3/EP05_Hydropower_R3_Documentary_173s_PRIVATE_QA.mp4
+          python - <<'PY'
+          import json, pathlib
+          p=pathlib.Path("out_EP05_R3/EP05_R3_Technical_Source_QA.json")
+          d=json.loads(p.read_text())
+          assert d["published"] is False
+          assert d["qa_approval"] == "pending"
+          assert d["real_ratio"] >= 0.75
+          assert d["unique_source_ids"] == 9
+          assert d["distinct_original_mechanisms"] == 3
+          assert 172 <= d["duration"] <= 175
+          assert len(set(x["pexels_id"] for x in d["credits"])) == 9
+          print("PASS: EP05 source, duration, and no-repeat gates; publication remains blocked")
+          PY
+      - name: Private preview master and actual 12-shot proof
+        uses: actions/upload-artifact@v4
+        with:
+          name: EP05_R3_HYDROPOWER_PRIVATE_QA
+          path: |
+            out_EP05_R3/EP05_Hydropower_R3_Documentary_173s_PRIVATE_QA.mp4
+            out_EP05_R3/EP05_R3_Actual12Shot_Storyboard.jpg
+            out_EP05_R3/EP05_R3_Technical_Source_QA.json
+            out_EP05_R3/EP05_English_Subtitles.srt
+          retention-days: 10
+          if-no-files-found: error
