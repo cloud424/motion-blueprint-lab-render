@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """EP06 R3: retrieve only inspected Pexels source pages; no paid generation or publishing."""
-import json, pathlib, urllib.request, urllib.error, subprocess, concurrent.futures, shutil, time
+import json, pathlib, urllib.request, urllib.error, subprocess, concurrent.futures, shutil, time, re
+import imageio_ffmpeg
 out=pathlib.Path("out_EP06_R3_NEW_CLIPS");out.mkdir(parents=True,exist_ok=True)
 # (slug, Pexels ID, full source page, contributor, fps hints, dimension)
 sources=[
@@ -59,9 +60,15 @@ def fetch(s):
    with urllib.request.urlopen(req,timeout=9) as resp,open(target,"wb") as fw:
     shutil.copyfileobj(resp,fw)
    if target.stat().st_size<90000:raise ValueError("tiny")
-   inf=json.loads(subprocess.check_output(["ffprobe","-v","error","-show_format","-show_streams","-of","json",str(target)]))
-   dur=float(inf["format"]["duration"]);ss=[x for x in inf["streams"] if x.get("codec_type")=="video"]
-   if not ss or dur<14.4:raise ValueError("video shorter than one 14.45s scene")
+   exe=imageio_ffmpeg.get_ffmpeg_exe()
+   checked=subprocess.run([exe,"-hide_banner","-i",str(target),"-frames:v","1","-an","-f","null","-"],capture_output=True,text=True,timeout=45)
+   head=checked.stderr
+   dm=re.search(r"Duration:\\s*(\\d+):(\\d+):([\\d.]+)",head)
+   vm=re.search(r"Video:[^\\n]*?(\\d{3,5})x(\\d{3,5})",head)
+   if checked.returncode!=0 or not dm or not vm:raise ValueError("unverified real video")
+   dur=int(dm.group(1))*3600+int(dm.group(2))*60+float(dm.group(3))
+   ss=[{"width":int(vm.group(1)),"height":int(vm.group(2))}]
+   if dur<14.45:raise ValueError("video shorter than one 14.45s scene")
    print("SUCCESS",slug,round(dur,2),round(target.stat().st_size/1024**2,2),flush=True)
    return dict(slug=slug,pexels_id=vid,page=page,contributor=author,url=u,duration=dur,bytes=target.stat().st_size,license="https://www.pexels.com/license/",width=ss[0].get("width"),height=ss[0].get("height"),sound="original source audio will be removed")
   except urllib.error.HTTPError as e:
