@@ -1,0 +1,105 @@
+{
+  "episode": "EP06",
+  "revision": "R3",
+  "sha256": "4490d4f012342dcac45c2d15f7f40ed5001cefc03bb2af8ee116ed5e7eab391c",
+  "actual_duration_seconds": 173.541667,
+  "codec": "H264/AAC",
+  "resolution": "720x1280",
+  "fps": 24,
+  "subtitle_cues": 69,
+  "hard_burned_english_subtitles": true,
+  "actual_sample_frames_checked": [
+    5,
+    18,
+    34,
+    47,
+    50,
+    63,
+    78,
+    94,
+    110,
+    126,
+    142,
+    157,
+    168,
+    170
+  ],
+  "mobile_caption_safe_zone_test": "PASS 40px white bold with black outline, y≈860-1030",
+  "full_video_decoded_without_errors": true,
+  "voice_mean_db": -25.3,
+  "voice_peak_db": -0.5,
+  "distinct_sources": 9,
+  "all_nine_sources_published_on_pexels": true,
+  "license_url": "https://www.pexels.com/license/",
+  "unique_three_kinetic_animations": true,
+  "real_ratio": 0.75,
+  "visual_motion_checked_real_chapters": [
+    1,
+    2,
+    4,
+    5,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "source_links": [
+    {
+      "chapter": 1,
+      "id": "6857819",
+      "author": "Alexander Bobrov",
+      "url": "https://www.pexels.com/video/aerial-footage-of-cargo-ship-6857819/"
+    },
+    {
+      "chapter": 2,
+      "id": "10458151",
+      "author": "Glenn Langhorst",
+      "url": "https://www.pexels.com/video/filled-with-containers-ship-in-commercial-dock-10458151/"
+    },
+    {
+      "chapter": 4,
+      "id": "13898678",
+      "author": "Edward Rode",
+      "url": "https://www.pexels.com/video/freighter-on-water-13898678/"
+    },
+    {
+      "chapter": 5,
+      "id": "3058057",
+      "author": "Tom Fisk",
+      "url": "https://www.pexels.com/video/heavy-machinery-used-in-seaports-unloading-containers-from-a-cargo-ship-3058057/"
+    },
+    {
+      "chapter": 8,
+      "id": "13843737",
+      "author": "wowi allinsky",
+      "url": "https://www.pexels.com/video/boat-on-sea-in-slow-motion-13843737/"
+    },
+    {
+      "chapter": 9,
+      "id": "6595362",
+      "author": "K",
+      "url": "https://www.pexels.com/video/aerial-view-of-container-freight-station-6595362/"
+    },
+    {
+      "chapter": 10,
+      "id": "16992876",
+      "author": "Seven Seil",
+      "url": "https://www.pexels.com/video/a-large-cargo-ship-is-traveling-through-the-ocean-16992876/"
+    },
+    {
+      "chapter": 11,
+      "id": "10452360",
+      "author": "Glenn Langhorst",
+      "url": "https://www.pexels.com/video/container-ship-in-harbor-10452360/"
+    },
+    {
+      "chapter": 12,
+      "id": "5091870",
+      "author": "Wildo Ríos Méndez",
+      "url": "https://www.pexels.com/video/aerial-view-of-a-shipping-port-5091870/"
+    }
+  ],
+  "assessment": "Production and technical QA passed; scheduled release still pending. Verify native URLs after Make execution. Avoid any before-time publish.",
+  "reviewed_local_preview": "EP06_R3_CARGOSHIP_PRIVATE_QA.zip"
+}
