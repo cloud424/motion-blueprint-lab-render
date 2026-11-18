@@ -1,0 +1,177 @@
+{
+  "episode": "EP06",
+  "revision": "R3",
+  "channel": "Motion Blueprint Lab",
+  "topic": "How Do Giant Cargo Ships Float Without Sinking?",
+  "visual_type": "Cinematic real-footage engineering documentary, 75% genuine moving film, 25% original scientific animations",
+  "target_duration_seconds": 173.5,
+  "scene_seconds": 14.458333333333334,
+  "real_source_target": 9,
+  "unique_original_mechanisms": [
+    "hull_pressure",
+    "displaced_volume",
+    "ship_stability"
+  ],
+  "scientific_sources": [
+    "https://www.noaa.gov/office-education/outreach-communication/hands-on-science-activities/build-a-boat",
+    "https://opennaoe.org/books/hydrostatics-stability/ch01/",
+    "https://www.nationalacademies.org/read/5294/chapter/11",
+    "https://www.dco.uscg.mil/Portals/9/DCO%20Documents/5p/CG-5PC/INV/docs/boards/ELFAROROIfinal.pdf"
+  ],
+  "license": "https://www.pexels.com/license/",
+  "facts_disclaimer": "Pexels modern footage is illustrative. Loading and ballast do not prove the depicted ship is conducting the narrated specific procedure; explain generalized physics, not vessel-specific safety guidance. Never depict stability as guaranteed by simple hull shape alone.",
+  "voice": "Kokoro am_michael; no paid generation",
+  "approved_for_publication": false,
+  "scenes": [
+    {
+      "n": 1,
+      "type": "real",
+      "title": "GIANTS ON THE OCEAN",
+      "subtitle": "Thousands of tonnes — and still floating",
+      "clip_candidates": [
+        "ship_open_ocean",
+        "ship_colorful",
+        "ship_freighter",
+        "ship_parade",
+        "ship_calm"
+      ],
+      "narration": "How can a steel ship carry thousands of containers without sinking? This giant vessel may weigh more than an entire neighborhood of buildings. Yet its hull stays afloat. The explanation begins with the water it pushes aside, not with steel being light."
+    },
+    {
+      "n": 2,
+      "type": "real",
+      "title": "STEEL IS HEAVY",
+      "subtitle": "Shape matters more than the metal",
+      "clip_candidates": [
+        "ship_docked",
+        "ship_port",
+        "ship_stacks",
+        "ship_commercial",
+        "ship_riverport"
+      ],
+      "narration": "Look at the loaded deck. Steel, engines, fuel and cargo all pull the ship downward. But its hull encloses a huge volume of space. The ship can move enough seawater aside to support that total weight, even though steel itself is denser than water."
+    },
+    {
+      "n": 3,
+      "type": "animation",
+      "title": "PRESSURE UNDER THE HULL",
+      "subtitle": "Deeper water presses harder",
+      "mechanism": "hull_pressure",
+      "narration": "This moving cross section shows water pressure acting on the underwater hull. Pressure increases with depth. The upward components of these forces add together, producing buoyancy. For a floating ship, that upward force balances the weight pulling down. The diagram is simplified."
+    },
+    {
+      "n": 4,
+      "type": "real",
+      "title": "THE HULL SHAPE",
+      "subtitle": "An enormous hollow volume displaces water",
+      "clip_candidates": [
+        "ship_coast",
+        "ship_harbor",
+        "ship_freighter",
+        "ship_calm",
+        "ship_bermuda"
+      ],
+      "narration": "Watch the long hull move through the water. It is not a solid block of steel. Compartments and enclosed spaces make the ship's average density low enough to float. The shape also decides how much water is displaced at each depth of the hull."
+    },
+    {
+      "n": 5,
+      "type": "real",
+      "title": "LOAD MORE, SIT DEEPER",
+      "subtitle": "More cargo changes the draft",
+      "clip_candidates": [
+        "ship_loading",
+        "ship_crane",
+        "ship_loaders",
+        "ship_dock",
+        "ship_bustle"
+      ],
+      "narration": "When a crane loads additional containers, the ship gets heavier. It sinks slightly deeper until it displaces more water. The distance from the waterline to the bottom of the hull is called draft. Operators monitor draft and loading limits carefully."
+    },
+    {
+      "n": 6,
+      "type": "animation",
+      "title": "ARCHIMEDES' PRINCIPLE",
+      "subtitle": "Floating weight equals displaced water",
+      "mechanism": "displaced_volume",
+      "narration": "Here is Archimedes' principle in motion. The hull moves lower as cargo increases, pushing aside a larger volume of seawater. The weight of that displaced water equals the ship's total weight when it floats at rest. No mysterious force is required."
+    },
+    {
+      "n": 7,
+      "type": "animation",
+      "title": "WHY IT DOESN'T ROLL OVER",
+      "subtitle": "Gravity and buoyancy create stability",
+      "mechanism": "ship_stability",
+      "narration": "Floating is only half the challenge. A vessel must also stay stable when wind or waves make it heel. The center of buoyancy moves as the underwater shape changes. With suitable loading and hull design, that shift helps create a restoring moment."
+    },
+    {
+      "n": 8,
+      "type": "real",
+      "title": "WAVES AND ROLL",
+      "subtitle": "The sea keeps pushing on the hull",
+      "clip_candidates": [
+        "ship_parade",
+        "ship_open_ocean",
+        "ship_freighter",
+        "ship_sunset",
+        "ship_bermuda"
+      ],
+      "narration": "Out at sea, waves tilt and lift the hull. Engineers analyze these motions, not just the ship's weight. Stability depends on hull geometry and where heavy cargo sits. A high stack of containers can raise the center of gravity and require careful checks."
+    },
+    {
+      "n": 9,
+      "type": "real",
+      "title": "STACKING WITH CARE",
+      "subtitle": "Cargo distribution is an engineering task",
+      "clip_candidates": [
+        "ship_crane",
+        "ship_loading",
+        "ship_loaders",
+        "ship_stacks",
+        "ship_bustle"
+      ],
+      "narration": "At the terminal, the loading plan is more than a packing puzzle. Crews must consider mass, location and securing arrangements. Cargo placed high or unevenly can affect stability and strength. This loading footage is illustrative, not a safety demonstration."
+    },
+    {
+      "n": 10,
+      "type": "real",
+      "title": "BALLAST AND TRIM",
+      "subtitle": "Water tanks help balance the ship",
+      "clip_candidates": [
+        "ship_river",
+        "ship_riverport",
+        "ship_mooring",
+        "ship_docked",
+        "ship_port"
+      ],
+      "narration": "Large ships can pump seawater into ballast tanks to adjust draft and trim when cargo changes. Ballast helps manage balance, but it adds weight too. Ballast handling follows environmental rules, because moving water between ports can transfer living organisms."
+    },
+    {
+      "n": 11,
+      "type": "real",
+      "title": "A MOVING HARBOR",
+      "subtitle": "Maneuvering demands different controls",
+      "clip_candidates": [
+        "ship_tug",
+        "ship_harbor",
+        "ship_terminal",
+        "ship_dock",
+        "ship_mooring"
+      ],
+      "narration": "As the vessel enters a port, draft, current and wind all matter. Tugboats may help position enormous hulls. Buoyancy keeps the ship afloat, while propulsion and steering control its movement. These are different engineering systems working together."
+    },
+    {
+      "n": 12,
+      "type": "real",
+      "title": "THE SECRET OF FLOATING STEEL",
+      "subtitle": "Weight, displaced water and stability",
+      "clip_candidates": [
+        "ship_colorful",
+        "ship_calm",
+        "ship_open_ocean",
+        "ship_coast",
+        "ship_sunset"
+      ],
+      "narration": "So why can a massive steel cargo ship float? It displaces enough water to balance its weight, and its hull and loading arrangement help it remain stable. Shape, draft, cargo and center of gravity all matter. That is buoyancy at industrial scale."
+    }
+  ]
+}
