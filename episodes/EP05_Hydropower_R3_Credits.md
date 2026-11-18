@@ -1,6 +1,6 @@
-# EP05 R3 — Hydropower Documentary | Source & Rights Audit
+# EP05 R4 — Hydropower Documentary | Public Footage & Rights Credits (same footage as R3)
 
-Status: **PRIVATE QA MASTER, NOT YET PUBLISHED** (2026-11-18). All original source IDs different; each source clip used once for a separate chapter. Target release slot: 2026-11-20 02:00 Asia/Taipei only after independent visual/audio/rights QA and staging to the approved Make queue.
+Status: **EP05 R4 published and verified on four platforms (2026-11-18)**. The corrected R4 version retains the nine verified R3 footage sources, original motion diagrams and narration; it adds readable permanently burned-in English subtitles. Canonical release receipt: [published/EP05.json](../published/EP05.json).
 
 ## Real footage credits
 
@@ -33,5 +33,5 @@ Pexels License: https://www.pexels.com/license/ (free commercial adaptation, sub
 
 ## QA and archive policy
 
-- No publication until the **corrected** final MP4 passes frame, subtitle, voice, source, duration, integrity and native-platform checks.
-- The preview technical report and SHA-256 are preserved in GitHub Actions artifacts until publication; create `published/EP05.json` only after all 4 sites verified. Never commit large MP4 bytes to Git.
+- Corrected R4 passed frame, subtitle, voice, licensing, duration, integrity and four-platform public checks before this credit sheet was updated.
+- Preserve the compact release receipt in `published/EP05.json` and source records; never commit full MP4 bytes to Git.
