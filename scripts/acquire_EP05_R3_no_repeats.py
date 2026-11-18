@@ -28,7 +28,19 @@ sources=[
 ("grid_clouds","15357264","https://www.pexels.com/video/moving-clouds-over-a-transmission-tower-15357264/","C A",[24,25,30],"landscape"),
 ("substation_1","10008388","https://www.pexels.com/video/transformers-at-the-electrical-substation-10008388/","Andrey Kirievskiy",[25,24,30],"landscape"),
 ("grid_aerial","30915831","https://www.pexels.com/video/aerial-view-of-power-substation-infrastructure-30915831/","Toan BDS",[30,24,25],"landscape"),
-("electric_panel","28886877","https://www.pexels.com/video/technician-operating-electrical-control-panel-28886877/","ranjeet",[30,24,25],"landscape")
+("electric_panel","28886877","https://www.pexels.com/video/technician-operating-electrical-control-panel-28886877/","ranjeet",[30,24,25],"landscape"),
+("flowing_over_dam","36034930","https://www.pexels.com/video/aerial-view-of-water-flowing-over-dam-36034930/","Aman Sandhu",[30,24,25],"landscape"),
+("river_sunset_dam","12486332","https://www.pexels.com/video/dam-on-river-12486332/","Tom Fisk",[30,29,25],"landscape"),
+("dam_river_aerial","20350207","https://www.pexels.com/video/an-aerial-view-of-a-dam-and-water-20350207/","DeLuca G",[60,30,24],"landscape"),
+("plant_grid_site","30915327","https://www.pexels.com/video/aerial-view-of-industrial-power-plant-facility-30915327/","Toan BDS",[60,30,25],"landscape"),
+("plant_grid_view","30915332","https://www.pexels.com/video/aerial-view-of-industrial-power-plant-facility-30915332/","Toan BDS",[60,30,25],"landscape"),
+("power_site","35035269","https://www.pexels.com/video/aerial-view-of-industrial-power-plant-site-35035269/","Jonathan David",[30,25,24],"landscape"),
+("power_station_aerial","10416553","https://www.pexels.com/video/aerial-view-on-power-station-10416553/","Thanh Van",[30,25,24],"landscape"),
+("grid_substation_top","30915325","https://www.pexels.com/video/aerial-view-of-modern-power-plant-facility-30915325/","Toan BDS",[60,30,25],"landscape"),
+("grid_station_fence","30915324","https://www.pexels.com/video/aerial-view-of-electricity-substation-with-solar-panels-30915324/","Toan BDS",[60,30,25],"landscape"),
+("power_station_drones","30915975","https://www.pexels.com/video/aerial-view-of-industrial-power-plant-facility-30915975/","Toan BDS",[60,30,25],"landscape"),
+("fossil_plant_generic","6216793","https://www.pexels.com/video/drone-footage-of-a-power-plant-6216793/","Andreu Marques",[60,30,25],"landscape"),
+("power_plant_urban","34649215","https://www.pexels.com/video/aerial-view-of-industrial-power-plant-in-cityscape-34649215/","David Pickup",[60,30,25],"landscape")
 ]
 def fetch(s):
  slug,vid,page,author,ratehints,orient=s
