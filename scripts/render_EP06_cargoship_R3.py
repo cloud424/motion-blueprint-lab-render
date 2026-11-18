@@ -382,6 +382,50 @@ def subtitles(scenes, speech_times, outdir):
     return path,len(cues)
 
 
+
+def build_mobile_safe_ass(subtitle_srt,outdir):
+    """Burn actual English captions in video pixels above the Shorts/Reels UI overlay."""
+    from PIL import ImageFont
+    font=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",40)
+    def wrap(txt):
+        lines=[];cur=""
+        for word in txt.split():
+            proposed=(cur+" "+word).strip()
+            if font.getlength(proposed)>640 and cur:
+                lines.append(cur);cur=word
+            else:cur=proposed
+        if cur:lines.append(cur)
+        return r"\N".join(lines)
+    def conv(ts):
+        h,m,x=ts.split(":");sec,ms=x.split(",")
+        return f"{int(h)}:{int(m):02}:{int(sec):02}.{int(ms)//10:02}"
+    header="""[Script Info]
+Title: EP06 Mobile-Safe Hard Captions
+ScriptType: v4.00+
+PlayResX: 720
+PlayResY: 1280
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+YCbCr Matrix: TV.709
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Main,DejaVu Sans,40,&H00FFFFFF,&H000000FF,&H00000000,&H66000000,-1,0,0,0,100,100,0,0,1,4,1,2,45,45,264,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+"""
+    events=[]
+    for block in re.split(r"\n\s*\n",subtitle_srt.read_text(encoding="utf-8-sig").strip()):
+        q=block.splitlines()
+        if len(q)<3:continue
+        begin,end=q[1].split(" --> ")
+        events.append(f"Dialogue: 0,{conv(begin)},{conv(end)},Main,,0,0,0,,{wrap(' '.join(q[2:]))}")
+    if len(events)<30:raise RuntimeError("Too few caption events: block publication")
+    dst=outdir/"EP06_R3_MobileSafe_English_Captions.ass"
+    dst.write_text(header+"\n".join(events)+"\n",encoding="utf-8")
+    return dst,len(events)
+
 def ambience(sr,n,outdir):
     t=np.arange(n,dtype=np.float32)/sr
     a=np.zeros(n,dtype=np.float32)
@@ -435,8 +479,10 @@ def main():
     vox,speachtimes,sr,data=voice_scenes(scenes,out)
     mus=ambience(sr,len(data),out)
     sub,ncues=subtitles(scenes,speachtimes,out)
+    ass,hardcues=build_mobile_safe_ass(sub,out)
+    assert hardcues==ncues
     final=out/"EP06_CargoShip_R3_Documentary_173s_PRIVATE_QA.mp4"
-    filt=f"subtitles='{sub}':force_style='FontName=DejaVu Sans,FontSize=7,PrimaryColour=&H00FFFFFF,OutlineColour=&H00151515,Outline=1,Shadow=0,Alignment=2,MarginV=27'"
+    filt=f"subtitles='{ass}'"
     run(["ffmpeg","-hide_banner","-loglevel","error","-y",
          "-i",merged,"-i",vox,"-i",mus,
          "-filter_complex",f"[0:v]{filt}[v];[1:a]volume=1.35[s];[2:a]volume=0.65[m];[s][m]amix=inputs=2:duration=first:normalize=0[a]",
@@ -470,7 +516,7 @@ def main():
         "published":False,"qa_approval":"pending",
         "media":final.name,"sha256":sha256(final),"duration":duration,"width":720,"height":1280,"fps":24,
         "real_seconds":9*SCENE_SEC,"real_ratio":.75,"unique_source_ids":len({r["pexels_id"] for r in selected.values()}),
-        "distinct_original_mechanisms":3,"on_screen_caption_events":ncues,
+        "distinct_original_mechanisms":3,"on_screen_caption_events":ncues,"burned_caption_profile":{"font_px":40,"black_outline_px":4,"ass_margin_bottom_px":264,"play_res":[720,1280],"pixel_overlay_required":True},
         "scientific_sources":raw["scientific_sources"],"credits":credits,
         "notes":["Every source used only once; all real footage is modern and illustrative",
                  "Flood spillways bypass generating turbines: text explicitly distinguishes these paths",
