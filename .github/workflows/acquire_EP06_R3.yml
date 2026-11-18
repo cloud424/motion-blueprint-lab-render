@@ -16,12 +16,9 @@ jobs:
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
-      - name: Verify preinstalled FFprobe and compile sources
+      - name: Install portable video probe and compile sources
         run: |
-          if ! command -v ffprobe >/dev/null; then
-            timeout 180 sudo apt-get install -y -qq ffmpeg
-          fi
-          command -v ffprobe
+          python -m pip install --disable-pip-version-check -q imageio-ffmpeg
           python -m py_compile scripts/acquire_EP06_R3_no_repeats.py
       - name: Acquire rights-documented unique cargo ships views
         run: |
