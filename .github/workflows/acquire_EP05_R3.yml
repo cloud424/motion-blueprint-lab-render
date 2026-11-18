@@ -16,10 +16,9 @@ jobs:
     timeout-minutes: 24
     steps:
       - uses: actions/checkout@v4
-      - name: Install ffprobe and verify script
+      - name: Verify preinstalled FFprobe and compile sources
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y ffmpeg
+          ffprobe -version | head -1
           python -m py_compile scripts/acquire_EP05_R3_no_repeats.py
       - name: Acquire rights-documented unique hydropower views
         run: |
