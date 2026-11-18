@@ -28,12 +28,13 @@
       "title": "A RIVER, A POWER PLANT",
       "subtitle": "Moving water can generate electricity",
       "clip_candidates": [
-        "powerplant_dam",
+        "dam_drone_new",
         "dam_drone",
         "tennessee_dam",
+        "river_sunset_dam",
+        "powerplant_dam",
         "dam_waterfall",
-        "dam_river_aerial",
-        "river_sunset_dam"
+        "dam_river_aerial"
       ],
       "narration": "Look at this enormous dam. It appears motionless, but moving water can power an entire electric generator. The secret is not simply the waterfall you see. It is a controlled route through machinery hidden from view."
     },
@@ -44,12 +45,13 @@
       "subtitle": "Elevation matters as much as flow",
       "clip_candidates": [
         "upper_reservoir",
+        "dam_above_stream",
+        "river_sunset_dam",
         "reservoir_view",
         "curved_reservoir",
         "green_hydro",
         "forest_dam",
-        "dam_river_aerial",
-        "river_sunset_dam"
+        "dam_river_aerial"
       ],
       "narration": "High above the river, a reservoir stores water at a higher elevation. Engineers call that height difference hydraulic head. Together with the amount of water moving through the system, the head helps determine the power that could be generated."
     },
@@ -68,6 +70,9 @@
       "subtitle": "Flood bypass is not the turbine intake",
       "clip_candidates": [
         "spillway_rush",
+        "dam_flowtop",
+        "water_dam_pour",
+        "water_discharge_pipe",
         "dam_gate",
         "flowing_over",
         "spillway_top",
@@ -83,10 +88,14 @@
       "title": "GATES MANAGE THE FLOW",
       "subtitle": "Operators regulate how water enters",
       "clip_candidates": [
+        "dam_waterfall",
+        "water_discharge_pipe",
+        "water_dam_pour",
+        "dam_flowtop",
+        "dam_river_2",
         "mountain_dam",
         "dam_flow_aerial",
         "river_dam",
-        "dam_waterfall",
         "dam_gate",
         "flowing_over_dam",
         "river_sunset_dam",
@@ -116,6 +125,12 @@
       "title": "ELECTRICITY LEAVES THE PLANT",
       "subtitle": "Grid equipment carries the power onward",
       "clip_candidates": [
+        "real_substation",
+        "grid_large_substation",
+        "power_station_aerial",
+        "grid_powerlines",
+        "grid_river",
+        "grid_waterways",
         "grid_aerial",
         "substation_1",
         "electric_panel",
@@ -123,8 +138,7 @@
         "plant_grid_view",
         "plant_grid_site",
         "power_site",
-        "grid_substation_top",
-        "power_station_aerial"
+        "grid_substation_top"
       ],
       "narration": "Outside the generating machine, switchgear and transformers help deliver electrical power to the wider grid. This is representative grid footage, not the interior of the dam itself. Engineers manage voltage, protection and connection conditions before power travels onward."
     },
@@ -134,12 +148,15 @@
       "title": "THE WATER RETURNS",
       "subtitle": "Water continues downstream",
       "clip_candidates": [
+        "dam_river_2",
+        "dam_river_aerial",
+        "water_dam_pour",
+        "water_discharge_pipe",
         "river_dam",
         "powerful_water",
         "dam_flow_aerial",
         "mountain_dam",
         "water_cascade",
-        "dam_river_aerial",
         "river_sunset_dam",
         "flowing_over_dam"
       ],
@@ -151,11 +168,19 @@
       "title": "THE POWER GRID",
       "subtitle": "Electricity crosses long distances",
       "clip_candidates": [
+        "grid_river",
+        "grid_forest",
+        "grid_waterways",
+        "grid_dense_forest",
+        "grid_powerlines",
+        "grid_posts",
+        "grid_rural",
+        "real_substation",
+        "power_station_aerial",
         "electric_lines",
         "grid_clouds",
         "substation_1",
         "grid_aerial",
-        "power_station_aerial",
         "grid_substation_top",
         "plant_grid_site",
         "grid_station_fence",
@@ -169,12 +194,15 @@
       "title": "A GIANT WATER BATTERY?",
       "subtitle": "Pumped storage uses two reservoirs",
       "clip_candidates": [
+        "dam_above_stream",
+        "river_sunset_dam",
+        "upper_reservoir",
+        "dam_flowtop",
+        "dam_river_2",
         "reservoir_view",
         "curved_reservoir",
-        "upper_reservoir",
         "forest_dam",
         "green_hydro",
-        "river_sunset_dam",
         "dam_river_aerial"
       ],
       "narration": "Some projects add pumped storage, using surplus electricity to pump water back uphill to an upper reservoir. Later, the water flows down again to generate electricity. That acts like large-scale storage, but not every conventional hydropower dam includes this feature."
@@ -185,12 +213,14 @@
       "title": "HIDDEN ENERGY, REVEALED",
       "subtitle": "Head, flow, turbine, generator, grid",
       "clip_candidates": [
+        "tennessee_dam",
+        "dam_drone",
+        "dam_drone_new",
+        "dam_flowtop",
+        "river_sunset_dam",
         "scenic_dam",
         "forest_dam",
         "green_hydro",
-        "tennessee_dam",
-        "dam_drone",
-        "river_sunset_dam",
         "dam_river_aerial",
         "flowing_over_dam"
       ],
