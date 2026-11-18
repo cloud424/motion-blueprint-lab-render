@@ -18,7 +18,16 @@ sources=[
 ("water_discharge_pipe","10884417","https://www.pexels.com/video/water-flowing-through-a-discharge-pipe-10884417/","Diego da Silva",[30,25,24],"landscape"),
 ("dam_steady","40665179","https://www.pexels.com/video/aerial-view-of-river-dam-flowing-steadily-40665179/","MAYANKSTER",[30,24,25],"landscape"),
 ("water_dam_pour","2835984","https://www.pexels.com/video/dam-on-river-2835984/","K",[30,25,24],"landscape"),
-("hydro_dam_from_above","20350207","https://www.pexels.com/video/an-aerial-view-of-a-dam-and-water-20350207/","DeLuca G",[60,30,24],"landscape")
+("hydro_dam_from_above","20350207","https://www.pexels.com/video/an-aerial-view-of-a-dam-and-water-20350207/","DeLuca G",[60,30,24],"landscape"),
+("real_substation","40835992","https://www.pexels.com/video/aerial-view-of-electrical-substation-in-rural-area-40835992/","Rodrigo Lima",[60,59,30],"landscape"),
+("grid_powerlines","36228681","https://www.pexels.com/video/aerial-view-of-open-land-with-power-lines-36228681/","TR Studio",[24,25,30],"landscape"),
+("grid_river","35047612","https://www.pexels.com/video/aerial-view-of-power-lines-over-river-in-tennessee-35047612/","Jonathan David",[30,25,24],"landscape"),
+("grid_waterways","30915836","https://www.pexels.com/video/aerial-view-of-power-lines-over-waterways-30915836/","Toàn BDS",[60,30,25],"landscape"),
+("grid_forest","37013762","https://www.pexels.com/video/aerial-view-of-forest-with-power-lines-37013762/","Hobi Photography",[30,24,25],"portrait"),
+("grid_posts","9303855","https://www.pexels.com/video/drone-footage-of-electrical-posts-in-a-rural-area-9303855/","Altaf Shah",[30,29,25],"landscape"),
+("grid_dense_forest","10579236","https://www.pexels.com/video/drone-footage-of-transmission-towers-in-between-a-dense-forest-10579236/","Traveling on the Go",[24,23,25],"landscape"),
+("grid_rural","32580401","https://www.pexels.com/video/aerial-view-of-vast-rural-landscape-with-power-lines-32580401/","Altaf Shah",[50,25,30],"landscape"),
+("grid_large_substation","30915329","https://www.pexels.com/video/aerial-view-of-large-electrical-substation-30915329/","Toàn BDS",[60,30,25],"landscape")
 ]
 def fetch(s):
  slug,vid,page,author,ratehints,orient=s
