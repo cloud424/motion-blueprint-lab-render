@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """EP05 R3: retrieve only inspected Pexels source pages; no paid generation or publishing."""
-import json, pathlib, urllib.request, urllib.error, subprocess, concurrent.futures, shutil, time
+import json, pathlib, urllib.request, urllib.error, subprocess, concurrent.futures, shutil, time, re
+import imageio_ffmpeg
 out=pathlib.Path("out_EP05_R3_SUPP");out.mkdir(parents=True,exist_ok=True)
 # (slug, Pexels ID, full source page, contributor, fps hints, dimension)
 sources=[
@@ -29,6 +30,18 @@ sources=[
 ("grid_rural","32580401","https://www.pexels.com/video/aerial-view-of-vast-rural-landscape-with-power-lines-32580401/","Altaf Shah",[50,25,30],"landscape"),
 ("grid_large_substation","30915329","https://www.pexels.com/video/aerial-view-of-large-electrical-substation-30915329/","Toàn BDS",[60,30,25],"landscape")
 ]
+def read_video_metadata(target):
+    exe=imageio_ffmpeg.get_ffmpeg_exe()
+    q=subprocess.run([exe,"-hide_banner","-i",str(target),"-frames:v","1","-an","-f","null","-"],
+        capture_output=True, text=True, timeout=45)
+    output=q.stderr
+    duration=re.search(r"Duration:\s*(\d+):(\d+):([\d.]+)",output)
+    video=re.search(r"Video:[^\n]*?(\d{3,5})x(\d{3,5})",output)
+    if q.returncode != 0 or not duration or not video:
+        raise ValueError("Cannot validate film with self-contained ffmpeg: "+output[-350:])
+    seconds=int(duration.group(1))*3600+int(duration.group(2))*60+float(duration.group(3))
+    return {"format":{"duration":str(seconds)},"streams":[{"codec_type":"video","width":int(video.group(1)),"height":int(video.group(2))}]}
+
 def fetch(s):
  slug,vid,page,author,ratehints,orient=s
  target=out/(slug+".mp4")
@@ -45,7 +58,7 @@ def fetch(s):
    with urllib.request.urlopen(req,timeout=9) as resp,open(target,"wb") as fw:
     shutil.copyfileobj(resp,fw)
    if target.stat().st_size<90000:raise ValueError("tiny")
-   inf=json.loads(subprocess.check_output(["ffprobe","-v","error","-show_format","-show_streams","-of","json",str(target)]))
+   inf=read_video_metadata(target)
    dur=float(inf["format"]["duration"]);ss=[x for x in inf["streams"] if x.get("codec_type")=="video"]
    if not ss or dur<14.4:raise ValueError("video shorter than one 14.45s scene")
    print("SUCCESS",slug,round(dur,2),round(target.stat().st_size/1024**2,2),flush=True)
