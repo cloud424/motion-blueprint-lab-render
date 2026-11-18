@@ -1,0 +1,42 @@
+name: EP05 R3 | strict native TikTok publication verification
+on:
+  push:
+    paths:
+      - '.github/workflows/verify_EP05_R3_tiktok_strict.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-real-video:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Verify TikTok hydrated video ID, author and false-ID control
+        run: |
+          python - <<'PY'
+          import urllib.request,json,re,html
+          def read_video(video_id):
+            req=urllib.request.Request('https://www.tiktok.com/@trisportpulse/video/'+video_id+'?lang=en',
+             headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36',
+                      'Accept':'text/html,application/xhtml+xml','Accept-Language':'en-US,en;q=0.9'})
+            with urllib.request.urlopen(req,timeout=25) as response:
+              raw=response.read(850000).decode('utf-8','replace')
+            m=re.search(r'<script[^>]+id="__UNIVERSAL_DATA_FOR_REHYDRATION__"[^>]*>(.*?)</script>',raw,re.S)
+            if not m:raise RuntimeError('No native TikTok hydrated data')
+            data=json.loads(html.unescape(m.group(1)))
+            details=data.get('__DEFAULT_SCOPE__',{}).get('webapp.video-detail',{})
+            item=details.get('itemInfo',{}).get('itemStruct',{})
+            return { 'video_id':item.get('id'),'description':(item.get('desc','') or '')[:200],
+              'author':item.get('author',{}).get('uniqueId'), 'private':item.get('privateItem') }
+          target='7709510861869550868'
+          actual=read_video(target)
+          bogus=read_video('7709510861869559999')
+          print('Native EP05 R3:',actual,flush=True)
+          print('Invalid-ID control:',bogus,flush=True)
+          if actual['video_id']!=target or actual['author'] not in ('trisportpulse','motionblueprintlab'):
+            raise RuntimeError('EP05 R3 official TikTok page does not identify our published video and channel')
+          if bogus['video_id']:
+            raise RuntimeError('Invalid ID falsely resolves to a published native TikTok video')
+          if actual['private'] is True:raise RuntimeError('TikTok video marked private')
+          print('EP05_R3_PUBLIC_NATIVE_TIKTOK_VERIFIED',flush=True)
+          PY
