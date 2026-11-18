@@ -29,6 +29,19 @@ sources=[
 ("ship_loaders","31750579","https://www.pexels.com/video/container-loader-operating-at-a-busy-shipping-port-31750579/","Dominik Zítka",[25,24,30],"landscape"),
 ("ship_sunset","5091870","https://www.pexels.com/video/aerial-view-of-a-shipping-port-5091870/","Wildo Ríos Méndez",[30,29,25],"landscape"),
 ("ship_cruise","30522944","https://www.pexels.com/video/aerial-view-of-container-ship-docked-at-port-30522944/","Toàn BDS",[60,30,59],"landscape"),
+("ship_drone_aerial","6857819","https://www.pexels.com/video/aerial-footage-of-cargo-ship-6857819/","Alexander Bobrov",[24,23,25,30],"landscape"),
+("ship_evergreen","6595370","https://www.pexels.com/video/aerial-footage-of-cargo-contains-on-a-ship-6595370/","K",[24,25,30],"landscape"),
+("ship_night","35907900","https://www.pexels.com/video/aerial-view-of-busy-cargo-ship-at-night-35907900/","willy one",[25,24,30],"landscape"),
+("ship_navigating_harbor","35800894","https://www.pexels.com/video/aerial-view-of-container-ship-in-busy-harbor-35800894/","willy one",[25,24,30],"landscape"),
+("ship_coastline","34043264","https://www.pexels.com/video/aerial-view-of-cargo-ship-passing-coastal-city-34043264/","Victor Cedini",[30,29,25],"landscape"),
+("ship_calm_vertical","37512687","https://www.pexels.com/video/large-cargo-ship-sailing-through-calm-waters-37512687/","Alina Zhabynska",[60,59,30],"portrait"),
+("ship_dockside","29625863","https://www.pexels.com/video/dockside-view-of-passing-cargo-ship-29625863/","Eyüp Can Çağlar",[60,30,59],"portrait"),
+("ship_mountain_ocean","9102726","https://www.pexels.com/video/drone-footage-of-a-ship-passing-by-9102726/","Shoot With Riyas",[50,25,30],"landscape"),
+("ship_clear_ocean","16992876","https://www.pexels.com/video/a-large-cargo-ship-is-traveling-through-the-ocean-16992876/","Seven Seil",[30,29,25],"landscape"),
+("ship_columbia","6979838","https://www.pexels.com/video/ship-is-stopped-at-sea-6979838/","Stephen Pierce",[30,29,25],"landscape"),
+("ship_shore","2910038","https://www.pexels.com/video/a-container-ship-with-cargoes-on-the-harbor-2910038/","K",[24,25,30],"landscape"),
+("ship_dock_aerial_new","30522944","https://www.pexels.com/video/aerial-view-of-container-ship-docked-at-port-30522944/","Toàn BDS",[60,59,30],"landscape"),
+("ship_mono","40622209","https://www.pexels.com/video/aerial-view-of-cargo-ship-in-ocean-40622209/","Efrem Efre",[60,59,30],"landscape"),
 ]
 def fetch(s):
  slug,vid,page,author,ratehints,orient=s
