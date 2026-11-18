@@ -1,47 +1,70 @@
 {
   "episode": "EP05",
-  "publication_state": "complete",
-  "title": "How Can a Dam Turn Falling Water Into Electricity? | Hydropower Engineering",
-  "source_sha256": "e7b1aa338aa7109ab9796de09c3bfb4fa60a340a33c1ff6f70427fbb41e8ec00",
-  "cloudinary_url": "https://res.cloudinary.com/juhsntij/video/upload/v1795009675/motionblueprintlab/EP05_Hydropower_R3_Documentary_173s_FINAL.mp4",
+  "revision": "R4",
+  "publication_state": "complete_four_platforms_public_verified_old_IG_TikTok_manual_deletion_pending",
+  "title": "How Can a Dam Turn Falling Water Into Electricity? | Captioned R4",
+  "source_sha256": "80b6a87d142de4f12ec2300f6bb3bf0996516fe535263508fc8f02aaf4bff918",
+  "original_source_sha256": "e7b1aa338aa7109ab9796de09c3bfb4fa60a340a33c1ff6f70427fbb41e8ec00",
+  "cloudinary_url": "https://res.cloudinary.com/juhsntij/video/upload/v1795014965/motionblueprintlab/EP05_Hydropower_R4_BurnedSubtitles_FINAL.mp4",
+  "technical_qa": {
+    "duration_seconds": 173.541667,
+    "resolution": "720x1280",
+    "video": "H264",
+    "audio": "AAC original unchanged",
+    "hard_burned_subtitles": "65 English cues, bold white 40px, 4px black outline, mobile safe area",
+    "frame_checks": 12,
+    "ffmpeg_full_decode": true,
+    "source_rights": "Same approved nine footage sources as EP05 R3"
+  },
   "platforms": {
     "youtube": {
       "status": "public_verified",
-      "verification_method": "youtube_api",
-      "verified_at": "2026-11-18T14:00:00Z",
-      "url": "https://www.youtube.com/shorts/iaEkpUJWSYY",
-      "id": "iaEkpUJWSYY"
+      "verification_method": "YouTube upload privacy=public",
+      "url": "https://www.youtube.com/shorts/rAtlGh68Ic0",
+      "id": "rAtlGh68Ic0"
     },
     "facebook": {
       "status": "public_verified",
-      "verification_method": "facebook_graph_api",
-      "verified_at": "2026-11-18T14:09:39Z",
-      "url": "https://www.facebook.com/reel/1784790662755624/",
-      "id": "1784790662755624",
-      "scope": "EVERYONE",
-      "publishing_phase": "published",
-      "processing_phase": "complete"
+      "verification_method": "Facebook official ListVideos published=true",
+      "url": "https://www.facebook.com/reel/1668539428009230/",
+      "id": "1668539428009230"
     },
     "instagram": {
       "status": "public_verified",
-      "verification_method": "instagram_graph_api",
-      "verified_at": "2026-11-18T14:09:00Z",
-      "url": "https://www.instagram.com/reel/Df4q0pCkiSC/",
-      "id": "17914934433483622",
-      "username": "motionblueprintlab",
-      "media_product_type": "REELS"
+      "verification_method": "Instagram official GetMedia username=motionblueprintlab media_product_type=REELS",
+      "url": "https://www.instagram.com/reel/Df4zr5LDIOx/",
+      "id": "18097314509170520"
     },
     "tiktok": {
       "status": "public_verified",
-      "verification_method": "tiktok_native_page",
-      "verified_at": "2026-11-18T14:19:37Z",
-      "url": "https://www.tiktok.com/@motionblueprintlab/video/7709510861869550868",
-      "id": "7709510861869550868",
+      "verification_method": "TikTok native hydrated ID/author/private false and invalid ID negative control Github 44334858137",
+      "url": "https://www.tiktok.com/@motionblueprintlab/video/7709530293228588294",
+      "id": "7709530293228588294",
       "author": "motionblueprintlab",
-      "private": false,
-      "negative_control_passed": true,
-      "verification_run_id": "44322992380"
+      "private": false
     }
   },
-  "release_note": "EP05 was a manual approved make-up publication on 2026-11-18 after missing the Wed 02:00 slot; the Fri 2026-11-20 automatic release must skip EP05 and consider only newly QA-approved EP06."
+  "old_R3": {
+    "youtube": {
+      "id": "iaEkpUJWSYY",
+      "status": "deleted_via_Make_scenario_7093168",
+      "verified": "Make deleteVideo success, module error count zero"
+    },
+    "facebook": {
+      "id": "1784790662755624",
+      "status": "deleted_via_Make_scenario_7093169",
+      "verified": "Make DeleteVideo success, module error count zero"
+    },
+    "instagram": {
+      "id": "17914934433483622",
+      "url": "https://www.instagram.com/reel/Df4q0pCkiSC/",
+      "status": "manual_native_delete_required_unable_with_connected_api"
+    },
+    "tiktok": {
+      "id": "7709510861869550868",
+      "url": "https://www.tiktok.com/@motionblueprintlab/video/7709510861869550868",
+      "status": "manual_native_delete_required_Buffer_cannot_remove_published_native_video"
+    }
+  },
+  "release_note": "R4 correction of owner-reported unreadable old captions. The previous EP05 had tiny captions behind mobile UI. Existing original English narration and footage unchanged. This R4 new publication replaces R3; do NOT auto-publish EP05 again. Next episode EP06 follows fixed schedule only when QA passes."
 }
