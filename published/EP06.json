@@ -1,0 +1,48 @@
+{
+  "episode": "EP06",
+  "revision": "R3",
+  "publication_state": "complete",
+  "title": "How Do Giant Cargo Ships Float Without Sinking? | Ship Buoyancy Explained",
+  "source_sha256": "4490d4f012342dcac45c2d15f7f40ed5001cefc03bb2af8ee116ed5e7eab391c",
+  "cloudinary_url": "https://res.cloudinary.com/juhsntij/video/upload/v1795016975/motionblueprintlab/EP06_CargoShip_R3_Documentary_173s_FINAL.mp4",
+  "qa_record": "episodes/EP06_R3_Release_QA.json",
+  "platforms": {
+    "youtube": {
+      "status": "public_verified",
+      "verification_method": "youtube_api",
+      "verified_at": "2026-11-25T02:36:42Z",
+      "url": "https://www.youtube.com/shorts/TvYaLuu4MnU",
+      "id": "TvYaLuu4MnU",
+      "channel_id": "UCJuf-bWezi0rsRGY1fIrsTw",
+      "evidence": "Make 7179601 execution c36a505cc54d44718103c961348d6fab; privacyStatus public, processed"
+    },
+    "facebook": {
+      "status": "public_verified",
+      "verification_method": "facebook_graph_api",
+      "verified_at": "2026-11-25T02:07:36Z",
+      "url": "https://www.facebook.com/reel/1469806905108765/",
+      "id": "1469806905108765",
+      "evidence": "Make 7035502 execution d1ad99b69c344ad595b9a9befcd8d70a; official ListVideos published=true"
+    },
+    "instagram": {
+      "status": "public_verified",
+      "verification_method": "instagram_graph_api",
+      "verified_at": "2026-11-25T02:36:42Z",
+      "url": "https://www.instagram.com/reel/Df7rTUGjSII/",
+      "id": "18106404518148809",
+      "evidence": "Make 7179601 execution c36a505cc54d44718103c961348d6fab module 5; native Reel listed under motionblueprintlab"
+    },
+    "tiktok": {
+      "status": "public_verified",
+      "verification_method": "tiktok_native_page",
+      "verified_at": "2026-11-25T02:09:40Z",
+      "url": "https://www.tiktok.com/@motionblueprintlab/video/7709944336804285702",
+      "id": "7709944336804285702",
+      "buffer_post_id": "6aff397206d992381c75c356",
+      "author": "motionblueprintlab",
+      "private": false,
+      "evidence": "Make 7179616 execution 42e411e2b5eb48ea8624a37165394376; native HTTP 200; matching video ID, author, privateItem=false, statusCode=0"
+    }
+  },
+  "note": "Four-platform native verification complete. Preserve published videos and Cloudinary master. Do not republish EP06. EP07 traditional sugar follows the editorial rotation."
+}
