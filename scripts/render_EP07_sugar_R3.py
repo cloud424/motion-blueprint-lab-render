@@ -195,6 +195,23 @@ def draw_frame(scene, t):
         text(d,101,354,"SYRUP COOLS AND SETS",F(24,True))
         d.polygon(((208,477),(509,477),(474,563),(244,563)),fill="#b97b3e",outline=GOLD)
         d.polygon(((244,563),(474,563),(463,666),(251,666)),fill="#9c5b35")
+        # Hot syrup has visible moving convection waves before it stiffens.
+        # The ripples slow progressively as the mix crystallizes.
+        syrup_speed=1.0-.58*min(1,t/SCENE_SEC)
+        for k in range(17):
+            xx=245+((k*23+int(t*95*syrup_speed))%216)
+            yy=504+(k%4)*13+5*math.sin(t*2.8+k*.74)
+            d.arc((xx-17,yy-9,xx+17,yy+12),8,172,fill="#f7cb7c",width=5)
+        # Rising cooling vapour and animated heat-loss vectors provide
+        # physically meaningful visible motion, rather than static card art.
+        for k in range(20):
+            xx=211+((k*34+int(t*49))%309)
+            yy=462-((int(t*83)+k*37)%100)
+            d.arc((xx-24,yy-22,xx+25,yy+25),14,164,fill="#9adced",width=6)
+        for k in range(8):
+            xx=118 if k%2==0 else 596
+            yy=686-((t*95+k*69)%240)
+            arrow(d,(xx,yy+26),(xx,yy-19),CYAN,5,11)
         d.rectangle((139,731,579,855),fill="#3f6470",outline="#d4e9ed",width=6)
         fullness=min(1,t/SCENE_SEC)
         # A visible continuous pour and nucleation, not a static educational slide.
