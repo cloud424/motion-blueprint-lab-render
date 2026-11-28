@@ -2,12 +2,12 @@
   "episode": "EP07",
   "revision": "R3",
   "topic": "How People Made Sugar Before Modern Factories",
-  "last_checked_utc": "2026-11-28T13:42:00Z",
-  "status": "blocked_insufficient_distinct_stage_matched_footage",
-  "stage": "source_acquisition_retry",
+  "last_checked_utc": "2026-11-28T13:43:00Z",
+  "status": "blocked_source_count_2_of_9_cached_retry_queued",
+  "stage": "private_source_retry_with_verified_cache",
   "attempts": 5,
   "last_error": "Latest source run 46150445327 failed INCOMPLETE_SOURCE_STAGE: acquired 2 Pexels MP4s, cane_machine_riverside 25.54s and cane_harvest_processing_men 79.48s; Wikimedia two sources returned HTTP 429; remaining candidate downloads returned 404 or clips too short. Independent visual inspection shows men feeding/handling cane at modern press, not cutting fields, and draft scene 5 was corrected.",
-  "next_action": "Resolve more distinct source files by verified real URLs; respect Wikimedia 429 cooldown; retain 2 real clips and hashes from private artifact 15265171987; assign each single distinct actual production action to one scene; retry source workflow without fabricating rights; after >=9 source assignments rerun private renderer and manually inspect all pixels and licenses. Then stage Cloudinary and only then publish.",
+  "next_action": "Inspect GitHub run 46150908440 and source artifact, confirm prior-source SHA256 cache actually reused; respect Wikimedia HTTP 429, source new unique genuine footage for actual harvest, boiling, skimming, shaping, then fill scene source assignments. No EP07 release until 12-scene full MP4 manual QA passes.",
   "source_candidates_document": "episodes/EP07_TraditionalSugar_SourceResearch.md",
   "source_artifact_run_id": 46150445327,
   "acquired_source_count": 2,
@@ -39,7 +39,7 @@
   "source_artifact_id": 15265171987,
   "genuine_sugar_process_source_count_confirmed": 2,
   "second_source_job_run_id": 46144001158,
-  "latest_source_workflow_run_id": 46150445327,
+  "latest_source_workflow_run_id": 46150908440,
   "source_recovery_improvements": {
     "code_commit": "04676134c30e6823ece6c64e26702b256df7b504",
     "source_candidate_commit": "9c03cd4a29f2ec3988629f915faa4da03a322fc0",
@@ -68,5 +68,12 @@
   "renderer_commit": "4e6e284b34c9a50e80625ff7eb2a2958c7464324",
   "renderer_workflow_commit": "352a7cd2530b67fbda8ed6d2dfbff13ef53e1041",
   "render_syntax_check": "PASS_GitHub_run_46150785414; media_render_skipped/blocked as no successful 9-source workflow",
-  "episode_draft_scene5_commit": "f106140f209e5eab5452be88f383e18d423918b9"
+  "episode_draft_scene5_commit": "f106140f209e5eab5452be88f383e18d423918b9",
+  "retry_improvements": {
+    "previous_source_artifact_id": 15265171987,
+    "cache_verification_commit": "db9d5b3037fe33ff7341444a01dc399b58bfa030",
+    "workflow_cache_restore_commit": "1bf2afe529c775789805a9518e5cb73a148306a3",
+    "artifact_policy": "GitHub Actions 7-day private source cache with integrity checks, preserving only actual source bytes and QA not authorizing publication",
+    "fatal_gates": "No full 9-source EDL => no private render; no final QA => no Cloudinary staging or Make release."
+  }
 }
