@@ -149,11 +149,18 @@ def draw_frame(scene, t):
         travel=18*math.sin(t*.6)
         d.rectangle((83,592+travel,650,637+travel),fill="#86b957")
         for k in range(10):
-            xx=93+k*55
-            d.line((xx,599+travel,xx+17,628+travel),fill="#cae69b",width=4)
-        for k in range(6):
-            y=765+(t*25+k*33)%95
-            d.ellipse((263+k*30,y,272+k*30,y+17),fill=CYAN)
+            xx=93+((k*55+int(t*58))%550)
+            d.line((xx,599+travel,xx+17,628+travel),fill="#cae69b",width=5)
+        # Real moving juice droplets leaving the compression line: no looping stock shot.
+        for k in range(11):
+            y=735+(t*86+k*27)%139
+            x=253+(k%6)*34+9*math.sin(t*2.4+k)
+            d.ellipse((x,y,x+11,y+21),fill=CYAN)
+        for k in range(5):
+            phase=t*2.2+k*.55
+            rad=15+9*(1+math.sin(phase))
+            x=270+k*40
+            d.ellipse((x-rad,701-rad,x+rad,701+rad),outline="#a8edec",width=3)
         arrow(d,(119,462),(210,462),GOLD,7,16)
         arrow(d,(540,792),(540,900),CYAN,7,19)
         # Captions occupy y=925..1040; do not put illustration labels under them.
@@ -163,15 +170,20 @@ def draw_frame(scene, t):
         text(d,105,350,"HEAT REMOVES WATER",F(27,True))
         d.rectangle((120,690,604,806),fill="#79543b",outline=GOLD,width=8)
         d.rectangle((132,690,590,732),fill="#dea34f")
-        for k in range(14):
-            xx=146+(k*39+int(t*38))%431
-            yy=716-((k+int(t*2))%3)*8
-            rad=4+(k%3)*3
+        for k in range(22):
+            xx=144+(k*29+int(t*74))%433
+            yy=710-((k+int(t*3))%4)*8
+            rad=6+(k%4)*3
             d.ellipse((xx-rad,yy-rad,xx+rad,yy+rad),outline="#fff1af",width=4)
-        for k in range(6):
-            xx=160+k*76
-            yy=622-(int(t*27+k*45)%213)
-            d.arc((xx-20,yy-15,xx+22,yy+22),10,165,fill="#bce8f1",width=5)
+        # Steam and bubbles independently move upward and sideways across the pan.
+        for k in range(13):
+            xx=139+(k*47+int(t*19))%451
+            yy=626-((int(t*61)+k*53)%213)
+            d.arc((xx-27,yy-20,xx+27,yy+31),12,167,fill="#bce8f1",width=5)
+        for k in range(8):
+            xx=146+(k*60+int(t*43))%441
+            yy=667-((int(t*43)+k*37)%95)
+            d.ellipse((xx-7,yy-7,xx+7,yy+7),outline=CYAN,width=3)
         for k in range(5):
             cx=147+k*98
             amp=39+13*math.sin(t*4+k)
@@ -185,15 +197,23 @@ def draw_frame(scene, t):
         d.polygon(((244,563),(474,563),(463,666),(251,666)),fill="#9c5b35")
         d.rectangle((139,731,579,855),fill="#3f6470",outline="#d4e9ed",width=6)
         fullness=min(1,t/SCENE_SEC)
+        # A visible continuous pour and nucleation, not a static educational slide.
+        for j in range(10):
+            droplet_y=650+((t*91+j*22)%153)
+            droplet_x=349+15*math.sin(t*2.1+j*.6)
+            d.ellipse((droplet_x-5,droplet_y-9,droplet_x+7,droplet_y+9),fill="#f2b864")
         for k in range(4):
             px=153+k*104
             top=843-24-55*fullness
-            d.rounded_rectangle((px,top,px+91,848),radius=7,fill="#bb7e3f",outline=GOLD,width=3)
+            tint=(188-int(35*fullness),126-int(26*fullness),63-int(8*fullness))
+            d.rounded_rectangle((px,top,px+91,848),radius=7,fill=tint,outline=GOLD,width=3)
             for j in range(12):
-                cx=px+7+(j*27)%77;cy=top+7+(j*13)%max(16,int(65*fullness+20))
+                cx=px+7+(j*27+int(t*23*(1-fullness*.65)))%77
+                cy=top+7+(j*13+int(t*17*(1-fullness*.65)))%max(16,int(65*fullness+20))
                 d.ellipse((cx,cy,cx+3,cy+3),fill="#f6ce8a")
         if t<SCENE_SEC*.83:
-            d.polygon(((343,642),(369,642),(374,745),(341,745)),fill="#dda75b")
+            shift=11*math.sin(t*2.4)
+            d.polygon(((343+shift,642),(369+shift,642),(374+shift,745),(341+shift,745)),fill="#dda75b")
         arrow(d,(574,506),(574,596),GOLD,8,18)
     else:
         raise ValueError("Unknown mechanism: "+str(kind))
