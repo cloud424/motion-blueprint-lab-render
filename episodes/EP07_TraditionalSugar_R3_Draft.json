@@ -24,23 +24,23 @@
     {
       "n": 1,
       "type": "real",
-      "role": "harvest_context",
+      "role": "historical_field_context_modern_footage",
       "title": "BEFORE INDUSTRIAL SUGAR",
       "narration": "In 1792, a British naturalist described how sugarcane was cultivated and turned into sugar in southeastern India. The work depended on fields, presses, fire and skilled hands. These images are modern demonstrations, not footage from the eighteenth century.",
       "source_id": null,
       "subtitle": "A documented pre-factory process",
       "clip_candidates": [
-        "cane_field_chop"
+        "cane_plantation_establishing"
       ]
     },
     {
       "n": 2,
       "type": "real",
-      "role": "manual_harvest",
+      "role": "present_day_manual_cane_harvest",
       "title": "CUTTING THE CANE",
       "narration": "The first step was harvesting mature cane. Workers cut the tall stalks and cleared leaves before the cane could be pressed. Each stalk held sweet liquid locked inside tough plant fibers. Fresh cane mattered because the juice could spoil.",
       "source_id": null,
-      "subtitle": "Harvesting sugarcane by hand",
+      "subtitle": "Real hand harvesting, modern illustration",
       "clip_candidates": [
         "cane_field_workers"
       ]
@@ -167,5 +167,6 @@
   "source_frame_review": {
     "cane_harvest_processing_men": "Three samples at 15,45,65 seconds show actual cane handling and powered machinery, not field cutting or juice straining; only assigned to scene 5.",
     "cane_machine_riverside": "Real sugarcane crushing machinery; stage candidate only, actual footage independent final QA pending."
-  }
+  },
+  "scene_selection_status": "scene_1_and_2_mapped_to_authentic_different_footage_and_mild_0.85x_harvest_retime; other scenes pending contact_sheet_review"
 }
