@@ -1,0 +1,54 @@
+{
+  "episode": "EP07",
+  "revision": "R3_v2_mobile_safe_captioned",
+  "publication_state": "complete",
+  "published_on": "2026-11-28",
+  "title": "How People Made Sugar Before Modern Factories | Time-Travel Engineering",
+  "source_sha256": "6bb599d74ae79c3b99c1c01283c02c5f8027677d27ec6e2ffc1745f6d7f474e9",
+  "cloudinary_url": "https://res.cloudinary.com/juhsntij/video/upload/v1795875980/motionblueprintlab/EP07_TraditionalSugar_R3_Documentary_173s_FINAL.mp4",
+  "qa_record": "episodes/EP07_R3_Release_QA.json",
+  "source_rights_ledger": "episodes/EP07_R3_Scene_And_Rights_Ledger.md",
+  "staging_proof": "GitHub Actions 46154586171 exact source SHA pass; Cloudinary Make scenario 7025570 execution b97eafb545974e86b159e870e519347b; independent Cloudinary admin API readback Make 7223884 execution f7aa7979173a4bb09c7e43c54b9b354d, 720x1280, 61373648 bytes",
+  "master_dispatch_proof": "Make 7035615 execution c7e94771411444759ee58d2a66ec2acd dispatch accepted, all four child outcomes individually checked, queue dispatch lock set and dedup confirmed",
+  "platforms": {
+    "youtube": {
+      "status": "public_verified",
+      "verification_method": "youtube_api_v3_videos_list",
+      "verified_at": "2026-11-28T14:32:30Z",
+      "url": "https://www.youtube.com/shorts/2jjoFpyQfDs",
+      "id": "2jjoFpyQfDs",
+      "channel_id": "UCJuf-bWezi0rsRGY1fIrsTw",
+      "evidence": "Make read-only 7223908 execution a7170ec20a50465c8ea5a59acadc0597; privacyStatus public, uploadStatus processed, channel Motion Blueprint Lab, snippet publishedAt 2026-11-28T14:30:03Z"
+    },
+    "facebook": {
+      "status": "public_verified",
+      "verification_method": "facebook_graph_api_list_videos",
+      "verified_at": "2026-11-28T14:32:00Z",
+      "url": "https://www.facebook.com/reel/1650578866474753/",
+      "id": "1650578866474753",
+      "page_id": "1440357612492904",
+      "evidence": "Make Facebook 7035502 execution 2255f738e75d4c0ea30f9a89682ceeb2: official ListVideos id matches EP07 title, published=true and permalink"
+    },
+    "instagram": {
+      "status": "public_verified",
+      "verification_method": "instagram_graph_api_get_user_media_and_get_media",
+      "verified_at": "2026-11-28T14:32:30Z",
+      "url": "https://www.instagram.com/reel/DgSeNsysXp5/",
+      "id": "17938042701142318",
+      "account_id": "17841422263657367",
+      "evidence": "Make 7179601 execution d7906c8731e44e01afeef0d3cc7afbb7 and Make 7223908 execution a7170ec20a50465c8ea5a59acadc0597, official permalink under username motionblueprintlab"
+    },
+    "tiktok": {
+      "status": "public_verified",
+      "verification_method": "tiktok_native_public_page_html",
+      "verified_at": "2026-11-28T14:33:30Z",
+      "url": "https://www.tiktok.com/@motionblueprintlab/video/7713229114013945094",
+      "id": "7713229114013945094",
+      "buffer_post_id": "6b0ae5500f9559e0ce1c56f4",
+      "author": "motionblueprintlab",
+      "private": false,
+      "evidence": "Make Buffer post API 7223908 execution a7170ec20a50465c8ea5a59acadc0597 status sent; independent TikTok native GET 7223918 execution 13e6122c95cd426981a740759ac1467a HTTP 200, item.id exact, author motionblueprintlab, privateItem=false. Buffer returned obsolete @trisportpulse handle URL; native canonical MBL verified."
+    }
+  },
+  "note": "All four Motion Blueprint Lab native videos are public. Do not republish EP07. Advance approved alternation to EP08 modern engineering next. GitHub cleanup may remove only EP07 published video artifacts; preserve code, credits, receipt, Cloudinary master, dedup, and prior episode assets."
+}
