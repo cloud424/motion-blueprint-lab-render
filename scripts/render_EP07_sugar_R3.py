@@ -241,10 +241,15 @@ def render_real(scene, input_path, dest, outdir):
     overlay.save(overlay_path)
     info=probe(input_path)
     dur=float(info["format"]["duration"])
-    if dur<SCENE_SEC:
-        raise RuntimeError(f"Real clip too short: {input_path}")
-    ss=min(max(.0,(dur-SCENE_SEC)/3),9)
-    vf=f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},setsar=1,fps={FPS}"
+    if dur < SCENE_SEC * .83:
+        raise RuntimeError(f"Real clip too short to retime without obvious unnatural motion: {input_path}")
+    # An authentic 12.3s harvest shot may be played at 0.85x (not repeated
+    # or converted into still frames), so it can fill a unique 14.46s scene.
+    slow = max(1.0,SCENE_SEC/dur)
+    ss=0 if slow>1 else min(max(.0,(dur-SCENE_SEC)/3),9)
+    vf=(f"setpts={slow:.8f}*(PTS-STARTPTS),"
+        f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},"
+        f"setsar=1,fps={FPS}")
     run(["ffmpeg","-hide_banner","-loglevel","error","-y",
          "-ss",f"{ss:.2f}","-i",input_path,
          "-loop","1","-i",overlay_path,
@@ -272,7 +277,7 @@ def choose_clips(scenes, footage_dir, records):
             if (r and f.is_file() and f.stat().st_size>100000
                and str(r["pexels_id"]) not in usedids
                and slug not in usedfiles
-               and float(r["duration"])>=SCENE_SEC):
+               and float(r["duration"])>=SCENE_SEC*.83):
                 match=r;break
         if not match:
             raise RuntimeError("Cannot fill original real scene "+str(scene["n"])+
