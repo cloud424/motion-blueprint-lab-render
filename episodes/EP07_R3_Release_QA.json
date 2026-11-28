@@ -1,7 +1,7 @@
 {
   "episode": "EP07",
   "revision": "R3_caption_and_animation_revised",
-  "release_authorized": true,
+  "release_authorized": false,
   "source_sha256": "6bb599d74ae79c3b99c1c01283c02c5f8027677d27ec6e2ffc1745f6d7f474e9",
   "duration_seconds": 173.541667,
   "on_screen_cue_count": 51,
@@ -36,15 +36,15 @@
     ],
     "result": "static labels no longer collide with burned subtitle text"
   },
-  "final_real_pixel_caption_review": "passed",
-  "real_scene_visual_review": "passed",
+  "final_real_pixel_caption_review": "recheck_pending_new_MP4",
+  "real_scene_visual_review": "recheck_pending_new_MP4",
   "rights_and_creator_review": "passed",
   "history_and_science_review": "passed",
-  "complete_audio_video_review": "passed",
-  "originality_review": "passed",
+  "complete_audio_video_review": "recheck_pending_new_MP4",
+  "originality_review": "recheck_pending_new_MP4",
   "native_dedup_preflight": "verified",
   "published": false,
-  "upload_state": "source_QA_approved_but_staging_and_four_native_public_receipts_pending",
+  "upload_state": "older_SHA_superseded_pending_new_dynamic_cutaway_pixel_review_DO_NOT_PUBLISH",
   "real_source_ids": [
     "pexels:40799964",
     "pexels:16025300",
@@ -94,5 +94,11 @@
     "publisher_children_with_new_runs": 0,
     "no_GitHub_published_EP07_receipt": true
   },
-  "staging_note": "This record explicitly authorizes private stable staging of the exact inspected SHA. Public platform publication requires Cloudinary readback and second dedup preflight, then 4 native public receipts."
+  "staging_note": "This record explicitly authorizes private stable staging of the exact inspected SHA. Public platform publication requires Cloudinary readback and second dedup preflight, then 4 native public receipts.",
+  "superseded_by": {
+    "render_script_commit": "66c39a5e90f048057fd6e2a1f8eb51c1f8d3f72f",
+    "render_run_id": 46154609718,
+    "reason": "Whole-film one-frame-per-second and FFmpeg freezedetect flagged long near-static stretches in three kinetic cutaways; rebuilt with active flowing mechanics; new actual MP4 must pass all pixel/audio/rights gates before publish."
+  },
+  "previous_approved_source_sha256": "6bb599d74ae79c3b99c1c01283c02c5f8027677d27ec6e2ffc1745f6d7f474e9"
 }
