@@ -55,6 +55,8 @@ def candidates(item):
     vid = item["id"]
     vertical = item.get("orientation") == "portrait"
     sizes = ["540_960", "360_640", "720_1280", "960_540", "640_360"] if vertical else ["960_540", "640_360", "1280_720", "540_960", "360_640"]
+    # First try the official Pexels download link on the verified source page.
+    yield f"https://www.pexels.com/download/video/{vid}/"
     for dim in sizes:
         for fps in ([30, 24, 25, 60, 29] if not vertical else [30, 60, 25, 24, 29]):
             for kind in ["sd", "hd"]:
@@ -66,18 +68,20 @@ def try_download(item):
     target = ROOT / (slug + ".mp4")
     failures = []
     attempts = 0
-    for url in list(candidates(item))[:32]:
+    for url in list(candidates(item))[:50]:
         attempts += 1
         if attempts > 2 and attempts % 8 == 0:
             time.sleep(1.5)
         try:
             # Probe using a HEAD request first; only retrieve a bounded real video.
-            head = urllib.request.Request(url, method="HEAD", headers={"User-Agent":"Mozilla/5.0"})
-            with urllib.request.urlopen(head, timeout=9) as resp:
-                size = int(resp.headers.get("Content-Length") or 0)
-                if size > MAX_BYTES:
-                    failures.append("source over byte limit")
-                    continue
+            # Some official download endpoints disallow HEAD but allow GET.
+            if "www.pexels.com/download/video/" not in url:
+                head = urllib.request.Request(url, method="HEAD", headers={"User-Agent":"Mozilla/5.0"})
+                with urllib.request.urlopen(head, timeout=9) as resp:
+                    size = int(resp.headers.get("Content-Length") or 0)
+                    if size > MAX_BYTES:
+                        failures.append("source over byte limit")
+                        continue
             req = urllib.request.Request(url, headers={"User-Agent":"Mozilla/5.0", "Accept":"video/mp4"})
             with urllib.request.urlopen(req, timeout=16) as resp, target.open("wb") as out:
                 total = 0
