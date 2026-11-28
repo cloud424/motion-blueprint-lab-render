@@ -1,0 +1,134 @@
+{
+  "episode": "EP07",
+  "revision": "R3",
+  "title": "How People Made Sugar Before Modern Factories | Time-Travel Engineering",
+  "status": "private_script_draft_pending_real_footage_and_quality_review",
+  "target_duration_seconds": 173.541667,
+  "scene_count": 12,
+  "real_scenes": 9,
+  "animated_mechanisms": [
+    "manual_cane_press_force",
+    "open_pan_evaporation",
+    "jaggery_cooling_and_setting"
+  ],
+  "historical_lens": "1792 Rajahmundry Circar, southeastern India; not a claim of uniform historic technology",
+  "footage_disclosure": "Modern licensed visual demonstrations; never label any footage as historical film",
+  "sources": {
+    "archival": "https://commoditiesofempire.org.uk/research/primary-sources/reports-on-the-hindu-method-of-making-sugar/",
+    "historical_academic": "https://www.tandfonline.com/doi/full/10.1080/00076791.2021.1907345",
+    "traditional_process": "https://documents1.worldbank.org/curated/en/416771468183259403/pdf/FAU5.pdf",
+    "process_science": "https://epubs.icar.org.in/index.php/IndFarm/article/download/73655/31048/186224"
+  },
+  "scene_seconds": 14.461805583333332,
+  "scenes": [
+    {
+      "n": 1,
+      "type": "real",
+      "role": "harvest_context",
+      "title": "BEFORE INDUSTRIAL SUGAR",
+      "narration": "In 1792, a British naturalist described how sugarcane was cultivated and turned into sugar in southeastern India. The work depended on fields, presses, fire and skilled hands. These images are modern demonstrations, not footage from the eighteenth century.",
+      "source_id": null
+    },
+    {
+      "n": 2,
+      "type": "real",
+      "role": "manual_harvest",
+      "title": "CUTTING THE CANE",
+      "narration": "The first step was harvesting mature cane. Workers cut the tall stalks and cleared leaves before the cane could be pressed. Each stalk held sweet liquid locked inside tough plant fibers. Fresh cane mattered because the juice could spoil.",
+      "source_id": null
+    },
+    {
+      "n": 3,
+      "type": "animation",
+      "mechanism": "manual_cane_press_force",
+      "title": "HOW A PRESS EXTRACTS JUICE",
+      "narration": "Mechanical force squeezes the sugarcane, pushing juice out while much of the fibrous material stays behind. Hand-powered and animal-powered presses existed in different forms. This simplified moving cutaway explains compression, not a specific mill from 1792."
+    },
+    {
+      "n": 4,
+      "type": "real",
+      "role": "actual_cane_press",
+      "title": "CRUSHING, NOT REFINING",
+      "narration": "Watch a real press drive cane through its working parts. This is present-day equipment, used here to illustrate the extraction principle. Historical presses varied across regions. The first product was wet, cloudy juice, not the pale sugar people buy today.",
+      "source_id": null
+    },
+    {
+      "n": 5,
+      "type": "real",
+      "role": "juice_collection",
+      "title": "FRESH CANE JUICE",
+      "narration": "The liquid leaving the press was sweet but far from finished. It carried water, dissolved sugars and suspended plant material. A film of foam or fine particles could form as the juice stood or heated. Workers had to handle it promptly.",
+      "source_id": null
+    },
+    {
+      "n": 6,
+      "type": "real",
+      "role": "straining_and_preparation",
+      "title": "PREPARE THE JUICE",
+      "narration": "Traditional makers could strain the fresh juice and remove visible impurities. Methods differed by place and period; this modern processing demonstration is illustrative. Clean preparation helps the next stage, when heat removes water and concentrates the dissolved sugars.",
+      "source_id": null
+    },
+    {
+      "n": 7,
+      "type": "animation",
+      "mechanism": "open_pan_evaporation",
+      "title": "HEAT REMOVES WATER",
+      "narration": "An open pan transforms the process. Heat makes water evaporate, leaving a denser sugar-rich liquid. Fibrous cane waste, called bagasse, could fuel the fire. Our moving diagram follows heat and vapor; it is not an exact reconstruction of one historic furnace."
+    },
+    {
+      "n": 8,
+      "type": "real",
+      "role": "outdoor_open_pan_boiling",
+      "title": "THE BOILING PAN",
+      "narration": "Steam rises as juice boils. This is the physical change that makes concentrated cane syrup possible. Open-pan cooking requires attention: temperature, boiling rate and water removal change the final product. A dramatic fire alone is not evidence of a particular recipe.",
+      "source_id": null
+    },
+    {
+      "n": 9,
+      "type": "real",
+      "role": "skimming_and_thickening",
+      "title": "WATCH THE SYRUP",
+      "narration": "As the liquid thickens, workers may skim impurities and watch how it flows. The mass becomes more viscous as water leaves. This step cannot be rushed without changing the result. The exact clarifying materials and cooking practices varied widely.",
+      "source_id": null
+    },
+    {
+      "n": 10,
+      "type": "animation",
+      "mechanism": "jaggery_cooling_and_setting",
+      "title": "FROM SYRUP TO JAGGERY",
+      "narration": "Cooling turns concentrated syrup into a brown, semi-crystalline solid known in India as gur or jaggery. Sugar crystals may form within a matrix containing other compounds. This is not identical to modern refined white sugar, and our cutaway is a scientific illustration."
+    },
+    {
+      "n": 11,
+      "type": "real",
+      "role": "real_jaggery_molding",
+      "title": "COOL AND SHAPE",
+      "narration": "When the cooked material reaches the right consistency, makers can pour it into molds or shape it as it cools. The product becomes easier to store and transport. This final craft footage must show actual cane-jaggery shaping, not an unrelated dessert.",
+      "source_id": null
+    },
+    {
+      "n": 12,
+      "type": "real",
+      "role": "finished_cane_jaggery",
+      "title": "SWEETNESS BEFORE FACTORIES",
+      "narration": "The result came from a simple chain of actions: grow, harvest, crush, clarify, boil and cool. Much later, industrial refineries added machinery and more elaborate separation. Traditional methods survived because people could produce a useful sweetener close to the fields.",
+      "source_id": null
+    }
+  ],
+  "publishing_blockers": [
+    "No >=8 source MP4s cleared and assigned by stage",
+    "Missing real straining, skimming, jaggery molding and finished product footage",
+    "No generated 3 mechanism animations",
+    "No synced English audio and burned subtitles",
+    "No full real MP4 QA",
+    "No stable Cloudinary master"
+  ],
+  "qa": {
+    "licenseVerified": "pending",
+    "qualityVerified": "pending",
+    "uniqueVerified": "pending",
+    "originalityVerified": "pending",
+    "approval": "pending"
+  },
+  "publish": false
+}
