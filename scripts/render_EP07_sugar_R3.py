@@ -135,7 +135,7 @@ def draw_frame(scene, t):
     text(d, 70, 253, "ORIGINAL CUTAWAY", FL, "#defafd")
     kind = scene["mechanism"]
     if kind == "manual_cane_press_force":
-        d.rounded_rectangle((74,330,643,947),radius=22,fill="#102d43",outline=CYAN,width=3)
+        d.rounded_rectangle((74,330,643,910),radius=22,fill="#102d43",outline=CYAN,width=3)
         text(d,103,354,"PRESSURE EXTRACTS JUICE",F(24,True))
         for n in range(2):
             cy=520+n*178
@@ -156,10 +156,10 @@ def draw_frame(scene, t):
             d.ellipse((263+k*30,y,272+k*30,y+17),fill=CYAN)
         arrow(d,(119,462),(210,462),GOLD,7,16)
         arrow(d,(540,792),(540,900),CYAN,7,19)
-        text(d,110,902,"JUICE LEAVES THE FIBERS",F(20,True),CYAN)
-        text(d,89,969,"Conceptual press, not a 1792 reconstruction",FLL,MUTE)
+        # Captions occupy y=925..1040; do not put illustration labels under them.
+        text(d,105,832,"JUICE RELEASED",F(19,True),CYAN)
     elif kind == "open_pan_evaporation":
-        d.rounded_rectangle((74,329,645,938),radius=20,fill="#173748",outline="#55979d",width=3)
+        d.rounded_rectangle((74,329,645,903),radius=20,fill="#173748",outline="#55979d",width=3)
         text(d,105,350,"HEAT REMOVES WATER",F(27,True))
         d.rectangle((120,690,604,806),fill="#79543b",outline=GOLD,width=8)
         d.rectangle((132,690,590,732),fill="#dea34f")
@@ -178,9 +178,8 @@ def draw_frame(scene, t):
             d.polygon(((cx,827),(cx+16,827-amp),(cx+32,827)),fill=GOLD)
         arrow(d,(550,487),(550,414),CYAN,8,19)
         text(d,97,847,"FIRE AND EVAPORATION",F(22,True),GOLD)
-        text(d,90,961,"Thicker syrup as water leaves the pan",FLL,MUTE)
     elif kind == "jaggery_cooling_and_setting":
-        d.rounded_rectangle((76,333,642,935),radius=20,fill="#113748",outline=CYAN,width=3)
+        d.rounded_rectangle((76,333,642,887),radius=20,fill="#113748",outline=CYAN,width=3)
         text(d,101,354,"SYRUP COOLS AND SETS",F(24,True))
         d.polygon(((208,477),(509,477),(474,563),(244,563)),fill="#b97b3e",outline=GOLD)
         d.polygon(((244,563),(474,563),(463,666),(251,666)),fill="#9c5b35")
@@ -196,8 +195,6 @@ def draw_frame(scene, t):
         if t<SCENE_SEC*.83:
             d.polygon(((343,642),(369,642),(374,745),(341,745)),fill="#dda75b")
         arrow(d,(574,506),(574,596),GOLD,8,18)
-        text(d,96,888,"SEMI-CRYSTALLINE CANE SWEETENER",F(18,True),CYAN)
-        text(d,94,961,"Jaggery is not refined white sugar",FLL,MUTE)
     else:
         raise ValueError("Unknown mechanism: "+str(kind))
     d.rectangle((0,1239,W,H),fill="#081c2c")
