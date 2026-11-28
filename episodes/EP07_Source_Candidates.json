@@ -23,7 +23,9 @@
       "author": "Yash Kanbargi",
       "stage": "harvest",
       "orientation": "landscape",
-      "page_verified": true
+      "page_verified": true,
+      "duration_hint_seconds": 11,
+      "skip_reason": "Verified source page duration 11 sec: shorter than an R3 documentary scene"
     },
     {
       "slug": "cane_field_workers",
@@ -41,7 +43,8 @@
       "author": "Ravinder Yadav",
       "stage": "crush",
       "orientation": "portrait",
-      "page_verified": true
+      "page_verified": true,
+      "duration_hint_seconds": 21
     },
     {
       "slug": "traditional_press_process",
@@ -77,7 +80,9 @@
       "author": "sajhad",
       "stage": "crush",
       "orientation": "portrait",
-      "page_verified": true
+      "page_verified": true,
+      "duration_hint_seconds": 10,
+      "skip_reason": "Verified source page duration 10 sec: shorter than an R3 documentary scene"
     },
     {
       "slug": "cane_machine_riverside",
@@ -95,7 +100,8 @@
       "author": "Kowsar Ahmed",
       "stage": "boil",
       "orientation": "landscape",
-      "page_verified": true
+      "page_verified": true,
+      "duration_hint_seconds": 24
     },
     {
       "slug": "sugar_crystal_macro",
@@ -104,7 +110,8 @@
       "author": "pending exact page inspection",
       "stage": "illustrative_crystals_not_sugar_proven",
       "orientation": "landscape",
-      "page_verified": false
+      "page_verified": false,
+      "skip_reason": "Clear crystals are not verified as sugarcane jaggery; do not depict as actual sugar manufacture"
     },
     {
       "slug": "brown_sugar_pour",
@@ -113,8 +120,57 @@
       "author": "pending exact page inspection",
       "stage": "illustrative_finished_product",
       "orientation": "portrait",
-      "page_verified": false
+      "page_verified": false,
+      "skip_reason": "Generic kitchen brown sugar pouring cannot substitute for actual jaggery molding or production"
+    },
+    {
+      "slug": "cane_plantation_establishing",
+      "id": "40799964",
+      "url": "https://www.pexels.com/video/aerial-view-of-lush-green-sugarcane-field-40799964/",
+      "author": "Jaspal Khalsa",
+      "stage": "plantation_context",
+      "orientation": "landscape",
+      "page_verified": true,
+      "duration_hint_seconds": 43
+    },
+    {
+      "slug": "cane_farmer_walk",
+      "id": "40503904",
+      "url": "https://www.pexels.com/video/man-walking-in-lush-green-sugarcane-field-40503904/",
+      "author": "SARGE FILMS Entertainment",
+      "stage": "field_context",
+      "orientation": "landscape",
+      "page_verified": true,
+      "duration_hint_seconds": 18
+    },
+    {
+      "slug": "cane_harvest_processing_men",
+      "id": "6641552",
+      "url": "https://www.pexels.com/video/men-working-in-the-farm-6641552/",
+      "author": "Dr.Vivasayam YouTube Channel",
+      "stage": "harvest_processing",
+      "orientation": "landscape",
+      "page_verified": true
+    },
+    {
+      "slug": "commons_jaggery_granular_process",
+      "id": "commons:Process_of_Making_Granular_Jaggery.webm",
+      "url": "https://commons.wikimedia.org/wiki/File:Process_of_Making_Granular_Jaggery.webm",
+      "direct_url": "https://upload.wikimedia.org/wikipedia/commons/8/84/Process_of_Making_Granular_Jaggery.webm",
+      "source_type": "wikimedia_commons",
+      "file_ext": ".webm",
+      "author": "Punjabi Wikimedians",
+      "stage": "traditional_jaggery_process_multi_step_needs_scene_review",
+      "orientation": "landscape",
+      "page_verified": true,
+      "duration_hint_seconds": 322,
+      "license": "https://creativecommons.org/licenses/by/3.0/",
+      "license_commercial_reuse": true,
+      "license_note": "CC BY 3.0 source reviewed by Wikimedia Commons; attribution to Punjabi Wikimedians, source and indication of modifications required; original audio must be stripped"
     }
   ],
-  "no_publication_without_manual_visual_and_rights_check": true
+  "no_publication_without_manual_visual_and_rights_check": true,
+  "last_researched_utc": "2026-11-28T13:35:00Z",
+  "source_selection_status": "expanded_candidates_not_production_QA_approved",
+  "policy_note": "Exclude BY-SA candidates from normal non-share-alike episode release; do not treat Pexels free metadata as video-visual verification; Wikimedia CC BY 3.0 distinct source counts only once."
 }
