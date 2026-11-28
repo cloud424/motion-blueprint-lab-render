@@ -13,7 +13,7 @@ permissions:
   contents: read
 concurrency:
   group: mbl-ep07-source-acquisition
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   source_acquisition:
     runs-on: ubuntu-latest
