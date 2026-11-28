@@ -88,7 +88,7 @@ def normalize_downloaded_source(raw, target, item, asset_url):
         cmd = [FFMPEG, "-hide_banner", "-loglevel", "error", "-y",
                "-i", str(raw), "-vf", "scale=" + scale + ":force_original_aspect_ratio=decrease,"
                    "pad=" + scale + ":(ow-iw)/2:(oh-ih)/2:color=black,setsar=1",
-               "-an", "-c:v", "libx264", "-preset", "ultrafast", "-crf", "23",
+               "-an", "-c:v", "libx264", "-preset", "fast", "-crf", "23",
                "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(target)]
         proc = subprocess.run(cmd, capture_output=True, text=True, timeout=180)
         if proc.returncode or not target.is_file():
@@ -208,8 +208,10 @@ def try_download(item):
                             incoming, target, item, cached.get("asset_url", item["url"]))
                         cached = {**cached, **meta,
                             "bytes": target.stat().st_size, "sha256": sha256(target),
-                            "original_bytes": original_bytes,
-                            "original_sha256": original_sha256,
+                            "original_bytes": cached.get("original_bytes", original_bytes),
+                            "original_sha256": cached.get("original_sha256", original_sha256),
+                            "previous_edit_proxy_sha256": original_sha256,
+                            "previous_edit_proxy_bytes": original_bytes,
                             "normalized_edit_proxy": True}
                         print("NORMALIZED_CACHED_REAL_SOURCE", slug,
                               original_bytes, target.stat().st_size, flush=True)
