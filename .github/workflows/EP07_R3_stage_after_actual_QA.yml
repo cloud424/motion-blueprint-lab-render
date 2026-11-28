@@ -1,0 +1,90 @@
+name: EP07 R3 | Stage only after exact full-film visual rights QA
+on:
+  push:
+    paths:
+      - 'episodes/EP07_R3_Release_QA.json'
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: mbl-ep07-r3-exact-qa-stage
+  cancel-in-progress: false
+jobs:
+  stage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require actual owner-authorized final QA record, no speculative green flags
+        run: |
+          python - <<'PY'
+          import json,re,pathlib
+          p=pathlib.Path('episodes/EP07_R3_Release_QA.json')
+          q=json.loads(p.read_text())
+          assert q['episode']=='EP07' and q['release_authorized'] is True
+          assert q['final_real_pixel_caption_review']=='passed'
+          assert q['real_scene_visual_review']=='passed'
+          assert q['rights_and_creator_review']=='passed'
+          assert q['history_and_science_review']=='passed'
+          assert q['complete_audio_video_review']=='passed'
+          assert q['originality_review']=='passed'
+          assert q['native_dedup_preflight']=='verified'
+          assert len(q['source_sha256'])==64
+          assert len(set(q['real_source_ids']))==9
+          assert 165<=float(q['duration_seconds'])<=175
+          assert q['on_screen_cue_count']>=30
+          print('EP07 full real-video QA approval is explicit in versioned GitHub evidence')
+          PY
+      - name: Restore the exact private EP07 MP4 artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p EP07_stage
+          RUN="$(gh run list --repo cloud424/motion-blueprint-lab-render \
+            --workflow render_EP07_R3_sugar.yml --status success --limit 10 \
+            --json databaseId --jq '.[].databaseId' | head -1)"
+          test -n "$RUN" || { echo 'No successful EP07 private film renderer' >&2; exit 1; }
+          gh run download "$RUN" --repo cloud424/motion-blueprint-lab-render \
+            --name EP07_TRADITIONAL_SUGAR_PRIVATE_QA --dir EP07_stage
+          test -s EP07_stage/EP07_TraditionalSugar_R3_Documentary_173s_PRIVATE_QA.mp4
+      - name: Verify exact reviewed SHA256, media bytes, captions and full decode
+        run: |
+          python -m pip install -q --disable-pip-version-check imageio-ffmpeg
+          python - <<'PY'
+          import pathlib,json,hashlib,subprocess,imageio_ffmpeg
+          p=pathlib.Path('EP07_stage')
+          q=json.loads(pathlib.Path('episodes/EP07_R3_Release_QA.json').read_text())
+          t=json.loads((p/'EP07_R3_Technical_Source_QA.json').read_text())
+          v=p/'EP07_TraditionalSugar_R3_Documentary_173s_PRIVATE_QA.mp4'
+          digest=hashlib.sha256(v.read_bytes()).hexdigest()
+          assert digest==q['source_sha256']==t['sha256']
+          assert t['episode']=='EP07' and t['published'] is False
+          assert t['unique_source_ids']==9 and t['distinct_original_mechanisms']==3
+          assert t['on_screen_caption_events']>=30
+          assert len({str(x['pexels_id']) for x in t['credits']})==9
+          assert (p/'EP07_R3_Actual12Shot_Storyboard.jpg').stat().st_size>70000
+          f=imageio_ffmpeg.get_ffmpeg_exe()
+          subprocess.run([f,'-v','error','-i',str(v),'-f','null','-'],check=True,timeout=300)
+          print('Exact reviewed EP07 video bytes, source SHA, real footage and full decode PASS')
+          PY
+      - name: Create persistent QA-only release asset for Motion Blueprint Lab Cloudinary
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="mbl-ep07-r3-verified-qa-staging"
+          video="EP07_stage/EP07_TraditionalSugar_R3_Documentary_173s_PRIVATE_QA.mp4"
+          preview="EP07_stage/EP07_R3_Actual12Shot_Storyboard.jpg"
+          report="EP07_stage/EP07_R3_Technical_Source_QA.json"
+          subs="EP07_stage/EP07_English_Subtitles.srt"
+          if gh release view "$tag" --repo cloud424/motion-blueprint-lab-render >/dev/null 2>&1; then
+            gh release upload "$tag" "$video" "$preview" "$report" "$subs" --clobber \
+              --repo cloud424/motion-blueprint-lab-render
+          else
+            gh release create "$tag" "$video" "$preview" "$report" "$subs" \
+              --repo cloud424/motion-blueprint-lab-render \
+              --title "EP07 traditional sugar verified private QA staging, NOT platform public" \
+              --notes "QA-approved versioned source only. Publishing requires verified Cloudinary readback, no-duplicate four-platform dispatch and native public receipts." \
+              --latest=false
+          fi
+          gh release view "$tag" --repo cloud424/motion-blueprint-lab-render \
+            --json assets --jq '.assets[] | [.name,.url] | @tsv'
