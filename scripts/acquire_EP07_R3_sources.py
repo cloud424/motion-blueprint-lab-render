@@ -1,0 +1,151 @@
+#!/usr/bin/env python3
+"""EP07 private source acquisition only. Never publishes or sets approved flags."""
+from __future__ import annotations
+import concurrent.futures
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import subprocess
+import time
+import urllib.error
+import urllib.request
+
+import imageio_ffmpeg
+
+ROOT = Path("out_EP07_sources")
+ROOT.mkdir(parents=True, exist_ok=True)
+SOURCE_FILE = Path("episodes/EP07_Source_Candidates.json")
+REQ_SECONDS = 14.45
+MAX_BYTES = 70_000_000
+FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
+DATA = json.loads(SOURCE_FILE.read_text(encoding="utf-8"))
+CANDIDATES = DATA["source_candidates"]
+
+
+def sha256(path):
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def ffprobe_portable(path):
+    p = subprocess.run(
+        [FFMPEG, "-hide_banner", "-i", str(path), "-frames:v", "1",
+         "-an", "-f", "null", "-"],
+        capture_output=True, text=True, timeout=55
+    )
+    msg = p.stderr
+    d = re.search(r"Duration:\s*(\d+):(\d+):([\d.]+)", msg)
+    v = re.search(r"Video:\s*([a-zA-Z0-9_]+)[^\n]*?(\d{3,5})x(\d{3,5})", msg)
+    if p.returncode or not d or not v:
+        raise ValueError("Video decode/probe failed: " + msg[-280:])
+    return {
+        "duration": int(d.group(1))*3600+int(d.group(2))*60+float(d.group(3)),
+        "codec": v.group(1),
+        "width": int(v.group(2)),
+        "height": int(v.group(3))
+    }
+
+
+def candidates(item):
+    vid = item["id"]
+    vertical = item.get("orientation") == "portrait"
+    sizes = ["540_960", "360_640", "720_1280", "960_540", "640_360"] if vertical else ["960_540", "640_360", "1280_720", "540_960", "360_640"]
+    for dim in sizes:
+        for fps in ([30, 24, 25, 60, 29] if not vertical else [30, 60, 25, 24, 29]):
+            for kind in ["sd", "hd"]:
+                yield f"https://videos.pexels.com/video-files/{vid}/{vid}-{kind}_{dim}_{fps}fps.mp4"
+
+
+def try_download(item):
+    slug, vid = item["slug"], item["id"]
+    target = ROOT / (slug + ".mp4")
+    failures = []
+    attempts = 0
+    for url in list(candidates(item))[:32]:
+        attempts += 1
+        if attempts > 2 and attempts % 8 == 0:
+            time.sleep(1.5)
+        try:
+            # Probe using a HEAD request first; only retrieve a bounded real video.
+            head = urllib.request.Request(url, method="HEAD", headers={"User-Agent":"Mozilla/5.0"})
+            with urllib.request.urlopen(head, timeout=9) as resp:
+                size = int(resp.headers.get("Content-Length") or 0)
+                if size > MAX_BYTES:
+                    failures.append("source over byte limit")
+                    continue
+            req = urllib.request.Request(url, headers={"User-Agent":"Mozilla/5.0", "Accept":"video/mp4"})
+            with urllib.request.urlopen(req, timeout=16) as resp, target.open("wb") as out:
+                total = 0
+                while True:
+                    block = resp.read(256*1024)
+                    if not block:
+                        break
+                    total += len(block)
+                    if total > MAX_BYTES:
+                        raise ValueError("download exceeded 70MB limit")
+                    out.write(block)
+            if target.stat().st_size < 100_000:
+                raise ValueError("missing real video content")
+            meta = ffprobe_portable(target)
+            if meta["duration"] < REQ_SECONDS:
+                failures.append(f"real clip too short ({meta['duration']:.1f}s)")
+                target.unlink(missing_ok=True)
+                continue
+            result = {
+                "slug": slug, "pexels_id": vid, "page": item["url"],
+                "contributor": item["author"],
+                "contributor_page_verified": bool(item["page_verified"]),
+                "role": item["stage"], "license": DATA["license"],
+                "asset_url": url, "sha256": sha256(target), "bytes": target.stat().st_size,
+                "audio": "original audio excluded from any future EP07 edit",
+                "process_visual_qa": "pending_manual_frame_and_motion_review",
+                "rights_qa": "pending_actual_video_and_third_party_review",
+                **meta
+            }
+            print("DOWNLOADED", slug, meta["duration"], meta["width"], meta["height"], flush=True)
+            return {"result":"downloaded_valid_media_not_release_approved","meta":result}
+        except (urllib.error.URLError, TimeoutError, ValueError, subprocess.TimeoutExpired) as exc:
+            failures.append(type(exc).__name__ + ": " + str(exc)[:105])
+            target.unlink(missing_ok=True)
+            if isinstance(exc, urllib.error.HTTPError) and exc.code == 429:
+                time.sleep(4)
+            continue
+    return {"result":"unavailable_or_short", "id": vid, "slug": slug,
+            "stage": item["stage"], "attempts": attempts,
+            "last_errors": failures[-5:]}
+
+
+def main():
+    results = []
+    # Restricted to a small, human-curated set. Not an open-ended Pexels crawler.
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
+        for result in pool.map(try_download, CANDIDATES):
+            results.append(result)
+    good = [r["meta"] for r in results if r["result"].startswith("downloaded")]
+    kinds = {r["role"] for r in good if not r["role"].startswith("illustrative")}
+    distinct = len({r["pexels_id"] for r in good})
+    report = {
+        "episode":"EP07", "status":"private_source_qa_only",
+        "unique_downloaded_video_files":distinct,
+        "roles":sorted(kinds),
+        "ready_to_render":False,
+        "QA_APPROVED":False,
+        "stage_ready":bool(distinct>=8 and {"harvest","crush","boil"}.issubset(kinds)),
+        "reason":"Downloaded originals require independent motion, accuracy, variety and rights inspection; never turn QA flags green automatically.",
+        "outputs":results
+    }
+    (ROOT/"EP07_Source_Acquisition_Report.json").write_text(
+        json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
+    print("EP07 PRIVATE SOURCE RESULTS", distinct, sorted(kinds), flush=True)
+    if not report["stage_ready"]:
+        raise SystemExit("INCOMPLETE_SOURCE_STAGE: insufficient eligible distinct craft footage; retry or change leads")
+    print("Source download stage only; video still NOT QA approved.", flush=True)
+
+
+if __name__ == "__main__":
+    main()
