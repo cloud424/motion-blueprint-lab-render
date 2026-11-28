@@ -35,7 +35,7 @@ jobs:
           print('Source candidate list schema checked, not rights approval')
           PY
       - name: Install free portable FFmpeg
-        run: python -m pip install -q --disable-pip-version-check imageio-ffmpeg
+        run: python -m pip install -q --disable-pip-version-check imageio-ffmpeg "yt-dlp[curl-cffi]"
       - name: Check whether EP07 source stage is still needed
         id: pending
         run: |
