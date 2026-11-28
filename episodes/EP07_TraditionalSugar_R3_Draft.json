@@ -69,14 +69,13 @@
     {
       "n": 5,
       "type": "real",
-      "role": "juice_collection",
-      "title": "FRESH CANE JUICE",
-      "narration": "The liquid leaving the press was sweet but far from finished. It carried water, dissolved sugars and suspended plant material. A film of foam or fine particles could form as the juice stood or heated. Workers had to handle it promptly.",
+      "role": "cane_feeding_and_handling",
+      "title": "FEEDING CANE INTO THE PRESS",
+      "narration": "Watch workers gather stalks and feed cane toward a working crusher. Their motions are real, but the machinery is modern, not a reconstruction of a mill from seventeen ninety-two. Cane passes between moving parts while fibrous waste is handled beside the press.",
       "source_id": null,
-      "subtitle": "Juice is not refined sugar",
+      "subtitle": "Workers prepare stalks for juice extraction",
       "clip_candidates": [
-        "cane_press_close",
-        "street_cane_juice"
+        "cane_harvest_processing_men"
       ]
     },
     {
@@ -149,13 +148,13 @@
     }
   ],
   "publishing_blockers": [
-    "No >=8 source MP4s cleared and assigned by stage",
     "Missing real straining, skimming, jaggery molding and finished product footage",
     "No generated 3 mechanism animations",
     "No synced English audio and burned subtitles",
     "No full real MP4 QA",
     "No stable Cloudinary master",
-    "Real scenes 6, 9, 11, 12 have no role-matched eligible full-length footage yet; do not substitute irrelevant clips."
+    "Real scenes 6, 9, 11, 12 have no role-matched eligible full-length footage yet; do not substitute irrelevant clips.",
+    "Sources scene 5 and scene 4 were downloaded but both still need independent detailed rights and full-motion QA; remaining stages insufficient."
   ],
   "qa": {
     "licenseVerified": "pending",
@@ -164,5 +163,9 @@
     "originalityVerified": "pending",
     "approval": "pending"
   },
-  "publish": false
+  "publish": false,
+  "source_frame_review": {
+    "cane_harvest_processing_men": "Three samples at 15,45,65 seconds show actual cane handling and powered machinery, not field cutting or juice straining; only assigned to scene 5.",
+    "cane_machine_riverside": "Real sugarcane crushing machinery; stage candidate only, actual footage independent final QA pending."
+  }
 }
