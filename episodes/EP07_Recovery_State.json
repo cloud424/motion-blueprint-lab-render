@@ -2,14 +2,14 @@
   "episode": "EP07",
   "revision": "R3",
   "topic": "How People Made Sugar Before Modern Factories",
-  "last_checked_utc": "2026-11-28T12:18:40Z",
-  "status": "blocked_missing_sufficient_verified_sugar_process_footage",
+  "last_checked_utc": "2026-11-28T13:37:00Z",
+  "status": "source_acquisition_retry_running_qa_not_approved",
   "stage": "source_acquisition_retry",
-  "attempts": 2,
-  "last_error": "First real GitHub Actions 46143719574 failed source coverage: downloaded 2 real MP4s (25.54 s modern press, 21.97 s generic crystals); only one shows sugarcane processing; remaining candidates gave 404/short duration. Private source artifact 15263121378 saved. Retrying using official Pexels source download endpoints in GitHub Actions 46144001158.",
-  "next_action": "Inspect GitHub run 46144001158, download its QA artifact and fill missing harvest/open-pan/skimming/molding/finished jaggery stages from genuine licensed footage; do not publish or mark verified.",
+  "attempts": 4,
+  "last_error": "GitHub source acquisition runs 46143719574,46144001158,46144121743 failed INCOMPLETE_SOURCE_STAGE; 2 clips decoded, but only cane_machine_riverside is sugar-process relevant; Pexels 404 for most guessed URLs, some candidates <14.45 sec.",
+  "next_action": "Inspect latest GitHub 46150445327 and its EP07_R3_REAL_CRAFT_SOURCES_PRIVATE artifact; review per-source downloaded bytes, duration, visual motion and license. Do not release until at least 8 distinct appropriately staged real clips and complete 12-scene English hard-subtitled MP4 pass final QA. Retrying a permanently 404 URL without changing the candidate pool is not recovery.",
   "source_candidates_document": "episodes/EP07_TraditionalSugar_SourceResearch.md",
-  "source_artifact_run_id": 46143719574,
+  "source_artifact_run_id": 46144121743,
   "acquired_source_count": 2,
   "verified_license_count": 0,
   "render_workflow_run_id": null,
@@ -36,7 +36,13 @@
     "normal_release_taipei": "Monday Wednesday Friday 02:00"
   },
   "duplicate_policy": "EP06 no repost; EP07 not publishable without finished media and source QA; safe makeup only after no platform ID or dedup key for EP07.",
-  "source_artifact_id": 15263121378,
+  "source_artifact_id": 15262543458,
   "genuine_sugar_process_source_count_confirmed": 1,
-  "second_source_job_run_id": 46144001158
+  "second_source_job_run_id": 46144001158,
+  "latest_source_workflow_run_id": 46150445327,
+  "source_recovery_improvements": {
+    "code_commit": "04676134c30e6823ece6c64e26702b256df7b504",
+    "source_candidate_commit": "9c03cd4a29f2ec3988629f915faa4da03a322fc0",
+    "notes": "Direct Wikimedia Commons CC BY 3.0 jaggery documentary and CC0 720p cane-press film added; Pexels HD 1920x1080 variants included; known-short and unrelated crystal footage excluded; bounded candidate attempts 16 vs previous 50; no QA flags green."
+  }
 }
