@@ -1,0 +1,120 @@
+{
+  "episode": "EP07",
+  "purpose": "Candidate source ingestion for private QA; NOT rights/visual approved",
+  "created": "2026-11-28",
+  "license": "https://www.pexels.com/license/",
+  "requirements": {
+    "min_distinct_real_sources": 8,
+    "ideal_distinct_real_sources": 9,
+    "required_actions": [
+      "harvest",
+      "crush",
+      "boil",
+      "finish"
+    ],
+    "min_usable_scene_seconds": 14.45,
+    "real_ratio": 0.75
+  },
+  "source_candidates": [
+    {
+      "slug": "cane_field_chop",
+      "id": "11176588",
+      "url": "https://www.pexels.com/video/man-choping-sugar-cane-on-field-11176588/",
+      "author": "Yash Kanbargi",
+      "stage": "harvest",
+      "orientation": "landscape",
+      "page_verified": true
+    },
+    {
+      "slug": "cane_field_workers",
+      "id": "16025300",
+      "url": "https://www.pexels.com/video/farmers-working-in-a-sugarcane-field-16025300/",
+      "author": "Ahila Joshi",
+      "stage": "harvest",
+      "orientation": "landscape",
+      "page_verified": true
+    },
+    {
+      "slug": "traditional_press_outdoor",
+      "id": "36414457",
+      "url": "https://www.pexels.com/video/traditional-sugarcane-juice-extraction-outdoor-scene-36414457/",
+      "author": "Ravinder Yadav",
+      "stage": "crush",
+      "orientation": "portrait",
+      "page_verified": true
+    },
+    {
+      "slug": "traditional_press_process",
+      "id": "37219155",
+      "url": "https://www.pexels.com/video/traditional-sugarcane-juice-extraction-process-37219155/",
+      "author": "pending exact page inspection",
+      "stage": "crush",
+      "orientation": "landscape",
+      "page_verified": false
+    },
+    {
+      "slug": "market_press",
+      "id": "37203701",
+      "url": "https://www.pexels.com/video/traditional-sugarcane-juice-vendor-in-market-37203701/",
+      "author": "pending exact page inspection",
+      "stage": "crush",
+      "orientation": "landscape",
+      "page_verified": false
+    },
+    {
+      "slug": "cane_press_close",
+      "id": "11527632",
+      "url": "https://www.pexels.com/video/close-up-of-man-extracting-syrup-from-sugar-cane-11527632/",
+      "author": "Petra Nesti",
+      "stage": "crush",
+      "orientation": "portrait",
+      "page_verified": true
+    },
+    {
+      "slug": "street_cane_juice",
+      "id": "36941810",
+      "url": "https://www.pexels.com/video/street-vendor-making-fresh-sugarcane-juice-outdoors-36941810/",
+      "author": "sajhad",
+      "stage": "crush",
+      "orientation": "portrait",
+      "page_verified": true
+    },
+    {
+      "slug": "cane_machine_riverside",
+      "id": "10057136",
+      "url": "https://www.pexels.com/video/man-working-with-machine-for-sugar-cane-10057136/",
+      "author": "Kaushik Mahadevan",
+      "stage": "crush",
+      "orientation": "landscape",
+      "page_verified": true
+    },
+    {
+      "slug": "open_pan_sugar_steam",
+      "id": "37283360",
+      "url": "https://www.pexels.com/video/traditional-sugar-manufacturing-process-37283360/",
+      "author": "Kowsar Ahmed",
+      "stage": "boil",
+      "orientation": "landscape",
+      "page_verified": true
+    },
+    {
+      "slug": "sugar_crystal_macro",
+      "id": "7793218",
+      "url": "https://www.pexels.com/video/macro-shot-of-clear-crystals-7793218/",
+      "author": "pending exact page inspection",
+      "stage": "illustrative_crystals_not_sugar_proven",
+      "orientation": "landscape",
+      "page_verified": false
+    },
+    {
+      "slug": "brown_sugar_pour",
+      "id": "36983577",
+      "url": "https://www.pexels.com/video/pouring-brown-sugar-into-a-glass-jar-36983577/",
+      "author": "pending exact page inspection",
+      "stage": "illustrative_finished_product",
+      "orientation": "portrait",
+      "page_verified": false
+    }
+  ],
+  "no_publication_without_manual_visual_and_rights_check": true
+}
