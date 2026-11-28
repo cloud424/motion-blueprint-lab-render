@@ -40,10 +40,16 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p EP07_stage
-          RUN="$(gh run list --repo cloud424/motion-blueprint-lab-render \
-            --workflow render_EP07_R3_sugar.yml --status success --limit 10 \
-            --json databaseId --jq '.[].databaseId' | head -1)"
-          test -n "$RUN" || { echo 'No successful EP07 private film renderer' >&2; exit 1; }
+          RUN="$(python - <<'PY'
+          import json
+          q=json.load(open('episodes/EP07_R3_Release_QA.json'))
+          print(q['production']['final_render_run_id'])
+          PY
+          )"
+          test -n "$RUN" || { echo 'No exact QA-linked render ID' >&2; exit 1; }
+          gh run view "$RUN" --repo cloud424/motion-blueprint-lab-render \
+            --json conclusion --jq .conclusion | grep -qx success || \
+            { echo 'QA linked render not successful' >&2; exit 1; }
           gh run download "$RUN" --repo cloud424/motion-blueprint-lab-render \
             --name EP07_TRADITIONAL_SUGAR_PRIVATE_QA --dir EP07_stage
           test -s EP07_stage/EP07_TraditionalSugar_R3_Documentary_173s_PRIVATE_QA.mp4
