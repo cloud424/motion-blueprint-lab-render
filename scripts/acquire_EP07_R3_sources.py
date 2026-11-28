@@ -17,7 +17,7 @@ import imageio_ffmpeg
 ROOT = Path("out_EP07_sources")
 ROOT.mkdir(parents=True, exist_ok=True)
 SOURCE_FILE = Path("episodes/EP07_Source_Candidates.json")
-REQ_SECONDS = 14.45
+REQ_SECONDS = 12.0  # Real 12s harvest can be retimed by <= 20%; never static loop
 MAX_BYTES = 380_000_000
 MAX_ARTIFACT_BYTES = 70_000_000
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
@@ -148,7 +148,20 @@ def source_page_download(item, target):
         info = ffprobe_portable(target)
         if info["duration"] < REQ_SECONDS:
             target.unlink(missing_ok=True)
-            return None, "source-page clip shorter than 14.45 seconds"
+            return None, "source-page clip shorter than 12.0 seconds"
+        original_sha256 = sha256(target)
+        original_bytes = target.stat().st_size
+        # Normalise actual Pexels footage to a small moving editing copy, not an image.
+        # Wikimedia videos are kept as WEBM due to container and CC metadata;
+        # the two selected Commons films are both under 70MB.
+        if item.get("source_type") != "wikimedia_commons" and (
+            info["width"] > 1280 or info["height"] > 1280
+            or original_bytes > MAX_ARTIFACT_BYTES
+        ):
+            incoming = ROOT / (item["slug"] + ".page_original.mp4")
+            os.replace(target, incoming)
+            info, original_bytes, original_sha256 = normalize_downloaded_source(
+                incoming, target, item, item["url"])
         out = {
             "slug": item["slug"], "pexels_id": item["id"], "page": item["url"],
             "contributor": item["author"],
@@ -156,6 +169,8 @@ def source_page_download(item, target):
             "role": item["stage"], "license": item.get("license", DATA["license"]),
             "source_type": item.get("source_type", "pexels"),
             "asset_url": item["url"], "sha256": sha256(target), "bytes": target.stat().st_size,
+            "original_sha256": original_sha256, "original_bytes": original_bytes,
+            "normalized_edit_proxy": original_bytes != target.stat().st_size,
             "audio": "original audio excluded from final render",
             "process_visual_qa": "pending_manual_frame_and_motion_review",
             "rights_qa": "pending_actual_video_and_third_party_review",
@@ -272,7 +287,7 @@ def main():
         "roles":sorted(kinds),
         "ready_to_render":False,
         "QA_APPROVED":False,
-        "stage_ready":bool(distinct>=8 and {"harvest","crush","boil"}.issubset(kinds)),
+        "stage_ready":bool(distinct>=9 and {"harvest","crush","boil"}.issubset(kinds)),
         "reason":"Downloaded originals require independent motion, accuracy, variety and rights inspection; never turn QA flags green automatically.",
         "outputs":results
     }
