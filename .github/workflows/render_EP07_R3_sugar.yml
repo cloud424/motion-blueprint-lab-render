@@ -4,6 +4,10 @@ on:
     workflows: ["EP07 R3 | Private Sugarcane Source Acquisition and QA"]
     types: [completed]
   workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/render_EP07_sugar_R3.py'
+      - '.github/workflows/render_EP07_R3_sugar.yml'
 permissions:
   contents: read
   actions: read
@@ -11,7 +15,26 @@ concurrency:
   group: mbl-ep07-r3-private-render
   cancel-in-progress: true
 jobs:
+  syntax_check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile EP07 renderer without downloading footage or spending credits
+        run: |
+          python -m py_compile scripts/render_EP07_sugar_R3.py
+          python - <<'PY'
+          import json
+          x=json.load(open('episodes/EP07_TraditionalSugar_R3_Draft.json'))
+          assert x['episode']=='EP07' and len(x['scenes'])==12
+          assert sum(t['type']=='real' for t in x['scenes'])==9
+          assert sum(t['type']=='animation' for t in x['scenes'])==3
+          print('EP07 script syntax and scene structure PASS; NOT media/rights QA')
+          PY
   render:
+    needs: [syntax_check]
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 60
