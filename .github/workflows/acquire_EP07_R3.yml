@@ -1,0 +1,47 @@
+name: EP07 R3 | Private Sugarcane Source Acquisition and QA
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/acquire_EP07_R3_sources.py'
+      - 'episodes/EP07_Source_Candidates.json'
+      - '.github/workflows/acquire_EP07_R3.yml'
+permissions:
+  contents: read
+concurrency:
+  group: mbl-ep07-source-acquisition
+  cancel-in-progress: false
+jobs:
+  source_acquisition:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate acquisition code and source candidate JSON
+        run: |
+          python -m py_compile scripts/acquire_EP07_R3_sources.py
+          python - <<'PY'
+          import json
+          r=json.load(open('episodes/EP07_Source_Candidates.json'))
+          assert r['episode']=='EP07'
+          ids=[x['id'] for x in r['source_candidates']]
+          assert len(ids)==len(set(ids)) and len(ids)>=8
+          print('Source candidate list schema checked, not rights approval')
+          PY
+      - name: Install free portable FFmpeg
+        run: python -m pip install -q --disable-pip-version-check imageio-ffmpeg
+      - name: Download and decode distinct genuine candidate videos with bounded retries
+        run: python scripts/acquire_EP07_R3_sources.py
+      - name: Preserve private source files and true error report even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: EP07_R3_REAL_CRAFT_SOURCES_PRIVATE
+          path: |
+            out_EP07_sources/EP07_Source_Acquisition_Report.json
+            out_EP07_sources/*.mp4
+          retention-days: 7
+          if-no-files-found: warn
