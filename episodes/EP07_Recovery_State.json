@@ -2,14 +2,14 @@
   "episode": "EP07",
   "revision": "R3",
   "topic": "How People Made Sugar Before Modern Factories",
-  "last_checked_utc": "2026-11-28T13:43:00Z",
-  "status": "blocked_source_count_2_of_9_cached_retry_queued",
-  "stage": "private_source_retry_with_verified_cache",
-  "attempts": 5,
-  "last_error": "Latest source run 46150445327 failed INCOMPLETE_SOURCE_STAGE: acquired 2 Pexels MP4s, cane_machine_riverside 25.54s and cane_harvest_processing_men 79.48s; Wikimedia two sources returned HTTP 429; remaining candidate downloads returned 404 or clips too short. Independent visual inspection shows men feeding/handling cane at modern press, not cutting fields, and draft scene 5 was corrected.",
-  "next_action": "Inspect GitHub run 46150908440 and source artifact, confirm prior-source SHA256 cache actually reused; respect Wikimedia HTTP 429, source new unique genuine footage for actual harvest, boiling, skimming, shaping, then fill scene source assignments. No EP07 release until 12-scene full MP4 manual QA passes.",
+  "last_checked_utc": "2026-11-28T13:43:26Z",
+  "status": "blocked_only_two_actual_stage_matched_source_files",
+  "stage": "sources_cached_more_unique_footage_needed",
+  "attempts": 6,
+  "last_error": "2026-11-28 GitHub run 46150908440: source cache restored successfully, SHA-256 and duration validated for cane_machine_riverside (18,696,311 bytes) and cane_harvest_processing_men (53,298,701 bytes), with REUSED_VERIFIED_BYTES log lines. Still only 2/9 unique stage-matched sources. Wikimedia download 429 and absent Pexels URLs persist; source acquisition correctly returned failure and private QA artifact saved.",
+  "next_action": "Keep 2 existing verified-byte clips without repeat downloading, add stage-specific real licensed sources for harvest, boiling, skimming and actual jaggery molding; on future source retries use SHA256 cache and respect HTTP 429. Source count <9 => do NOT run private final render or issue publish. After complete sources, run EP07 private render and 12-frame subtitle/rights/audio QA then one-time 4-platform makeup publish.",
   "source_candidates_document": "episodes/EP07_TraditionalSugar_SourceResearch.md",
-  "source_artifact_run_id": 46150445327,
+  "source_artifact_run_id": 46150908440,
   "acquired_source_count": 2,
   "verified_license_count": 0,
   "render_workflow_run_id": 46150785414,
@@ -36,7 +36,7 @@
     "normal_release_taipei": "Monday Wednesday Friday 02:00"
   },
   "duplicate_policy": "EP06 no repost; EP07 not publishable without finished media and source QA; safe makeup only after no platform ID or dedup key for EP07.",
-  "source_artifact_id": 15265171987,
+  "source_artifact_id": 15265107810,
   "genuine_sugar_process_source_count_confirmed": 2,
   "second_source_job_run_id": 46144001158,
   "latest_source_workflow_run_id": 46150908440,
@@ -75,5 +75,16 @@
     "workflow_cache_restore_commit": "1bf2afe529c775789805a9518e5cb73a148306a3",
     "artifact_policy": "GitHub Actions 7-day private source cache with integrity checks, preserving only actual source bytes and QA not authorizing publication",
     "fatal_gates": "No full 9-source EDL => no private render; no final QA => no Cloudinary staging or Make release."
+  },
+  "cache_reuse_verified": {
+    "run_id": 46150908440,
+    "status": "passed",
+    "source_count": 2,
+    "sha256_and_duration_checked": true,
+    "reused_slugs": [
+      "cane_machine_riverside",
+      "cane_harvest_processing_men"
+    ],
+    "source_artifact": 15265107810
   }
 }
