@@ -87,6 +87,50 @@ def candidates(item):
                 yield f"https://videos.pexels.com/video-files/{vid}/{vid}-{kind}_{dim}_{fps}fps.mp4"
 
 
+def source_page_download(item, target):
+    """Use the provider's public file metadata, never guess a non-existing CDN path.
+
+    Original footage is PRIVATE QA only; creator/page/license are recorded separately.
+    """
+    if not item.get("page_verified"):
+        return None, "Unverified source page"
+    cmd = ["yt-dlp", "--no-playlist", "--no-warnings", "--no-overwrites",
+           "--socket-timeout", "18", "--retries", "2", "--fragment-retries", "2",
+           "-f", "best[height<=720]/source/best", "-o", str(target)]
+    if item.get("source_type") != "wikimedia_commons":
+        cmd.extend(["--impersonate", "chrome"])
+    cmd.append(item["url"])
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=110)
+        if result.returncode:
+            return None, "yt-dlp source-page fetch rejected: " + (result.stderr or result.stdout)[-240:]
+        if not target.is_file() or target.stat().st_size < 100000:
+            return None, "yt-dlp did not write actual video bytes"
+        if target.stat().st_size > MAX_BYTES:
+            target.unlink(missing_ok=True)
+            return None, "source-page media exceeds QA byte bound"
+        info = ffprobe_portable(target)
+        if info["duration"] < REQ_SECONDS:
+            target.unlink(missing_ok=True)
+            return None, "source-page clip shorter than 14.45 seconds"
+        out = {
+            "slug": item["slug"], "pexels_id": item["id"], "page": item["url"],
+            "contributor": item["author"],
+            "contributor_page_verified": bool(item.get("page_verified")),
+            "role": item["stage"], "license": item.get("license", DATA["license"]),
+            "source_type": item.get("source_type", "pexels"),
+            "asset_url": item["url"], "sha256": sha256(target), "bytes": target.stat().st_size,
+            "audio": "original audio excluded from final render",
+            "process_visual_qa": "pending_manual_frame_and_motion_review",
+            "rights_qa": "pending_actual_video_and_third_party_review",
+            **info
+        }
+        print("DOWNLOADED_FROM_SOURCE_PAGE", item["slug"], info["duration"], info["width"], info["height"], flush=True)
+        return {"result":"downloaded_valid_media_not_release_approved", "meta":out}, None
+    except (OSError, ValueError, subprocess.TimeoutExpired) as exc:
+        return None, type(exc).__name__ + ": " + str(exc)[:200]
+
+
 def try_download(item):
     slug, vid = item["slug"], item["id"]
     target = ROOT / (slug + (".webm" if item.get("source_type") == "wikimedia_commons" else ".mp4"))
@@ -110,6 +154,18 @@ def try_download(item):
         target.unlink(missing_ok=True)
     failures = []
     attempts = 0
+    # The source-page extractor resolved a licensed 2017 Commons film that raw URL
+    # requests got HTTP 429. Newer Pexels videos may also lack legacy CDN paths.
+    if item.get("source_type") == "wikimedia_commons" or int(str(vid).split(":")[0]) >= 30000000:
+        found, reason = source_page_download(item, target)
+        attempts += 1
+        if found:
+            return found
+        failures.append(reason or "source-page downloader returned no video")
+    # No repeated Wikimedia direct-URL retries after its provider CDN returns 429.
+    if item.get("source_type") == "wikimedia_commons":
+        return {"result":"unavailable_or_short", "id":vid, "slug":slug, "stage":item["stage"],
+                "attempts":attempts, "first_errors":failures[:4], "last_errors":failures[-5:]}
     for url in list(candidates(item))[:16]:
         attempts += 1
         if attempts > 2 and attempts % 8 == 0:
