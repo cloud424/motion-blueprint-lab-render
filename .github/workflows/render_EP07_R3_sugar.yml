@@ -33,6 +33,11 @@ jobs:
           assert sum(t['type']=='animation' for t in x['scenes'])==3
           print('EP07 script syntax and scene structure PASS; NOT media/rights QA')
           PY
+      - name: Report blocked upstream source acquisition as a failure, not green video render
+        if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion != 'success'
+        run: |
+          echo 'EP07 SOURCE_STAGE_BLOCKED: upstream source acquisition failed. NO RENDER, NO MP4, NO RELEASE.' >&2
+          exit 1
   render:
     needs: [syntax_check]
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
