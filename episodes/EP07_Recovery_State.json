@@ -1,0 +1,39 @@
+{
+  "episode": "EP07",
+  "revision": "R3",
+  "topic": "How People Made Sugar Before Modern Factories",
+  "last_checked_utc": "2026-11-28T12:15:00Z",
+  "status": "blocked_missing_qualified_footage",
+  "stage": "source_acquisition",
+  "attempts": 0,
+  "last_error": "2026-11-27 Make release gate saw zero ready episodes. EP07 has no validated source MP4 collection, script, final render, QA report or Cloudinary master.",
+  "next_action": "Acquire and inspect 9 unique sugarcane craft source videos, render only after eight/nine process-matched clips and all rights/visual checks pass.",
+  "source_candidates_document": "episodes/EP07_TraditionalSugar_SourceResearch.md",
+  "source_artifact_run_id": null,
+  "acquired_source_count": 0,
+  "verified_license_count": 0,
+  "render_workflow_run_id": null,
+  "final_mp4_sha256": null,
+  "final_mp4_url": null,
+  "qa_status": "pending",
+  "approval": "pending",
+  "four_site_public_verified": false,
+  "previous_episode": {
+    "episode": "EP06",
+    "published_receipt": "published/EP06.json",
+    "verified_four_platforms": true
+  },
+  "recovery": {
+    "automation_id": "6af660f40f34819199ff6e00c8532f21",
+    "enabled_verified_at": "2026-11-28",
+    "checks_taipei": [
+      "05:00",
+      "11:00",
+      "17:00",
+      "23:00"
+    ],
+    "normal_make_publisher_scenario": 7091723,
+    "normal_release_taipei": "Monday Wednesday Friday 02:00"
+  },
+  "duplicate_policy": "EP06 no repost; EP07 not publishable without finished media and source QA; safe makeup only after no platform ID or dedup key for EP07."
+}
