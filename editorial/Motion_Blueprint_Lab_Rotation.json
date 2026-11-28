@@ -36,13 +36,13 @@
       "episode": "EP07",
       "lane": "traditional_manufacturing",
       "topic": "sugar",
-      "state": "in_production_blocked_no_verified_source_MP4_2026-11-28"
+      "state": "published_four_native_public_verified_2026-11-28"
     },
     {
       "episode": "EP08",
       "lane": "modern_engineering",
       "topic": "choose_non_duplicate",
-      "state": "planned"
+      "state": "next_planned_modern_engineering_after_EP07_native_public"
     },
     {
       "episode": "EP09",
@@ -182,6 +182,6 @@
     }
   ],
   "visual_standard": "EP03 R3 adopted: 70-80% real licensed moving original footage, ideal nine uniquely sourced videos used ONCE each + 20-30% original kinetic engineering/craft cutaways; factual historical technologies verified to correct place/time; no fake historical film; 165-175 sec vertical English narration/subtitles; no publishing until full QA.",
-  "publication": "Monday Wednesday Friday 02:00 Asia/Taipei with Make 7091723, after pre-production on preceding Sun Tue Thu; all four public native URL verification; no paid credits without authorization.",
-  "state_policy": "As of 2026-11-28: EP06 genuinely public on all four platforms, EP07 not yet rendered. Never equate Make no-ready search success with a new publication; recover production and retry at the existing automation cadence. Confirm live before each action."
+  "publication": "Monday Wednesday Friday 02:00 Asia/Taipei; 6-hour production/recovery check via existing ChatGPT Automation 6af660f40f34819199ff6e00c8532f21; catch up only actual missed READY episodes once and verify four native links.",
+  "state_policy": "As of 2026-11-28: EP07 successfully released on YouTube Facebook Instagram TikTok with independent native-public receipts in GitHub published/EP07.json. Current next EP08 = modern engineering, topic must be genuinely new (not EP02 Panama, EP04 wind turbines, EP05 hydropower, EP06 buoyancy). Before starting any new work, read live published inventory and Make dedup; never re-render or post EP07. Production/Make automation may be run with verified QA, retried for actual failures without duplicate per-platform replays. Next following EP08 is EP09 traditional glass."
 }
