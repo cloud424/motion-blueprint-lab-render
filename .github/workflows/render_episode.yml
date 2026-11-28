@@ -11,7 +11,7 @@ on:
   push:
     paths:
       - 'scripts/render_episode.py'
-      - 'episodes/EP*.json'
+      - 'episodes/EP02_*.json'
       - '.github/workflows/render_episode.yml'
 
 permissions:
