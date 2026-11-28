@@ -2,17 +2,17 @@
   "episode": "EP07",
   "revision": "R3",
   "topic": "How People Made Sugar Before Modern Factories",
-  "last_checked_utc": "2026-11-28T13:43:26Z",
-  "status": "blocked_only_two_actual_stage_matched_source_files",
-  "stage": "sources_cached_more_unique_footage_needed",
+  "last_checked_utc": "2026-11-28T14:04:00Z",
+  "status": "source_download_gate_passed_11_real_files_visual_and_rights_review_in_progress",
+  "stage": "nine_distinct_scene_edit_selection_and_final_source_acquisition",
   "attempts": 6,
-  "last_error": "2026-11-28 GitHub run 46150908440: source cache restored successfully, SHA-256 and duration validated for cane_machine_riverside (18,696,311 bytes) and cane_harvest_processing_men (53,298,701 bytes), with REUSED_VERIFIED_BYTES log lines. Still only 2/9 unique stage-matched sources. Wikimedia download 429 and absent Pexels URLs persist; source acquisition correctly returned failure and private QA artifact saved.",
-  "next_action": "Keep 2 existing verified-byte clips without repeat downloading, add stage-specific real licensed sources for harvest, boiling, skimming and actual jaggery molding; on future source retries use SHA256 cache and respect HTTP 429. Source count <9 => do NOT run private final render or issue publish. After complete sources, run EP07 private render and 12-frame subtitle/rights/audio QA then one-time 4-platform makeup publish.",
+  "last_error": "Previous 70MB source cap erroneously rejected 4K original videos; corrected and source run 46152371132 succeeded with 11 distinct decoded genuine videos. Nine planned scene assignments in draft; scene11 modern brown sugar contrast source still downloading and all real-pixel/final-rights QA pending.",
+  "next_action": "Check latest GitHub source acquisition 46152634026 for newly added Ahimsa-OM modern brown sugar, ensure original SHA+safe proxies; read lightweight EP07_R3_REAL_FRAME_PREVIEW_PRIVATE, visually verify nine real scene matches. Then run EP07 R3 private render, inspect 12 actual encoded frames and mobile hard captions / English voice / rights. Cloudinary stage only after full QA, then no-dup four-site makeup; never pretend successful source workflow equals released MP4.",
   "source_candidates_document": "episodes/EP07_TraditionalSugar_SourceResearch.md",
-  "source_artifact_run_id": 46150908440,
-  "acquired_source_count": 2,
+  "source_artifact_run_id": 46152371132,
+  "acquired_source_count": 11,
   "verified_license_count": 0,
-  "render_workflow_run_id": 46150785414,
+  "render_workflow_run_id": null,
   "final_mp4_sha256": null,
   "final_mp4_url": null,
   "qa_status": "pending",
@@ -36,10 +36,10 @@
     "normal_release_taipei": "Monday Wednesday Friday 02:00"
   },
   "duplicate_policy": "EP06 no repost; EP07 not publishable without finished media and source QA; safe makeup only after no platform ID or dedup key for EP07.",
-  "source_artifact_id": 15265107810,
+  "source_artifact_id": 15265969588,
   "genuine_sugar_process_source_count_confirmed": 2,
   "second_source_job_run_id": 46144001158,
-  "latest_source_workflow_run_id": 46150908440,
+  "latest_source_workflow_run_id": 46152634026,
   "source_recovery_improvements": {
     "code_commit": "04676134c30e6823ece6c64e26702b256df7b504",
     "source_candidate_commit": "9c03cd4a29f2ec3988629f915faa4da03a322fc0",
@@ -86,5 +86,15 @@
       "cane_harvest_processing_men"
     ],
     "source_artifact": 15265107810
+  },
+  "preview_artifact_id": 15266222749,
+  "nine_unique_scene_plan_commit": "7c6a766cea2230ab6ff3c7ef84ef0fa309725215",
+  "source_license_reference": "episodes/EP07_R3_Scene_And_Rights_Ledger.md",
+  "source_gate_passed_at": "2026-11-28T13:59:25Z",
+  "visual_qa_preview": {
+    "manifest": "GitHub run 46152371132 light artifact 15266222749",
+    "real_video_frame_triplets": 11,
+    "findings": "Actual hand harvest footage shows carrying bundles, not visible cutting; modern market footage must not be presented as historical sugar refinery; Commons Punjab video shows actual stirring/boiling, not necessarily molds.",
+    "status": "preliminary_frame_review_not_final_video_QA"
   }
 }
