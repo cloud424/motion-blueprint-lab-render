@@ -2,17 +2,17 @@
   "episode": "EP07",
   "revision": "R3",
   "topic": "How People Made Sugar Before Modern Factories",
-  "last_checked_utc": "2026-11-28T13:37:00Z",
-  "status": "source_acquisition_retry_running_qa_not_approved",
+  "last_checked_utc": "2026-11-28T13:42:00Z",
+  "status": "blocked_insufficient_distinct_stage_matched_footage",
   "stage": "source_acquisition_retry",
-  "attempts": 4,
-  "last_error": "GitHub source acquisition runs 46143719574,46144001158,46144121743 failed INCOMPLETE_SOURCE_STAGE; 2 clips decoded, but only cane_machine_riverside is sugar-process relevant; Pexels 404 for most guessed URLs, some candidates <14.45 sec.",
-  "next_action": "Inspect latest GitHub 46150445327 and its EP07_R3_REAL_CRAFT_SOURCES_PRIVATE artifact; review per-source downloaded bytes, duration, visual motion and license. Do not release until at least 8 distinct appropriately staged real clips and complete 12-scene English hard-subtitled MP4 pass final QA. Retrying a permanently 404 URL without changing the candidate pool is not recovery.",
+  "attempts": 5,
+  "last_error": "Latest source run 46150445327 failed INCOMPLETE_SOURCE_STAGE: acquired 2 Pexels MP4s, cane_machine_riverside 25.54s and cane_harvest_processing_men 79.48s; Wikimedia two sources returned HTTP 429; remaining candidate downloads returned 404 or clips too short. Independent visual inspection shows men feeding/handling cane at modern press, not cutting fields, and draft scene 5 was corrected.",
+  "next_action": "Resolve more distinct source files by verified real URLs; respect Wikimedia 429 cooldown; retain 2 real clips and hashes from private artifact 15265171987; assign each single distinct actual production action to one scene; retry source workflow without fabricating rights; after >=9 source assignments rerun private renderer and manually inspect all pixels and licenses. Then stage Cloudinary and only then publish.",
   "source_candidates_document": "episodes/EP07_TraditionalSugar_SourceResearch.md",
-  "source_artifact_run_id": 46144121743,
+  "source_artifact_run_id": 46150445327,
   "acquired_source_count": 2,
   "verified_license_count": 0,
-  "render_workflow_run_id": null,
+  "render_workflow_run_id": 46150785414,
   "final_mp4_sha256": null,
   "final_mp4_url": null,
   "qa_status": "pending",
@@ -36,13 +36,37 @@
     "normal_release_taipei": "Monday Wednesday Friday 02:00"
   },
   "duplicate_policy": "EP06 no repost; EP07 not publishable without finished media and source QA; safe makeup only after no platform ID or dedup key for EP07.",
-  "source_artifact_id": 15262543458,
-  "genuine_sugar_process_source_count_confirmed": 1,
+  "source_artifact_id": 15265171987,
+  "genuine_sugar_process_source_count_confirmed": 2,
   "second_source_job_run_id": 46144001158,
   "latest_source_workflow_run_id": 46150445327,
   "source_recovery_improvements": {
     "code_commit": "04676134c30e6823ece6c64e26702b256df7b504",
     "source_candidate_commit": "9c03cd4a29f2ec3988629f915faa4da03a322fc0",
     "notes": "Direct Wikimedia Commons CC BY 3.0 jaggery documentary and CC0 720p cane-press film added; Pexels HD 1920x1080 variants included; known-short and unrelated crystal footage excluded; bounded candidate attempts 16 vs previous 50; no QA flags green."
-  }
+  },
+  "verified_source_metadata": [
+    {
+      "slug": "cane_machine_riverside",
+      "pexels_id": "10057136",
+      "duration_seconds": 25.54,
+      "bytes": 18696311,
+      "sha256": "00f0fb081548362bbb11dd52e3eb5bc9603827c3254e4fd21ceadbf85aaee63e",
+      "frame_relevance": "modern sugarcane machine in motion",
+      "rights_qa": "pending"
+    },
+    {
+      "slug": "cane_harvest_processing_men",
+      "pexels_id": "6641552",
+      "duration_seconds": 79.48,
+      "bytes": 53298701,
+      "sha256": "85578992e68986dcacbc67ed1c745db90bb91a08a10fc804197f697849493218",
+      "frame_relevance": "workers collecting and feeding cane into powered machine (NOT crop cutting)",
+      "rights_qa": "pending"
+    }
+  ],
+  "renderer_commit": "4e6e284b34c9a50e80625ff7eb2a2958c7464324",
+  "renderer_workflow_commit": "352a7cd2530b67fbda8ed6d2dfbff13ef53e1041",
+  "render_syntax_check": "PASS_GitHub_run_46150785414; media_render_skipped/blocked as no successful 9-source workflow",
+  "episode_draft_scene5_commit": "f106140f209e5eab5452be88f383e18d423918b9"
 }
