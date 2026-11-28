@@ -1,6 +1,6 @@
 {
   "project": "Motion Blueprint Lab",
-  "effective_from": "after EP06 has four-site native publication verification",
+  "effective_from": "after EP06 public verified on four native platforms 2026-11-25",
   "reference_commitment": "Owner discussion 2026-11-14: alternate modern engineering and traditional/ancient manufacturing; illustrative topic pool below, original exact sequence NOT specified. Owner 2026-11-18 explicitly prioritizes sugar after EP06.",
   "content_lanes": [
     "modern_engineering",
@@ -30,13 +30,13 @@
       "episode": "EP06",
       "lane": "modern_engineering",
       "topic": "cargo_ship_buoyancy",
-      "state": "in_production_or_pending_four_site_verification"
+      "state": "published_four_native_public_verified_2026-11-25"
     },
     {
       "episode": "EP07",
       "lane": "traditional_manufacturing",
       "topic": "sugar",
-      "state": "planned_after_EP06_four_site_public"
+      "state": "in_production_blocked_no_verified_source_MP4_2026-11-28"
     },
     {
       "episode": "EP08",
@@ -183,5 +183,5 @@
   ],
   "visual_standard": "EP03 R3 adopted: 70-80% real licensed moving original footage, ideal nine uniquely sourced videos used ONCE each + 20-30% original kinetic engineering/craft cutaways; factual historical technologies verified to correct place/time; no fake historical film; 165-175 sec vertical English narration/subtitles; no publishing until full QA.",
   "publication": "Monday Wednesday Friday 02:00 Asia/Taipei with Make 7091723, after pre-production on preceding Sun Tue Thu; all four public native URL verification; no paid credits without authorization.",
-  "state_policy": "This is a forward-looking editorial plan, NOT a publication claim or pre-approval of unmade episodes. Confirm actual Make/GitHub/published status each run."
+  "state_policy": "As of 2026-11-28: EP06 genuinely public on all four platforms, EP07 not yet rendered. Never equate Make no-ready search success with a new publication; recover production and retry at the existing automation cadence. Confirm live before each action."
 }
