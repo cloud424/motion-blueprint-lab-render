@@ -117,11 +117,12 @@
       "slug": "brown_sugar_pour",
       "id": "36983577",
       "url": "https://www.pexels.com/video/pouring-brown-sugar-into-a-glass-jar-36983577/",
-      "author": "pending exact page inspection",
-      "stage": "illustrative_finished_product",
+      "author": "Ahimsa - OM",
+      "stage": "modern_brown_sugar_comparison_not_jaggery",
       "orientation": "portrait",
-      "page_verified": false,
-      "skip_reason": "Generic kitchen brown sugar pouring cannot substitute for actual jaggery molding or production"
+      "page_verified": true,
+      "duration_hint_seconds": 70,
+      "license_note": "Licensed Pexels present-day brown sugar in jar only. Must explicitly disclose NOT authentic historical sugarcane jaggery, used solely as scientific product contrast."
     },
     {
       "slug": "cane_plantation_establishing",
@@ -186,7 +187,7 @@
     }
   ],
   "no_publication_without_manual_visual_and_rights_check": true,
-  "last_researched_utc": "2026-11-28T13:35:00Z",
-  "source_selection_status": "expanded_candidates_not_production_QA_approved",
+  "last_researched_utc": "2026-11-28T14:03:00Z",
+  "source_selection_status": "source_acquisition_11_originals_qa_pending; added modern sugar visual contrast clearly NOT jaggery",
   "policy_note": "Exclude BY-SA candidates from normal non-share-alike episode release; do not treat Pexels free metadata as video-visual verification; Wikimedia CC BY 3.0 distinct source counts only once."
 }
