@@ -2,7 +2,7 @@
 This is the dedicated public GitHub Actions **engineering explainer preview renderer** for **Motion Blueprint Lab**. It is not the HitWave Charts or Momo & Pip production system.
 
 ## Live project wiring
-- ChatGPT recurring automation (Asia/Taipei Monday, Wednesday and Friday 02:00): `6af660f40f34819199ff6e00c8532f21`
+- ChatGPT EP production/recovery automation (Asia/Taipei 05:00, 11:00, 17:00, 23:00 every six hours; enabled 2026-11-28): `6af660f40f34819199ff6e00c8532f21`\n- Make QA-only release scheduler Mon/Wed/Fri 02:00 Asia/Taipei: scenario `7091723`
 - Make team: `3423562`
 - Make episode project queue: Data Store `201478`
 - Make approved-video four-site dispatcher: scenario `7035615`
@@ -26,7 +26,7 @@ Facts: https://pancanal.com/en/design-of-the-locks/
 US Navy footage candidate: https://commons.wikimedia.org/wiki/File:Continuing_Promise_transits_the_Panama_Canal-ZLIWzvfdisQ-248%2B251.webm
 Commercial reuse and embedded third-party media require verification before real use.
 
-**Status 2026-11-14:** preview pipeline deployment, **not full unattended weekly production**.
+**Status 2026-11-28:** EP06 four-site native public verified on 2026-11-25. EP07 traditional sugar is IN PRODUCTION, with no final QA-approved MP4 yet. Research, candidates, private GitHub footage acquisition, stage-state ledger and automatic retries exist; never mistake a successful release check for a published EP. See `episodes/EP07_Recovery_State.json` and `episodes/EP07_TraditionalSugar_R3_Draft.json`. Only mark Make queue ready after a real 165-175s film passes source/license/motion/voice/subtitle/full-decode gates. No footage or automated publication of EP07 is confirmed.
 ## Mandatory visual production baseline — EP02 R2 approved (2026-11-14)
 
 The channel owner approved **EP02 Panama Canal R2** as the minimum standard for all future engineering documentaries. An approximately three-minute vertical film needs authentic licensed real-world footage, at least **six distinct technically accurate original animated engineering views**, and meaningful changes of shot or information approximately every 10–15 seconds. Examples: aerial/overhead operation, detailed moving joints and mechanical gates, hydraulic culverts, distributed inlets, pressure / buoyancy forces, and system-level sequencing. **Never pad the runtime with the same ship-and-water-level diagram bobbing up and down, blank backgrounds, or static slides.** Audio remains English, preferably the approved Grady voice when rights/cost permit.
