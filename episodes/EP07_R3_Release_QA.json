@@ -1,0 +1,98 @@
+{
+  "episode": "EP07",
+  "revision": "R3_caption_and_animation_revised",
+  "release_authorized": true,
+  "source_sha256": "6bb599d74ae79c3b99c1c01283c02c5f8027677d27ec6e2ffc1745f6d7f474e9",
+  "duration_seconds": 173.541667,
+  "on_screen_cue_count": 51,
+  "actual_media": {
+    "width": 720,
+    "height": 1280,
+    "video_codec": "h264",
+    "audio_codec": "aac",
+    "fps": 24,
+    "format": "MP4",
+    "audio_mean_db": -25.5,
+    "audio_peak_db": -2,
+    "full_decode": "passed",
+    "visual_inspection": "all 12 chapter contact frames plus 11 full-res sampled frames",
+    "subtitle_profile": {
+      "font_px": 40,
+      "outline_px": 4,
+      "ass_bottom_margin_px": 264
+    },
+    "narration": "Kokoro am_michael free English",
+    "music": "original algorithmically synthesized ambience, no commercial music used"
+  },
+  "visual_correction": {
+    "previous_sha": "01ad8d8e2e1bfa5ad9c170be9d4f87ec604b23777ae3e15f2feee5c724a258ec",
+    "failure": "Explanatory static labels in animation scenes 3, 7, 10 were obscured by burned captions",
+    "fixed_in_commit": "3d50f70a524e244a56bdaa11798ecf77a432e55e",
+    "final_checked_at_utc": "2026-11-28T14:24:00Z",
+    "corrected_samples": [
+      "scene3@35s",
+      "scene7@100s",
+      "scene10@139s"
+    ],
+    "result": "static labels no longer collide with burned subtitle text"
+  },
+  "final_real_pixel_caption_review": "passed",
+  "real_scene_visual_review": "passed",
+  "rights_and_creator_review": "passed",
+  "history_and_science_review": "passed",
+  "complete_audio_video_review": "passed",
+  "originality_review": "passed",
+  "native_dedup_preflight": "verified",
+  "published": false,
+  "upload_state": "source_QA_approved_but_staging_and_four_native_public_receipts_pending",
+  "real_source_ids": [
+    "pexels:40799964",
+    "pexels:16025300",
+    "pexels:36414457",
+    "pexels:6641552",
+    "pexels:37203701",
+    "pexels:37283360",
+    "commons:Process_of_Making_Granular_Jaggery.webm",
+    "pexels:36983577",
+    "pexels:37219155"
+  ],
+  "rights_evidence": {
+    "pexels_license": "https://www.pexels.com/license/",
+    "commons_original": "https://commons.wikimedia.org/wiki/File:Process_of_Making_Granular_Jaggery.webm",
+    "commons_license": "https://creativecommons.org/licenses/by/3.0/",
+    "commons_credit": "Punjabi Wikimedians; filmed by Satdeep Gill; excerpt trimmed, reframed, original audio removed and English text added",
+    "contributors_corrected": {
+      "pexels_37203701": "Somogro Bangladesh",
+      "pexels_37219155": "sajhad"
+    },
+    "attribution_document": "episodes/EP07_R3_Scene_And_Rights_Ledger.md",
+    "no_source_reuse": true,
+    "live_people": "Non-defamatory documentary process footage with no commercial endorsement implied",
+    "historical_disclosure": "All live footage is modern; no footage labeled as 1792 recording. Modern brown sugar jar scene deliberately contrasted as not jaggery."
+  },
+  "production": {
+    "source_run_id": 46152634026,
+    "source_artifact_id": 15266825601,
+    "final_render_run_id": 46154009780,
+    "final_artifact_id": 15267026510,
+    "original_animation_mechanisms": [
+      "manual_cane_press_force",
+      "open_pan_evaporation",
+      "jaggery_cooling_and_setting"
+    ],
+    "actual_edit_seconds_real": 130.15625,
+    "actual_edit_seconds_animations": 43.385417,
+    "real_ratio": 0.75
+  },
+  "idempotency_preflight": {
+    "source_queue_key": "6fd6f20eecab",
+    "original_status": "in_production_source_acquisition_private_QA",
+    "youtube_dedup_store": 200494,
+    "crossplatform_dedup_store": 200693,
+    "not_found_on_any": "EP07",
+    "publisher_child_runs_since_utc": "2026-11-25T14:00:00Z",
+    "publisher_children_with_new_runs": 0,
+    "no_GitHub_published_EP07_receipt": true
+  },
+  "staging_note": "This record explicitly authorizes private stable staging of the exact inspected SHA. Public platform publication requires Cloudinary readback and second dedup preflight, then 4 native public receipts."
+}
