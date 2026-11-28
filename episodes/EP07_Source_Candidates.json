@@ -167,6 +167,22 @@
       "license": "https://creativecommons.org/licenses/by/3.0/",
       "license_commercial_reuse": true,
       "license_note": "CC BY 3.0 source reviewed by Wikimedia Commons; attribution to Punjabi Wikimedians, source and indication of modifications required; original audio must be stripped"
+    },
+    {
+      "slug": "commons_cane_machine_kep_cc0",
+      "id": "commons:Sugar_cane_juice_machine_in_Kep_02.webm",
+      "url": "https://commons.wikimedia.org/wiki/File:Sugar_cane_juice_machine_in_Kep_02.webm",
+      "direct_url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/5/50/Sugar_cane_juice_machine_in_Kep_02.webm/Sugar_cane_juice_machine_in_Kep_02.webm.720p.vp9.webm",
+      "source_type": "wikimedia_commons",
+      "file_ext": ".webm",
+      "author": "Mx. Granger",
+      "stage": "modern_cane_machine_crushing",
+      "orientation": "landscape",
+      "page_verified": true,
+      "duration_hint_seconds": 39,
+      "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "license_commercial_reuse": true,
+      "license_note": "Wikimedia Commons file page explicitly declares CC0 1.0; 720p original-file transcode; identify as modern market demonstration, not historic 1792 machinery; exclude source audio"
     }
   ],
   "no_publication_without_manual_visual_and_rights_check": true,
