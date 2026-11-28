@@ -18,7 +18,8 @@ ROOT = Path("out_EP07_sources")
 ROOT.mkdir(parents=True, exist_ok=True)
 SOURCE_FILE = Path("episodes/EP07_Source_Candidates.json")
 REQ_SECONDS = 14.45
-MAX_BYTES = 70_000_000
+MAX_BYTES = 380_000_000
+MAX_ARTIFACT_BYTES = 70_000_000
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 DATA = json.loads(SOURCE_FILE.read_text(encoding="utf-8"))
 CANDIDATES = DATA["source_candidates"]
@@ -66,6 +67,41 @@ def ffprobe_portable(path):
     }
 
 
+def normalize_downloaded_source(raw, target, item, asset_url):
+    """Validate original motion bytes, then shrink high-bit-rate footage for private edit.
+
+    Never substitute still images. Retain original SHA-256 and licensed source URL.
+    """
+    if not raw.is_file() or raw.stat().st_size < 100000:
+        raise ValueError("download did not produce real video bytes")
+    original_size = raw.stat().st_size
+    original_sha = sha256(raw)
+    orig = ffprobe_portable(raw)
+    if orig["duration"] < REQ_SECONDS:
+        raise ValueError("actual video shorter than required scene")
+    need_scale = (orig["width"] > 1280 or orig["height"] > 1280
+                  or raw.stat().st_size > MAX_ARTIFACT_BYTES)
+    if need_scale:
+        # Private editing proxy, full original is checksum recorded. No file spoofing.
+        vertical = item.get("orientation") == "portrait"
+        scale = "720:1280" if vertical else "1280:720"
+        cmd = [FFMPEG, "-hide_banner", "-loglevel", "error", "-y",
+               "-i", str(raw), "-vf", "scale=" + scale + ":force_original_aspect_ratio=decrease,"
+                   "pad=" + scale + ":(ow-iw)/2:(oh-ih)/2:color=black,setsar=1",
+               "-an", "-c:v", "libx264", "-preset", "ultrafast", "-crf", "23",
+               "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(target)]
+        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=180)
+        if proc.returncode or not target.is_file():
+            raise ValueError("FFmpeg proxy transcode failed: " + proc.stderr[-320:])
+        raw.unlink(missing_ok=True)
+    else:
+        os.replace(raw, target)
+    meta = ffprobe_portable(target)
+    if meta["duration"] + 0.1 < REQ_SECONDS:
+        raise ValueError("normalized video shorter than required scene")
+    return meta, original_size, original_sha
+
+
 def candidates(item):
     """Only try plausible paths. No 50-URL brute-force loops for missing files."""
     if item.get("source_type") == "wikimedia_commons":
@@ -108,7 +144,7 @@ def source_page_download(item, target):
             return None, "yt-dlp did not write actual video bytes"
         if target.stat().st_size > MAX_BYTES:
             target.unlink(missing_ok=True)
-            return None, "source-page media exceeds QA byte bound"
+            return None, "source-page source exceeds 380MB bound"
         info = ffprobe_portable(target)
         if info["duration"] < REQ_SECONDS:
             target.unlink(missing_ok=True)
@@ -181,23 +217,18 @@ def try_download(item):
                         failures.append("source over byte limit")
                         continue
             req = urllib.request.Request(url, headers={"User-Agent":"Mozilla/5.0", "Accept":"video/mp4"})
-            with urllib.request.urlopen(req, timeout=16) as resp, target.open("wb") as out:
+            incoming = ROOT / (slug + ".incoming.mp4")
+            with urllib.request.urlopen(req, timeout=24) as resp, incoming.open("wb") as out:
                 total = 0
                 while True:
-                    block = resp.read(256*1024)
+                    block = resp.read(512*1024)
                     if not block:
                         break
                     total += len(block)
                     if total > MAX_BYTES:
-                        raise ValueError("download exceeded 70MB limit")
+                        raise ValueError("real source exceeds safe original limit 380MB")
                     out.write(block)
-            if target.stat().st_size < 100_000:
-                raise ValueError("missing real video content")
-            meta = ffprobe_portable(target)
-            if meta["duration"] < REQ_SECONDS:
-                failures.append(f"real clip too short ({meta['duration']:.1f}s)")
-                target.unlink(missing_ok=True)
-                continue
+            meta, original_bytes, original_sha256 = normalize_downloaded_source(incoming, target, item, url)
             result = {
                 "slug": slug, "pexels_id": vid, "page": item["url"],
                 "contributor": item["author"],
@@ -205,6 +236,8 @@ def try_download(item):
                 "role": item["stage"], "license": item.get("license", DATA["license"]),
                 "source_type": item.get("source_type", "pexels"),
                 "asset_url": url, "sha256": sha256(target), "bytes": target.stat().st_size,
+                "original_sha256": original_sha256, "original_bytes": original_bytes,
+                "normalized_edit_proxy": original_bytes != target.stat().st_size,
                 "audio": "original audio excluded from any future EP07 edit",
                 "process_visual_qa": "pending_manual_frame_and_motion_review",
                 "rights_qa": "pending_actual_video_and_third_party_review",
@@ -215,6 +248,7 @@ def try_download(item):
         except (urllib.error.URLError, TimeoutError, ValueError, subprocess.TimeoutExpired) as exc:
             failures.append(type(exc).__name__ + ": " + str(exc)[:105])
             target.unlink(missing_ok=True)
+            (ROOT / (slug + ".incoming.mp4")).unlink(missing_ok=True)
             if isinstance(exc, urllib.error.HTTPError) and exc.code == 429:
                 time.sleep(4)
             continue
