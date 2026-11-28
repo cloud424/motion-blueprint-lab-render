@@ -71,5 +71,6 @@ jobs:
           path: |
             out_EP07_sources/EP07_Source_Acquisition_Report.json
             out_EP07_sources/*.mp4
+            out_EP07_sources/*.webm
           retention-days: 7
           if-no-files-found: warn
