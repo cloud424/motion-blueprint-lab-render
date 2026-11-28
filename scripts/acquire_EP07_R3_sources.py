@@ -198,10 +198,27 @@ def try_download(item):
                 and sha256(target) == cached.get("sha256")):
                 meta = ffprobe_portable(target)
                 if meta["duration"] >= REQ_SECONDS and abs(meta["duration"] - cached["duration"]) < 0.15:
-                    print("REUSED_VERIFIED_BYTES", slug, target.stat().st_size, flush=True)
+                    if item.get("source_type") != "wikimedia_commons" and (
+                        target.stat().st_size > MAX_ARTIFACT_BYTES
+                        or meta["width"] > 1280 or meta["height"] > 1280
+                    ):
+                        incoming = ROOT / (slug + ".cached_original.mp4")
+                        os.replace(target, incoming)
+                        meta, original_bytes, original_sha256 = normalize_downloaded_source(
+                            incoming, target, item, cached.get("asset_url", item["url"]))
+                        cached = {**cached, **meta,
+                            "bytes": target.stat().st_size, "sha256": sha256(target),
+                            "original_bytes": original_bytes,
+                            "original_sha256": original_sha256,
+                            "normalized_edit_proxy": True}
+                        print("NORMALIZED_CACHED_REAL_SOURCE", slug,
+                              original_bytes, target.stat().st_size, flush=True)
+                    else:
+                        print("REUSED_VERIFIED_BYTES", slug, target.stat().st_size, flush=True)
                     return {"result":"downloaded_valid_media_not_release_approved", "meta":cached}
         except (ValueError, OSError, subprocess.TimeoutExpired) as exc:
             print("Cached source invalid; re-acquiring",slug,str(exc)[:125],flush=True)
+            (ROOT / (slug + ".cached_original.mp4")).unlink(missing_ok=True)
         target.unlink(missing_ok=True)
     failures = []
     attempts = 0
