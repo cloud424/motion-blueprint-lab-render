@@ -2,7 +2,7 @@
   "episode": "EP07",
   "revision": "R3",
   "title": "How People Made Sugar Before Modern Factories | Time-Travel Engineering",
-  "status": "private_script_draft_pending_real_footage_and_quality_review",
+  "status": "private_voice_retimed_after_actual_kokoro_scene9_1.398x_failure",
   "target_duration_seconds": 173.541667,
   "scene_count": 12,
   "real_scenes": 9,
@@ -26,7 +26,7 @@
       "type": "real",
       "role": "historical_field_context_modern_footage",
       "title": "SUGARCANE BEFORE THE FACTORIES",
-      "narration": "In 1792, a British naturalist described how sugarcane was cultivated and turned into sugar in southeastern India. The work depended on fields, presses, fire and skilled hands. These images are modern demonstrations, not footage from the eighteenth century.",
+      "narration": "In seventeen ninety-two, observers documented sugar making in southeastern India. Cane moved from fertile fields to presses and boiling pans. The footage here is modern, not a recording of the past.",
       "source_id": null,
       "subtitle": "Modern view of a sugarcane plantation",
       "clip_candidates": [
@@ -38,7 +38,7 @@
       "type": "real",
       "role": "real_harvest_transport",
       "title": "CARRYING THE HARVEST",
-      "narration": "Before cane could become sugar, people needed ripe stalks. Harvesting meant cutting cane and moving the heavy bundles. This modern footage shows workers carrying the crop, not the cutting itself. The fresh stalks then had to reach a mill or press before their juice deteriorated.",
+      "narration": "Workers harvest sugarcane and carry bundles to processing sites. This modern film shows stalks being carried, not cut. Fresh cane must reach the press promptly so the extracted juice stays usable.",
       "source_id": null,
       "subtitle": "Harvested stalks carried by hand",
       "clip_candidates": [
@@ -50,7 +50,7 @@
       "type": "animation",
       "mechanism": "manual_cane_press_force",
       "title": "HOW A PRESS EXTRACTS JUICE",
-      "narration": "Mechanical force squeezes the sugarcane, pushing juice out while much of the fibrous material stays behind. Hand-powered and animal-powered presses existed in different forms. This simplified moving cutaway explains compression, not a specific mill from 1792.",
+      "narration": "A press squeezes cane between moving surfaces. Liquid escapes while tough plant fibers remain. Historical hand and animal-powered designs varied. This cutaway explains the force, not one exact eighteenth-century machine.",
       "subtitle": "Compression releases liquid"
     },
     {
@@ -58,7 +58,7 @@
       "type": "real",
       "role": "actual_modern_outdoor_press",
       "title": "THE FORCE OF THE PRESS",
-      "narration": "Watch a real press drive cane through its working parts. This is present-day equipment, used here to illustrate the extraction principle. Historical presses varied across regions. The first product was wet, cloudy juice, not the pale sugar people buy today.",
+      "narration": "This real modern press feeds cane between rollers. The machine shows extraction, not historical refining. The first product is cloudy juice carrying dissolved sugar and plant particles, still far from finished sugar.",
       "source_id": null,
       "subtitle": "Modern real cane press: mechanics shown",
       "clip_candidates": [
@@ -70,7 +70,7 @@
       "type": "real",
       "role": "real_fibers_harvest_handling",
       "title": "FIBERS, JUICE AND LABOR",
-      "narration": "Watch workers gather stalks and feed cane toward a working crusher. Their motions are real, but the machinery is modern, not a reconstruction of a mill from seventeen ninety-two. Cane passes between moving parts while fibrous waste is handled beside the press.",
+      "narration": "Workers guide and handle cane beside active machinery. These are real modern techniques, not a reconstructed old mill. The stalks yield juice, while the fibrous leftovers can be collected separately.",
       "source_id": null,
       "subtitle": "Handling cane beside processing machines",
       "clip_candidates": [
@@ -82,7 +82,7 @@
       "type": "real",
       "role": "modern_press_and_juice_collection",
       "title": "JUICE IS ONLY THE FIRST STEP",
-      "narration": "At a modern market, rollers crush the stalks as workers guide fresh cane through the machine. This extract is drinkable, but it is not stored jaggery. A producer seeking a solid sweetener must first manage suspended particles, and then remove much of the water with heat. The machine shown is modern.",
+      "narration": "At a modern stall, rollers squeeze fresh cane juice. It may be consumed as a drink, but it is not preserved jaggery. Making a solid sweetener requires clarification and water removal.",
       "source_id": null,
       "subtitle": "Real press; unprocessed juice is perishable",
       "clip_candidates": [
@@ -94,7 +94,7 @@
       "type": "animation",
       "mechanism": "open_pan_evaporation",
       "title": "HEAT REMOVES WATER",
-      "narration": "An open pan transforms the process. Heat makes water evaporate, leaving a denser sugar-rich liquid. Fibrous cane waste, called bagasse, could fuel the fire. Our moving diagram follows heat and vapor; it is not an exact reconstruction of one historic furnace.",
+      "narration": "Open pans expose sweet juice to heat. Water evaporates, concentrating the dissolved sugar. Dry cane fiber, called bagasse, can fuel a furnace. This animation explains the process, not a specific old kiln.",
       "subtitle": "Evaporation changes concentration"
     },
     {
@@ -102,7 +102,7 @@
       "type": "real",
       "role": "modern_real_open_pan_concentration",
       "title": "REAL OPEN-PAN BOILING",
-      "narration": "Steam rises as juice boils. This is the physical change that makes concentrated cane syrup possible. Open-pan cooking requires attention: temperature, boiling rate and water removal change the final product. A dramatic fire alone is not evidence of a particular recipe.",
+      "narration": "Steam rises from real cane juice boiling in an open pan. As water escapes, the syrup concentrates. Workers must control heat and watch the texture. This is modern film of a traditional process.",
       "source_id": null,
       "subtitle": "True boiling cane juice, present-day demo",
       "clip_candidates": [
@@ -114,7 +114,7 @@
       "type": "real",
       "role": "real_traditional_jaggery_stirring",
       "title": "WATCH THE SYRUP CHANGE",
-      "narration": "Here is a genuine modern demonstration of jaggery being made in Punjab. Workers tend the hot mixture as it thickens. The liquid grows more viscous as water escapes, and careful stirring matters. This video is authentic craft footage, but it is not an eighteenth-century recording or proof of one fixed historical recipe.",
+      "narration": "In this present-day Punjabi workshop, workers stir syrup as it thickens. Evaporation changes its texture and concentration. This authentic craft footage is not an eighteenth-century recording or proof of a universal recipe.",
       "source_id": null,
       "subtitle": "Real traditional jaggery concentration in Punjab",
       "clip_candidates": [
@@ -126,7 +126,7 @@
       "type": "animation",
       "mechanism": "jaggery_cooling_and_setting",
       "title": "FROM SYRUP TO JAGGERY",
-      "narration": "Cooling turns concentrated syrup into a brown, semi-crystalline solid known in India as gur or jaggery. Sugar crystals may form within a matrix containing other compounds. This is not identical to modern refined white sugar, and our cutaway is a scientific illustration.",
+      "narration": "As thick syrup cools, sugar crystals may form within a complex mixture. The result can become brown, semi-crystalline jaggery, also called gur. This illustration does not represent refined white sugar.",
       "subtitle": "Jaggery cooling is not refining"
     },
     {
@@ -134,7 +134,7 @@
       "type": "real",
       "role": "modern_brown_sugar_contrast_not_jaggery",
       "title": "BROWN SUGAR IS NOT JAGGERY",
-      "narration": "This real kitchen footage shows brown sugar being poured into a jar. It is not jaggery. Brown sugar is often refined sugar with molasses, while traditional jaggery comes from concentrated cane juice, with other components still present. Similar brown colors do not mean the two sweeteners were made in the same way.",
+      "narration": "Here, modern brown table sugar is poured into a jar. It is not jaggery. Brown sugar commonly contains refined crystals and molasses, while jaggery comes from concentrated cane juice. Similar colors conceal different processes.",
       "source_id": null,
       "subtitle": "Modern retail brown sugar — not historical gur",
       "clip_candidates": [
@@ -146,7 +146,7 @@
       "type": "real",
       "role": "modern_small_shop_cane_press_conclusion",
       "title": "ONE PLANT, MANY TECHNOLOGIES",
-      "narration": "Today, powered mills may extract the same cane juice much faster. The machines have changed, and methods still differ by region. But the essential sequence remains visible: obtain cane, squeeze out liquid, concentrate with heat, and cool the result. That is how people made useful sweetness long before modern refineries.",
+      "narration": "Today's powered presses work faster, yet the essential sequence is recognizable: harvest cane, squeeze the juice, concentrate it with heat, then cool. Techniques changed across regions, but people made sweeteners before factories.",
       "source_id": null,
       "subtitle": "Present-day press footage; science is timeless",
       "clip_candidates": [
@@ -172,5 +172,6 @@
     "cane_harvest_processing_men": "Three samples at 15,45,65 seconds show actual cane handling and powered machinery, not field cutting or juice straining; only assigned to scene 5.",
     "cane_machine_riverside": "Real sugarcane crushing machinery; stage candidate only, actual footage independent final QA pending."
   },
-  "scene_selection_status": "9 unique planned actual source matches mapped, subject and footage labels fact-consistent; pending full contact sheet inspection and one brown-sugar source acquisition; do NOT publish until QA"
+  "scene_selection_status": "9 unique planned actual source matches mapped, subject and footage labels fact-consistent; pending full contact sheet inspection and one brown-sugar source acquisition; do NOT publish until QA",
+  "narration_revision_qa": "Reduce all 12 scenes to 28-37 words to avoid unnatural speeding; actual regenerated Kokoro voice and final speech subtitle sync require verification before release."
 }
