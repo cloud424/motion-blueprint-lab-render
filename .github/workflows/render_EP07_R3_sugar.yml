@@ -18,8 +18,19 @@ concurrency:
 jobs:
   syntax_check:
     runs-on: ubuntu-latest
+    outputs:
+      needed: ${{ steps.release_status.outputs.needed }}
     steps:
       - uses: actions/checkout@v4
+      - name: Stop EP07 private re-renders once four-platform publication is verified
+        id: release_status
+        run: |
+          if test -s published/EP07.json; then
+            echo 'needed=false' >> "$GITHUB_OUTPUT"
+            echo 'EP07 already four-native-public: no new video render or duplicate dispatch.'
+          else
+            echo 'needed=true' >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -35,13 +46,13 @@ jobs:
           print('EP07 script syntax and scene structure PASS; NOT media/rights QA')
           PY
       - name: Report blocked upstream source acquisition as a failure, not green video render
-        if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion != 'success'
+        if: steps.release_status.outputs.needed == 'true' && github.event_name == 'workflow_run' && github.event.workflow_run.conclusion != 'success'
         run: |
           echo 'EP07 SOURCE_STAGE_BLOCKED: upstream source acquisition failed. NO RENDER, NO MP4, NO RELEASE.' >&2
           exit 1
   render:
     needs: [syntax_check]
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    if: needs.syntax_check.outputs.needed == 'true' && (github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
