@@ -1,0 +1,87 @@
+name: EP07 R3 | Private Traditional Sugar Documentary Render
+on:
+  workflow_run:
+    workflows: ["EP07 R3 | Private Sugarcane Source Acquisition and QA"]
+    types: [completed]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: mbl-ep07-r3-private-render
+  cancel-in-progress: true
+jobs:
+  render:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Restore real source bytes from successful acquisition
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p out_EP07_sources
+          if [ "${{ github.event_name }}" = "workflow_run" ]; then
+            ACQUIRE_RUN="${{ github.event.workflow_run.id }}"
+          else
+            ACQUIRE_RUN="$(gh run list --repo cloud424/motion-blueprint-lab-render --workflow acquire_EP07_R3.yml --status success --limit 1 --json databaseId --jq '.[0].databaseId')"
+          fi
+          if [ -z "$ACQUIRE_RUN" ]; then echo "NO_COMPLETE_EP07_SOURCES: block render" >&2; exit 1; fi
+          gh run download "$ACQUIRE_RUN" --repo cloud424/motion-blueprint-lab-render --name EP07_R3_REAL_CRAFT_SOURCES_PRIVATE --dir out_EP07_sources
+      - name: Enforce distinct licensed-source scene coverage before using TTS/FFmpeg
+        run: |
+          python -m py_compile scripts/render_EP07_sugar_R3.py
+          python - <<'PY'
+          import json,pathlib
+          draft=json.load(open('episodes/EP07_TraditionalSugar_R3_Draft.json'))
+          acq=json.load(open('out_EP07_sources/EP07_Source_Acquisition_Report.json'))
+          available={x['meta']['slug']:x['meta'] for x in acq['outputs'] if x.get('result')=='downloaded_valid_media_not_release_approved'}
+          used=set()
+          for scene in draft['scenes']:
+              if scene['type']!='real': continue
+              possible=[available[z] for z in scene.get('clip_candidates',[]) if z in available and str(available[z]['pexels_id']) not in used]
+              assert possible, 'Missing unique footage for scene %s: %s'%(scene['n'],scene['role'])
+              used.add(str(possible[0]['pexels_id']))
+          assert len(used)==9
+          assert not acq['QA_APPROVED']
+          print('PRIVATE REAL SOURCE COVERAGE 9/9; independent visual and rights QA still required')
+          PY
+      - name: Install free FFmpeg, Kokoro voice and moving illustration dependencies
+        run: |
+          python -m pip install -q --disable-pip-version-check imageio-ffmpeg
+          mkdir -p "$RUNNER_TEMP/ffmpeg-tools"
+          python -c 'import imageio_ffmpeg,os; os.symlink(imageio_ffmpeg.get_ffmpeg_exe(),os.path.join(os.environ["RUNNER_TEMP"],"ffmpeg-tools","ffmpeg"))'
+          echo "$RUNNER_TEMP/ffmpeg-tools" >> "$GITHUB_PATH"
+          export PATH="$RUNNER_TEMP/ffmpeg-tools:$PATH"
+          ffmpeg -filters | grep 'subtitles'
+          python -m pip install --disable-pip-version-check "torch==2.7.1" --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install --disable-pip-version-check "kokoro==0.9.4" "soundfile>=0.12" "numpy<3" "Pillow>=10" "espeakng-loader>=0.2"
+      - name: Render private 9 real + 3 distinct science mechanics, English narrator and hard captions
+        run: python scripts/render_EP07_sugar_R3.py
+      - name: Check full-size private film output and technical report
+        run: |
+          test -s out_EP07_R3/EP07_TraditionalSugar_R3_Documentary_173s_PRIVATE_QA.mp4
+          test -s out_EP07_R3/EP07_R3_Actual12Shot_Storyboard.jpg
+          python - <<'PY'
+          import json
+          q=json.load(open('out_EP07_R3/EP07_R3_Technical_Source_QA.json'))
+          assert q['published'] is False and q['qa_approval']=='pending'
+          assert q['unique_source_ids']==9 and q['distinct_original_mechanisms']==3
+          assert q['on_screen_caption_events']>=30
+          print('PRIVATE candidate only; still requires independent visual, audio, historical and rights QA')
+          PY
+      - name: Preserve real video and evidence for independent QA
+        uses: actions/upload-artifact@v4
+        with:
+          name: EP07_TRADITIONAL_SUGAR_PRIVATE_QA
+          path: |
+            out_EP07_R3/EP07_TraditionalSugar_R3_Documentary_173s_PRIVATE_QA.mp4
+            out_EP07_R3/EP07_R3_Actual12Shot_Storyboard.jpg
+            out_EP07_R3/EP07_R3_Technical_Source_QA.json
+            out_EP07_R3/EP07_English_Subtitles.srt
+          retention-days: 10
+          if-no-files-found: error
