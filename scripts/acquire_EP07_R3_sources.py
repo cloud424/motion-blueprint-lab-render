@@ -52,30 +52,45 @@ def ffprobe_portable(path):
 
 
 def candidates(item):
+    """Only try plausible paths. No 50-URL brute-force loops for missing files."""
+    if item.get("source_type") == "wikimedia_commons":
+        yield item["direct_url"]
+        return
+
     vid = item["id"]
     vertical = item.get("orientation") == "portrait"
-    sizes = ["540_960", "360_640", "720_1280", "960_540", "640_360"] if vertical else ["960_540", "640_360", "1280_720", "540_960", "360_640"]
-    # First try the official Pexels download link on the verified source page.
+    if vertical:
+        sizes = ["1080_1920", "720_1280", "540_960", "360_640"]
+    else:
+        sizes = ["1920_1080", "1280_720", "960_540", "640_360"]
     yield f"https://www.pexels.com/download/video/{vid}/"
+    # Pexels commonly uses HD 1920x1080 / HD 1080x1920.
+    # Never infer a source is valid just because a filename looks plausible.
     for dim in sizes:
-        for fps in ([30, 24, 25, 60, 29] if not vertical else [30, 60, 25, 24, 29]):
-            for kind in ["sd", "hd"]:
+        for fps in [30, 25, 60, 24]:
+            for kind in ["hd", "sd"]:
                 yield f"https://videos.pexels.com/video-files/{vid}/{vid}-{kind}_{dim}_{fps}fps.mp4"
 
 
 def try_download(item):
     slug, vid = item["slug"], item["id"]
-    target = ROOT / (slug + ".mp4")
+    target = ROOT / (slug + (".webm" if item.get("source_type") == "wikimedia_commons" else ".mp4"))
+    if item.get("skip_reason"):
+        return {"result":"excluded_from_candidate_pool", "id":vid, "slug":slug,
+                "stage":item["stage"], "reason":item["skip_reason"]}
+    if item.get("duration_hint_seconds", 1000) < REQ_SECONDS:
+        return {"result":"source_known_too_short_for_one_scene", "id":vid, "slug":slug,
+                "stage":item["stage"], "duration_hint_seconds":item["duration_hint_seconds"]}
     failures = []
     attempts = 0
-    for url in list(candidates(item))[:50]:
+    for url in list(candidates(item))[:16]:
         attempts += 1
         if attempts > 2 and attempts % 8 == 0:
             time.sleep(1.5)
         try:
             # Probe using a HEAD request first; only retrieve a bounded real video.
             # Some official download endpoints disallow HEAD but allow GET.
-            if "www.pexels.com/download/video/" not in url:
+            if "www.pexels.com/download/video/" not in url and item.get("source_type") != "wikimedia_commons":
                 head = urllib.request.Request(url, method="HEAD", headers={"User-Agent":"Mozilla/5.0"})
                 with urllib.request.urlopen(head, timeout=9) as resp:
                     size = int(resp.headers.get("Content-Length") or 0)
@@ -104,7 +119,8 @@ def try_download(item):
                 "slug": slug, "pexels_id": vid, "page": item["url"],
                 "contributor": item["author"],
                 "contributor_page_verified": bool(item["page_verified"]),
-                "role": item["stage"], "license": DATA["license"],
+                "role": item["stage"], "license": item.get("license", DATA["license"]),
+                "source_type": item.get("source_type", "pexels"),
                 "asset_url": url, "sha256": sha256(target), "bytes": target.stat().st_size,
                 "audio": "original audio excluded from any future EP07 edit",
                 "process_visual_qa": "pending_manual_frame_and_motion_review",
