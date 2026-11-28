@@ -2,15 +2,15 @@
   "episode": "EP07",
   "revision": "R3",
   "topic": "How People Made Sugar Before Modern Factories",
-  "last_checked_utc": "2026-11-28T12:15:00Z",
-  "status": "blocked_missing_qualified_footage",
-  "stage": "source_acquisition",
-  "attempts": 0,
-  "last_error": "2026-11-27 Make release gate saw zero ready episodes. EP07 has no validated source MP4 collection, script, final render, QA report or Cloudinary master.",
-  "next_action": "Acquire and inspect 9 unique sugarcane craft source videos, render only after eight/nine process-matched clips and all rights/visual checks pass.",
+  "last_checked_utc": "2026-11-28T12:18:40Z",
+  "status": "blocked_missing_sufficient_verified_sugar_process_footage",
+  "stage": "source_acquisition_retry",
+  "attempts": 2,
+  "last_error": "First real GitHub Actions 46143719574 failed source coverage: downloaded 2 real MP4s (25.54 s modern press, 21.97 s generic crystals); only one shows sugarcane processing; remaining candidates gave 404/short duration. Private source artifact 15263121378 saved. Retrying using official Pexels source download endpoints in GitHub Actions 46144001158.",
+  "next_action": "Inspect GitHub run 46144001158, download its QA artifact and fill missing harvest/open-pan/skimming/molding/finished jaggery stages from genuine licensed footage; do not publish or mark verified.",
   "source_candidates_document": "episodes/EP07_TraditionalSugar_SourceResearch.md",
-  "source_artifact_run_id": null,
-  "acquired_source_count": 0,
+  "source_artifact_run_id": 46143719574,
+  "acquired_source_count": 2,
   "verified_license_count": 0,
   "render_workflow_run_id": null,
   "final_mp4_sha256": null,
@@ -35,5 +35,8 @@
     "normal_make_publisher_scenario": 7091723,
     "normal_release_taipei": "Monday Wednesday Friday 02:00"
   },
-  "duplicate_policy": "EP06 no repost; EP07 not publishable without finished media and source QA; safe makeup only after no platform ID or dedup key for EP07."
+  "duplicate_policy": "EP06 no repost; EP07 not publishable without finished media and source QA; safe makeup only after no platform ID or dedup key for EP07.",
+  "source_artifact_id": 15263121378,
+  "genuine_sugar_process_source_count_confirmed": 1,
+  "second_source_job_run_id": 46144001158
 }
