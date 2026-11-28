@@ -49,6 +49,17 @@ jobs:
               f.write('needed='+str(not done).lower()+'\n')
           print('EP07 private source acquisition needed:',not done)
           PY
+      - name: Restore last same-repository source artifact for SHA-256 verified reuse
+        if: steps.pending.outputs.needed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p out_EP07_sources
+          PREV="$(gh run list --repo cloud424/motion-blueprint-lab-render --workflow acquire_EP07_R3.yml --status failure --limit 1 --json databaseId --jq '.[0].databaseId' 2>/dev/null || true)"
+          if [ -n "$PREV" ]; then
+            echo "Attempting private source cache restore from completed run $PREV"
+            gh run download "$PREV" --repo cloud424/motion-blueprint-lab-render --name EP07_R3_REAL_CRAFT_SOURCES_PRIVATE --dir out_EP07_sources || echo "No reusable source cache; continue normally"
+          fi
       - name: Download and decode distinct genuine candidate videos with bounded retries
         if: steps.pending.outputs.needed == 'true'
         run: python scripts/acquire_EP07_R3_sources.py
