@@ -22,6 +22,21 @@ MAX_BYTES = 70_000_000
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 DATA = json.loads(SOURCE_FILE.read_text(encoding="utf-8"))
 CANDIDATES = DATA["source_candidates"]
+CACHE_REPORT = ROOT / "EP07_Source_Acquisition_Report.json"
+PREVIOUS = {}
+if CACHE_REPORT.is_file():
+    try:
+        old_report = json.loads(CACHE_REPORT.read_text(encoding="utf-8"))
+        PREVIOUS = {
+            z["meta"]["slug"]: z["meta"]
+            for z in old_report.get("outputs", [])
+            if z.get("result") == "downloaded_valid_media_not_release_approved"
+            and isinstance(z.get("meta"), dict)
+        }
+        print("RESTORED PRIVATE SOURCE MANIFEST", len(PREVIOUS), flush=True)
+    except (OSError, ValueError, KeyError) as exc:
+        print("Cached report unreadable; acquire originals normally:", str(exc)[:180], flush=True)
+
 
 
 def sha256(path):
@@ -81,6 +96,18 @@ def try_download(item):
     if item.get("duration_hint_seconds", 1000) < REQ_SECONDS:
         return {"result":"source_known_too_short_for_one_scene", "id":vid, "slug":slug,
                 "stage":item["stage"], "duration_hint_seconds":item["duration_hint_seconds"]}
+    cached = PREVIOUS.get(slug)
+    if cached and str(cached.get("pexels_id")) == str(vid) and cached.get("page") == item["url"] and target.is_file():
+        try:
+            if (target.stat().st_size == cached.get("bytes")
+                and sha256(target) == cached.get("sha256")):
+                meta = ffprobe_portable(target)
+                if meta["duration"] >= REQ_SECONDS and abs(meta["duration"] - cached["duration"]) < 0.15:
+                    print("REUSED_VERIFIED_BYTES", slug, target.stat().st_size, flush=True)
+                    return {"result":"downloaded_valid_media_not_release_approved", "meta":cached}
+        except (ValueError, OSError, subprocess.TimeoutExpired) as exc:
+            print("Cached source invalid; re-acquiring",slug,str(exc)[:125],flush=True)
+        target.unlink(missing_ok=True)
     failures = []
     attempts = 0
     for url in list(candidates(item))[:16]:
@@ -137,7 +164,7 @@ def try_download(item):
             continue
     return {"result":"unavailable_or_short", "id": vid, "slug": slug,
             "stage": item["stage"], "attempts": attempts,
-            "last_errors": failures[-5:]}
+            "first_errors": failures[:4], "last_errors": failures[-5:]}
 
 
 def main():
