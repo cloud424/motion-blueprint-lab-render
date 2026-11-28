@@ -33,3 +33,25 @@ jobs:
             echo
             echo "::endgroup::"
           done
+      - name: Test provider-supported browser impersonation and licensed Commons download
+        run: |
+          python -m pip install -q --disable-pip-version-check "yt-dlp[curl-cffi]"
+          for url in \
+            'https://www.pexels.com/video/traditional-sugar-manufacturing-process-37283360/' \
+            'https://www.pexels.com/video/traditional-sugarcane-juice-extraction-outdoor-scene-36414457/' \
+            'https://www.pexels.com/video/aerial-view-of-lush-green-sugarcane-field-40799964/'
+          do
+            echo "::group::OFFICIAL_SITE $url"
+            timeout 45s yt-dlp --impersonate chrome --simulate --no-playlist --no-warnings \
+              --print 'RESOLVED id=%(id)s title=%(title)s duration=%(duration)s' "$url" 2>&1 | head -c 700 || true
+            echo
+            echo "::endgroup::"
+          done
+          mkdir -p /tmp/ep07_verified
+          echo "::group::COMMONS_BY3_DOCUMENTARY_REAL_BYTES"
+          timeout 120s yt-dlp --no-playlist --no-warnings --impersonate chrome \
+            -f "best[height<=360]/worst" \
+            -o '/tmp/ep07_verified/commons_granular_jaggery.%(ext)s' \
+            'https://commons.wikimedia.org/wiki/File:Process_of_Making_Granular_Jaggery.webm' 2>&1 | tail -c 1400 || true
+          ls -lh /tmp/ep07_verified || true
+          echo "::endgroup::"
