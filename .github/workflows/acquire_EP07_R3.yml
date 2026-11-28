@@ -68,6 +68,16 @@ jobs:
         run: |
           python -m py_compile scripts/ep07_source_contact.py
           python scripts/ep07_source_contact.py || echo "CONTACT_SHEET_BLOCKED; do not mark quality verified"
+      - name: Preserve lightweight real-frame QA contact sheet and source manifest separately
+        if: always() && steps.pending.outputs.needed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: EP07_R3_REAL_FRAME_PREVIEW_PRIVATE
+          path: |
+            out_EP07_sources/EP07_Source_Acquisition_Report.json
+            out_EP07_sources/EP07_Source_RealFrames.jpg
+          retention-days: 10
+          if-no-files-found: warn
       - name: Preserve private source files and true error report even on failure
         if: always() && steps.pending.outputs.needed == 'true'
         uses: actions/upload-artifact@v4
